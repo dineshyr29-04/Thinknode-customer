@@ -152,6 +152,43 @@ export const SERVICES = [
       },
     ],
   },
+  {
+    id: 'video-editing',
+    title: 'Video Editing',
+    tagline: 'Cinematic edits that stop the scroll',
+    description:
+      'Professional video editing for YouTube, social media, ads, and promotional content. Fast turnaround, polished results.',
+    startingPrice: '$80',
+    deliveryTime: '2–5 days',
+    icon: '🎬',
+    color: 'from-rose-500 to-pink-600',
+    features: [
+      'Professional cuts & transitions',
+      'Color correction & grading',
+      'Sound design & enhancement',
+      'Text overlays & subtitles',
+      'Social media optimized formats',
+      'Motion graphics (Pro+)',
+      'Background music licensing',
+    ],
+    tiers: [
+      {
+        name: 'Quick Cut',
+        price: '$80',
+        features: ['Up to 3 min', 'Basic cuts', 'Colour correction', '1 revision'],
+      },
+      {
+        name: 'Pro Edit',
+        price: '$200',
+        features: ['Up to 10 min', 'Transitions & effects', 'Subtitles', 'Sound design', '3 revisions'],
+      },
+      {
+        name: 'Cinematic',
+        price: '$500+',
+        features: ['Unlimited length', 'Motion graphics', 'Full colour grade', 'Music licensing', 'Unlimited revisions'],
+      },
+    ],
+  },
 ];
 
 export const getServiceById = (id) => SERVICES.find((s) => s.id === id);

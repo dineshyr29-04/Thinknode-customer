@@ -1,253 +1,223 @@
-import { Link, useNavigate } from 'react-router-dom';
-import ServiceCard from '../components/ServiceCard';
+﻿import { Link, useNavigate } from 'react-router-dom';
 import { SERVICES } from '../data/services';
 
+const STATS = [
+  { value: '50+', label: 'Projects Delivered' },
+  { value: '100%', label: 'On-Time Delivery' },
+  { value: '< 24h', label: 'Response Time' },
+  { value: '5★', label: 'Avg Rating' },
+];
+
 const STEPS = [
-  {
-    step: '01',
-    title: 'Choose a Service',
-    desc: 'Browse our services and find exactly what your project needs.',
-  },
-  {
-    step: '02',
-    title: 'Customize & Order',
-    desc: 'Fill in your requirements, add customizations, and upload references.',
-  },
-  {
-    step: '03',
-    title: 'Track & Receive',
-    desc: 'Monitor your project progress and receive it on time.',
-  },
+  { n: '01', icon: '🔍', title: 'Choose Your Service', body: 'Browse our catalog and pick the service that fits your project best.' },
+  { n: '02', icon: '📋', title: 'Customize & Submit', body: 'Fill in project details, add customizations, and upload reference files.' },
+  { n: '03', icon: '⚙️', title: 'We Build It', body: 'Your project is built with care and daily progress updates.' },
+  { n: '04', icon: '🚀', title: 'Review & Deliver', body: 'Refine with feedback and receive production-ready deliverables.' },
 ];
 
 const TESTIMONIALS = [
-  {
-    name: 'Sarah K.',
-    role: 'Startup Founder',
-    text: 'ThinkNode delivered my website in just 10 days. The quality was absolutely exceptional — far beyond what I expected.',
-    avatar: 'SK',
-  },
-  {
-    name: 'Marcus T.',
-    role: 'Marketing Manager',
-    text: "The e-poster designs were stunning. Our campaign engagement tripled compared to last quarter's results.",
-    avatar: 'MT',
-  },
-  {
-    name: 'Julia R.',
-    role: 'Operations Lead',
-    text: "The n8n automations saved us 20+ hours a week. Every workflow works flawlessly. Couldn't be happier.",
-    avatar: 'JR',
-  },
+  { name: 'Sarah K.', role: 'Startup Founder', company: 'NovaPay', text: 'ThinkNode delivered my website ahead of schedule. The quality was far beyond what I expected — clean code, great design, and top-notch communication throughout.', initials: 'SK', gradient: 'from-indigo-500 to-cyan-500' },
+  { name: 'Marcus T.', role: 'Marketing Manager', company: 'BoltMedia', text: "The e-poster designs transformed our campaign. Engagement went up 3× compared to our previous materials. We'll use ThinkNode for all future creative work.", initials: 'MT', gradient: 'from-pink-500 to-rose-500' },
+  { name: 'Julia R.', role: 'Operations Lead', company: 'FlowStack', text: "The n8n automations saved our team 20+ hours every week. Every workflow is documented, tested, and runs flawlessly. Couldn't recommend more.", initials: 'JR', gradient: 'from-amber-500 to-orange-500' },
 ];
 
-const WHY = [
-  {
-    icon: '⚡',
-    title: 'Fast Delivery',
-    desc: 'Optimised workflows mean your project ships in days, not weeks or months.',
-  },
-  {
-    icon: '✅',
-    title: 'Production Ready',
-    desc: 'Every deliverable is tested, documented, and ready to deploy from day one.',
-  },
-  {
-    icon: '🤝',
-    title: 'Direct Communication',
-    desc: 'Work directly with the builder — no middlemen, no ticket queues.',
-  },
+const PILLARS = [
+  { icon: '⚡', title: 'Fast Turnaround', body: 'Optimised delivery pipelines mean your project ships in days, not months.' },
+  { icon: '🎯', title: 'Direct Communication', body: 'No middlemen or ticket queues — talk directly to the person building your project.' },
+  { icon: '✅', title: 'Production-Ready Output', body: 'Tested, documented, and deployable from day one. Zero hand-holding required.' },
+  { icon: '🔒', title: 'Secure & Private', body: 'Your files, ideas, and project details are handled with full confidentiality.' },
 ];
 
 export default function Home() {
   const navigate = useNavigate();
 
   return (
-    <div className="pt-16">
-      {/* ───── Hero ───── */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 py-28 px-4">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-indigo-500/10 blur-3xl" />
-          <div className="absolute -bottom-40 -left-40 w-96 h-96 rounded-full bg-cyan-500/10 blur-3xl" />
+    <div className="pt-16 bg-white">
+      {/* Hero */}
+      <section className="bg-slate-950 text-white relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[600px] bg-indigo-600/10 rounded-full blur-3xl" />
+          <div className="absolute -bottom-32 right-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl" />
         </div>
-
-        <div className="relative max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 bg-white/10 text-white/80 text-sm px-4 py-2 rounded-full mb-8 backdrop-blur-sm border border-white/10">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            Available for new projects
-          </div>
-
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-white mb-6 leading-tight">
-            Build Anything,
-            <br />
-            <span className="bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
-              Ship Fast.
-            </span>
-          </h1>
-
-          <p className="text-slate-300 text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
-            Professional web development, design, and automation services delivered with
-            precision. No agency fluff — just results.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={() => navigate('/order')}
-              className="px-8 py-4 bg-gradient-to-r from-indigo-500 to-cyan-500 text-white font-bold text-lg rounded-2xl hover:from-indigo-600 hover:to-cyan-600 transition-all shadow-2xl shadow-indigo-900"
-            >
-              Start a Project →
-            </button>
-            <button
-              onClick={() => navigate('/services')}
-              className="px-8 py-4 bg-white/10 text-white font-bold text-lg rounded-2xl hover:bg-white/20 transition-all border border-white/20 backdrop-blur-sm"
-            >
-              Browse Services
-            </button>
-          </div>
-
-          {/* Stats bar */}
-          <div className="mt-16 flex flex-wrap gap-10 justify-center">
-            {[
-              ['50+', 'Projects Delivered'],
-              ['100%', 'Client Satisfaction'],
-              ['< 48 h', 'Average Response Time'],
-            ].map(([num, lbl]) => (
-              <div key={lbl} className="text-center">
-                <div className="text-3xl font-black text-white">{num}</div>
-                <div className="text-slate-400 text-sm mt-0.5">{lbl}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ───── How it works ───── */}
-      <section className="py-24 px-4 bg-gray-50">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-black text-slate-800 mb-3">How It Works</h2>
-            <p className="text-slate-500 max-w-xl mx-auto">
-              From idea to delivery in three simple steps.
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-28 lg:py-36 grid lg:grid-cols-2 gap-14 items-center">
+          <div>
+            <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-indigo-400 bg-indigo-400/10 border border-indigo-400/20 px-4 py-2 rounded-full mb-8">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              Available for new projects
+            </div>
+            <h1 className="text-5xl lg:text-6xl font-black leading-[1.1] mb-6">
+              Freelance<br />
+              <span className="bg-gradient-to-r from-indigo-400 via-cyan-400 to-indigo-300 bg-clip-text text-transparent">
+                Services You<br />Can Trust.
+              </span>
+            </h1>
+            <p className="text-slate-400 text-lg leading-relaxed max-w-lg mb-10">
+              Web development, design, automation, and video editing — all under one roof.
+              Submit a project in minutes and get production-ready results.
             </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {STEPS.map((s, i) => (
-              <div key={i} className="relative text-center group">
-                {i < STEPS.length - 1 && (
-                  <div className="hidden md:block absolute top-8 left-1/2 w-full h-px bg-gradient-to-r from-indigo-200 to-transparent" />
-                )}
-                <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-600 text-white font-black text-xl flex items-center justify-center mx-auto mb-5 shadow-lg shadow-indigo-200 group-hover:scale-105 transition-transform">
-                  {s.step}
-                </div>
-                <h3 className="text-slate-800 font-bold text-lg mb-2">{s.title}</h3>
-                <p className="text-slate-500 text-sm leading-relaxed">{s.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ───── Services ───── */}
-      <section className="py-24 px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-black text-slate-800 mb-3">Services</h2>
-            <p className="text-slate-500 max-w-xl mx-auto">
-              Everything you need to build, design, and automate your business.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {SERVICES.map((service) => (
-              <ServiceCard key={service.id} service={service} />
-            ))}
-          </div>
-          <div className="text-center mt-10">
-            <Link
-              to="/services"
-              className="inline-flex items-center gap-2 text-indigo-600 font-semibold hover:text-indigo-700 transition-colors"
-            >
-              View full service details →
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ───── Why ThinkNode ───── */}
-      <section className="py-24 px-4 bg-slate-900">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-black text-white mb-3">Why ThinkNode?</h2>
-            <p className="text-slate-400 max-w-xl mx-auto">
-              We don't just deliver files — we deliver working solutions.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {WHY.map((f) => (
-              <div
-                key={f.title}
-                className="bg-slate-800/50 border border-slate-700 rounded-2xl p-8 text-center hover:border-indigo-600/50 transition-colors"
-              >
-                <div className="text-4xl mb-4">{f.icon}</div>
-                <h3 className="text-white font-bold text-lg mb-2">{f.title}</h3>
-                <p className="text-slate-400 text-sm leading-relaxed">{f.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ───── Testimonials ───── */}
-      <section className="py-24 px-4 bg-gray-50">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-black text-slate-800 mb-3">What Clients Say</h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {TESTIMONIALS.map((t) => (
-              <div
-                key={t.name}
-                className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 hover:shadow-md transition-shadow"
-              >
-                <div className="flex gap-0.5 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <span key={i} className="text-amber-400 text-lg">★</span>
-                  ))}
-                </div>
-                <p className="text-slate-600 text-sm leading-relaxed mb-6">"{t.text}"</p>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-cyan-500 text-white text-sm font-bold flex items-center justify-center flex-shrink-0">
-                    {t.avatar}
-                  </div>
-                  <div>
-                    <p className="text-slate-800 font-semibold text-sm">{t.name}</p>
-                    <p className="text-slate-400 text-xs">{t.role}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ───── CTA Banner ───── */}
-      <section className="py-24 px-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-gradient-to-r from-indigo-600 to-cyan-600 rounded-3xl p-14 text-center relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 rounded-full bg-white/10 -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full bg-white/10 translate-y-1/2 -translate-x-1/2 pointer-events-none" />
-            <div className="relative">
-              <h2 className="text-4xl font-black text-white mb-4">
-                Ready to start your project?
-              </h2>
-              <p className="text-white/80 text-lg mb-8">
-                Tell us what you need — we'll make it happen.
-              </p>
+            <div className="flex flex-col sm:flex-row gap-3">
               <button
                 onClick={() => navigate('/order')}
-                className="px-10 py-4 bg-white text-indigo-600 font-bold text-lg rounded-2xl hover:bg-gray-50 transition-colors shadow-xl"
+                className="px-7 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl transition-colors text-sm shadow-xl shadow-indigo-900/40"
               >
                 Start a Project →
               </button>
+              <button
+                onClick={() => navigate('/services')}
+                className="px-7 py-3.5 border border-slate-700 hover:border-slate-500 text-slate-200 font-semibold rounded-xl transition-colors text-sm"
+              >
+                Explore Services
+              </button>
+            </div>
+            <div className="mt-10 flex items-center gap-3">
+              <div className="flex -space-x-2">
+                {['SK', 'MT', 'JR'].map((i) => (
+                  <div key={i} className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-cyan-500 border-2 border-slate-900 flex items-center justify-center text-white text-xs font-bold">{i}</div>
+                ))}
+              </div>
+              <div>
+                <div className="flex gap-0.5">{[...Array(5)].map((_, i) => <span key={i} className="text-amber-400 text-xs">★</span>)}</div>
+                <p className="text-slate-400 text-xs mt-0.5">Trusted by 50+ clients</p>
+              </div>
+            </div>
+          </div>
+          <div className="hidden lg:grid grid-cols-2 gap-4">
+            {SERVICES.map((s) => (
+              <Link key={s.id} to={`/services/${s.id}`} className={`group bg-gradient-to-br ${s.color} p-0.5 rounded-2xl hover:scale-[1.02] transition-transform`}>
+                <div className="bg-slate-900 rounded-[14px] p-5 h-full flex flex-col gap-3">
+                  <span className="text-3xl">{s.icon}</span>
+                  <div>
+                    <p className="text-white font-bold text-sm">{s.title}</p>
+                    <p className="text-slate-400 text-xs mt-0.5 leading-relaxed">{s.tagline}</p>
+                  </div>
+                  <p className="text-indigo-400 font-bold text-sm mt-auto">{s.startingPrice}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+        <div className="relative border-t border-slate-800">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 grid grid-cols-2 sm:grid-cols-4 divide-x divide-slate-800">
+            {STATS.map(({ value, label }) => (
+              <div key={label} className="text-center px-4 first:pl-0">
+                <div className="text-3xl font-black text-white">{value}</div>
+                <div className="text-slate-500 text-xs mt-0.5 uppercase tracking-wide">{label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Services overview */}
+      <section className="py-24 px-4 bg-gray-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
+            <div>
+              <p className="text-indigo-600 text-sm font-bold uppercase tracking-widest mb-2">Services</p>
+              <h2 className="text-4xl font-black text-slate-900">Everything you need</h2>
+            </div>
+            <Link to="/services" className="text-indigo-600 font-semibold text-sm hover:text-indigo-700 transition-colors flex items-center gap-1 flex-shrink-0">View all services →</Link>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
+            {SERVICES.map((s) => (
+              <div key={s.id} className="bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-lg hover:border-gray-200 transition-all group flex flex-col">
+                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${s.color} flex items-center justify-center text-2xl mb-4 shadow-md group-hover:scale-105 transition-transform`}>{s.icon}</div>
+                <h3 className="text-slate-800 font-bold text-base mb-1">{s.title}</h3>
+                <p className="text-slate-500 text-xs leading-relaxed flex-1 mb-4">{s.tagline}</p>
+                <div className="flex items-center justify-between">
+                  <span className="text-indigo-600 font-black text-sm">{s.startingPrice}</span>
+                  <Link to={`/services/${s.id}`} className="text-xs text-slate-400 hover:text-indigo-600 transition-colors font-medium">Details →</Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How it works */}
+      <section className="py-24 px-4 bg-white">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-16">
+            <p className="text-indigo-600 text-sm font-bold uppercase tracking-widest mb-2">Process</p>
+            <h2 className="text-4xl font-black text-slate-900">How ThinkNode Works</h2>
+            <p className="text-slate-500 mt-3 max-w-lg mx-auto">A simple, transparent process from enquiry to delivery.</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {STEPS.map((s) => (
+              <div key={s.n} className="text-center">
+                <div className="w-20 h-20 rounded-2xl bg-white border-2 border-indigo-100 shadow-md flex flex-col items-center justify-center mx-auto mb-5">
+                  <span className="text-2xl">{s.icon}</span>
+                  <span className="text-[10px] font-black text-indigo-400 uppercase tracking-widest mt-0.5">{s.n}</span>
+                </div>
+                <h3 className="text-slate-800 font-bold text-base mb-2">{s.title}</h3>
+                <p className="text-slate-500 text-sm leading-relaxed">{s.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Why ThinkNode */}
+      <section className="py-24 px-4 bg-slate-950">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <p className="text-indigo-400 text-sm font-bold uppercase tracking-widest mb-3">Why us</p>
+              <h2 className="text-4xl font-black text-white mb-5 leading-tight">Built for clients<br />who value their time.</h2>
+              <p className="text-slate-400 leading-relaxed mb-8 max-w-md">No agency overhead. No guesswork. Just clear timelines, direct communication, and deliverables you can ship immediately.</p>
+              <button onClick={() => navigate('/order')} className="px-7 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl transition-colors text-sm">Start a Project Today →</button>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              {PILLARS.map((p) => (
+                <div key={p.title} className="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6">
+                  <span className="text-2xl mb-3 block">{p.icon}</span>
+                  <h3 className="text-white font-bold text-sm mb-2">{p.title}</h3>
+                  <p className="text-slate-400 text-xs leading-relaxed">{p.body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="py-24 px-4 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-14">
+            <p className="text-indigo-600 text-sm font-bold uppercase tracking-widest mb-2">Client Stories</p>
+            <h2 className="text-4xl font-black text-slate-900">Trusted. Proven. Reliable.</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {TESTIMONIALS.map((t) => (
+              <div key={t.name} className="bg-white border border-gray-100 rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow flex flex-col">
+                <div className="flex gap-0.5 mb-5">{[...Array(5)].map((_, i) => <span key={i} className="text-amber-400">★</span>)}</div>
+                <p className="text-slate-600 text-sm leading-relaxed flex-1 mb-7">"{t.text}"</p>
+                <div className="flex items-center gap-3">
+                  <div className={`w-11 h-11 rounded-full bg-gradient-to-br ${t.gradient} text-white text-sm font-black flex items-center justify-center flex-shrink-0`}>{t.initials}</div>
+                  <div>
+                    <p className="text-slate-800 font-bold text-sm">{t.name}</p>
+                    <p className="text-slate-400 text-xs">{t.role} · {t.company}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-24 px-4 bg-gray-50">
+        <div className="max-w-3xl mx-auto text-center">
+          <div className="bg-gradient-to-br from-indigo-600 to-indigo-800 rounded-3xl p-14 overflow-hidden relative">
+            <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-white/5 pointer-events-none" />
+            <div className="absolute -bottom-20 -left-20 w-64 h-64 rounded-full bg-white/5 pointer-events-none" />
+            <div className="relative">
+              <h2 className="text-3xl sm:text-4xl font-black text-white mb-4">Ready to get started?</h2>
+              <p className="text-indigo-200 text-lg mb-8">Submit your project brief in under 5 minutes.</p>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <button onClick={() => navigate('/order')} className="px-8 py-4 bg-white text-indigo-700 font-black rounded-xl hover:bg-gray-50 transition-colors shadow-lg text-sm">Start a Project →</button>
+                <button onClick={() => navigate('/contact')} className="px-8 py-4 border border-indigo-400/40 text-white font-semibold rounded-xl hover:bg-white/10 transition-colors text-sm">Ask a Question</button>
+              </div>
             </div>
           </div>
         </div>

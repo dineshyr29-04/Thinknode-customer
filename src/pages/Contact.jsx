@@ -36,16 +36,19 @@ export default function Contact() {
   };
 
   return (
-    <div className="pt-16">
+    <div className="pt-16 bg-gray-50 min-h-screen">
       {/* Header */}
-      <div className="bg-gradient-to-br from-slate-900 to-indigo-950 py-20 px-4 text-center">
-        <h1 className="text-5xl font-black text-white mb-4">Get in Touch</h1>
-        <p className="text-slate-300 text-xl max-w-xl mx-auto">
-          Have a question, need a custom quote, or just want to say hi — we'd love to hear from you.
-        </p>
+      <div className="bg-slate-950 text-white py-10 px-4 border-b border-slate-800">
+        <div className="max-w-6xl mx-auto">
+          <p className="text-indigo-400 text-xs font-bold uppercase tracking-widest mb-2">Support</p>
+          <h1 className="text-3xl font-black">Get in Touch</h1>
+          <p className="text-slate-400 text-sm mt-1 max-w-xl">
+            Have a question, need a custom quote, or just want to say hi — we&apos;d love to hear from you.
+          </p>
+        </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 py-16">
+      <div className="max-w-6xl mx-auto px-4 py-10">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           {/* Left: contact info */}
           <div className="space-y-6">

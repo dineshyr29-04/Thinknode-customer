@@ -51,13 +51,16 @@ export default function Orders() {
   };
 
   return (
-    <div className="pt-16">
+    <div className="pt-16 bg-gray-50 min-h-screen">
       {/* Header */}
-      <div className="bg-gradient-to-br from-slate-900 to-indigo-950 py-16 px-4 text-center">
-        <h1 className="text-5xl font-black text-white mb-3">My Orders</h1>
-        <p className="text-slate-300 text-xl max-w-xl mx-auto">
-          Track your projects, check status, and see what's in progress.
-        </p>
+      <div className="bg-slate-950 text-white py-10 px-4 border-b border-slate-800">
+        <div className="max-w-4xl mx-auto">
+          <p className="text-indigo-400 text-xs font-bold uppercase tracking-widest mb-2">Dashboard</p>
+          <h1 className="text-3xl font-black">My Orders</h1>
+          <p className="text-slate-400 text-sm mt-1 max-w-xl">
+            Track your projects, check status, and see what&apos;s in progress.
+          </p>
+        </div>
       </div>
 
       <div className="max-w-4xl mx-auto px-4 py-16 space-y-6">

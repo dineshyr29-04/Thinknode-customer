@@ -253,6 +253,98 @@ export default function CustomizationPanel({ serviceType, customization, onChang
     );
   }
 
+  if (serviceType === 'video-editing') {
+    const extras = customization.additionalFeatures || [];
+    const toggleExtra = (val) =>
+      set(
+        'additionalFeatures',
+        extras.includes(val) ? extras.filter((e) => e !== val) : [...extras, val],
+      );
+
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label className={label}>Video Type</label>
+          <select
+            className={field}
+            value={customization.videoType || ''}
+            onChange={(e) => set('videoType', e.target.value)}
+          >
+            <option value="">Select video type</option>
+            <option value="youtube">YouTube Video</option>
+            <option value="social-media">Social Media</option>
+            <option value="advertisement">Advertisement</option>
+            <option value="documentary">Documentary</option>
+            <option value="short-form">Short-form (Reels / Shorts)</option>
+          </select>
+        </div>
+        <div>
+          <label className={label}>Video Length</label>
+          <select
+            className={field}
+            value={customization.videoLength || ''}
+            onChange={(e) => set('videoLength', e.target.value)}
+          >
+            <option value="">Select length</option>
+            <option value="under-1min">Under 1 minute</option>
+            <option value="1-5min">1–5 minutes</option>
+            <option value="5-10min">5–10 minutes</option>
+            <option value="10plus">10+ minutes</option>
+          </select>
+        </div>
+        <div>
+          <label className={label}>Editing Style</label>
+          <select
+            className={field}
+            value={customization.editingStyle || ''}
+            onChange={(e) => set('editingStyle', e.target.value)}
+          >
+            <option value="">Select style</option>
+            <option value="basic-cuts">Basic Cuts</option>
+            <option value="cinematic">Cinematic Edit</option>
+            <option value="fast-paced">Fast-paced Social Edit</option>
+            <option value="corporate">Corporate Style</option>
+          </select>
+        </div>
+        <div>
+          <label className={label}>Additional Features</label>
+          <div className="flex flex-wrap gap-2 pt-1">
+            {[
+              ['subtitles', 'Subtitles'],
+              ['motion-graphics', 'Motion Graphics'],
+              ['sound-effects', 'Sound Effects'],
+              ['background-music', 'Background Music'],
+              ['color-grading', 'Color Grading'],
+            ].map(([val, lbl]) => (
+              <button
+                key={val}
+                type="button"
+                onClick={() => toggleExtra(val)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-colors ${
+                  extras.includes(val)
+                    ? 'bg-rose-500 border-rose-500 text-white'
+                    : 'bg-white border-gray-200 text-slate-600 hover:border-rose-300'
+                }`}
+              >
+                {extras.includes(val) ? '✓ ' : ''}{lbl}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="sm:col-span-2">
+          <label className={label}>Additional Notes for Editor</label>
+          <textarea
+            rows={3}
+            placeholder="Describe your style, mood, reference videos, brand guidelines…"
+            className={`${field} resize-none`}
+            value={customization.notes || ''}
+            onChange={(e) => set('notes', e.target.value)}
+          />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <p className="text-slate-400 text-sm text-center py-6">
       Select a service type above to see customization options.

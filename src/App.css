@@ -16,7 +16,7 @@ body,
   width: 100%;
 }
 
-/* Apply clear, consistent padding to all page sections (excludes navbar/footer) */
+  /* Apply clear, consistent padding to all page sections (excludes navbar/footer) */
 .full-bleed section {
   padding-inline: clamp(1rem, 3vw, 2rem) !important;
   padding-block: clamp(1.5rem, 4vh, 4rem) !important;

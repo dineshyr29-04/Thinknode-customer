@@ -33,17 +33,20 @@ export default function Footer() {
               design, and automation — all in one place.
             </p>
             <div className="mt-6 flex gap-3">
+                  <a
+                  href="https://instagram.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-9 h-9 rounded-lg bg-slate-800 hover:bg-indigo-600 transition-colors flex items-center justify-center"
+                  aria-label="Instagram"
+                >
+                  <svg className="w-4 h-4 fill-current text-slate-400 hover:text-white" viewBox="0 0 24 24">
+                    <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 3.5A4.5 4.5 0 1 0 16.5 13 4.5 4.5 0 0 0 12 5.5zM18 6.25a1.25 1.25 0 1 1-1.25-1.25A1.25 1.25 0 0 1 18 6.25zM12 9.5A2.5 2.5 0 1 1 9.5 12 2.5 2.5 0 0 1 12 9.5z" />
+                  </svg>
+                </a>
               <a
-                href="#"
-                className="w-9 h-9 rounded-lg bg-slate-800 hover:bg-indigo-600 transition-colors flex items-center justify-center"
-                aria-label="Twitter"
-              >
-                <svg className="w-4 h-4 fill-current text-slate-400 hover:text-white" viewBox="0 0 24 24">
-                  <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
-                </svg>
-              </a>
-              <a
-                href="#"
+                href="https://www.linkedin.com/company/110646079/admin/dashboard/"
+                target="_blank"
                 className="w-9 h-9 rounded-lg bg-slate-800 hover:bg-indigo-600 transition-colors flex items-center justify-center"
                 aria-label="LinkedIn"
               >

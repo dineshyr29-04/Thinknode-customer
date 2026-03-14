@@ -13,7 +13,7 @@ export default function App() {
   return (
     <OrderProvider>
       <BrowserRouter>
-        <div className="min-h-screen flex flex-col bg-gray-50">
+        <div className="full-bleed min-h-screen flex flex-col bg-gray-50">
           <Navbar />
           <main className="flex-1">
             <Routes>

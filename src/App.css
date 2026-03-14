@@ -16,10 +16,8 @@ body,
   width: 100%;
 }
 
-/* Remove horizontal padding from page sections (keeps navbar/footer intact) */
-.full-bleed section[class*="px-"] {
-  width: 100% !important;
-  padding-left: 0px !important;
-  padding-right: 0 !important;
-  padding-inline: 0 !important;
+/* Apply clear, consistent padding to all page sections (excludes navbar/footer) */
+.full-bleed section {
+  padding-inline: clamp(1rem, 3vw, 2rem) !important;
+  padding-block: clamp(1.5rem, 4vh, 4rem) !important;
 }

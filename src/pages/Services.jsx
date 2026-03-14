@@ -3,7 +3,7 @@ import { SERVICES } from '../data/services';
 
 export default function Services() {
   return (
-    <div className="pt-16 bg-white min-h-screen">
+    <div className="pt-16 px-[20px] bg-white min-h-screen">
       {/* Page header */}
       <div className="bg-slate-950 text-white py-16 px-4">
         <div className="max-w-7xl mx-auto">
@@ -22,7 +22,7 @@ export default function Services() {
             <div key={s.id} className="bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-lg transition-all group">
               <div className="grid md:grid-cols-[280px_1fr_220px] divide-y md:divide-y-0 md:divide-x divide-gray-100">
                 {/* Left: identity */}
-                <div className={`bg-gradient-to-br ${s.color} p-8 flex flex-col justify-center`}>
+                <div className={`bg-gradient-to-br ${s.color} p-8 flex flex-col justify-center border`}>
                   <span className="text-5xl mb-4 block">{s.icon}</span>
                   <h2 className="text-white font-black text-xl mb-1">{s.title}</h2>
                   <p className="text-white/70 text-sm leading-relaxed">{s.tagline}</p>

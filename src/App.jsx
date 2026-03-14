@@ -19,13 +19,15 @@ export default function App() {
       <OrderProvider>
         <BrowserRouter>
           <Routes>
-            {/* Public routes */}
-            <Route path="/welcome" element={<LandingPage />} />
+            {/* Landing Page - First route (public) */}
+            <Route path="/" element={<LandingPage />} />
+
+            {/* Login Page (public) */}
             <Route path="/login" element={<Login />} />
 
-            {/* Protected routes */}
+            {/* Protected Dashboard Routes */}
             <Route
-              path="/*"
+              path="/home"
               element={
                 <RequireAuth>
                   <div className="full-bleed min-h-screen flex flex-col bg-gray-50">
@@ -39,6 +41,65 @@ export default function App() {
                         <Route path="/orders" element={<Orders />} />
                         <Route path="/contact" element={<Contact />} />
                       </Routes>
+                    </main>
+                    <Footer />
+                  </div>
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/services/*"
+              element={
+                <RequireAuth>
+                  <div className="full-bleed min-h-screen flex flex-col bg-gray-50">
+                    <Navbar />
+                    <main className="flex-1">
+                      <Routes>
+                        <Route path="/" element={<Services />} />
+                        <Route path="/:id" element={<ServiceDetails />} />
+                      </Routes>
+                    </main>
+                    <Footer />
+                  </div>
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/order"
+              element={
+                <RequireAuth>
+                  <div className="full-bleed min-h-screen flex flex-col bg-gray-50">
+                    <Navbar />
+                    <main className="flex-1">
+                      <Order />
+                    </main>
+                    <Footer />
+                  </div>
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/orders"
+              element={
+                <RequireAuth>
+                  <div className="full-bleed min-h-screen flex flex-col bg-gray-50">
+                    <Navbar />
+                    <main className="flex-1">
+                      <Orders />
+                    </main>
+                    <Footer />
+                  </div>
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/contact"
+              element={
+                <RequireAuth>
+                  <div className="full-bleed min-h-screen flex flex-col bg-gray-50">
+                    <Navbar />
+                    <main className="flex-1">
+                      <Contact />
                     </main>
                     <Footer />
                   </div>

@@ -32,7 +32,7 @@ export default function Home() {
   const navigate = useNavigate();
 
   return (
-    <div className="pt-16 bg-white">
+    <div className="bg-white">
       {/* Hero */}
       <section className="bg-slate-950 text-white relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none overflow-hidden">

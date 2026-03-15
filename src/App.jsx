@@ -31,7 +31,7 @@ export default function App() {
               element={
                 <RequireAuth>
                   <Navbar />
-                  <div className="ml-20 full-bleed parallax-surface min-h-screen flex flex-col bg-gray-50">
+                  <div className="ml-24 full-bleed parallax-surface min-h-screen flex flex-col bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900">
                     <main className="flex-1">
                       <Routes>
                         <Route path="/" element={<Home />} />
@@ -52,7 +52,7 @@ export default function App() {
               element={
                 <RequireAuth>
                   <Navbar />
-                  <div className="ml-18 full-bleed parallax-surface min-h-screen flex flex-col bg-gray-50">
+                  <div className="ml-24 full-bleed parallax-surface min-h-screen flex flex-col bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900">
                     <main className="flex-1">
                       <Routes>
                         <Route path="/" element={<Services />} />
@@ -69,7 +69,7 @@ export default function App() {
               element={
                 <RequireAuth>
                   <Navbar />
-                  <div className="ml-20 full-bleed parallax-surface min-h-screen flex flex-col bg-gray-50">
+                  <div className="ml-24 full-bleed parallax-surface min-h-screen flex flex-col bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900">
                     <main className="flex-1">
                       <Order />
                     </main>
@@ -83,7 +83,7 @@ export default function App() {
               element={
                 <RequireAuth>
                   <Navbar />
-                  <div className="ml-20 full-bleed parallax-surface min-h-screen flex flex-col bg-gray-50">
+                  <div className="ml-24 full-bleed parallax-surface min-h-screen flex flex-col bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900">
                     <main className="flex-1">
                       <Orders />
                     </main>
@@ -97,7 +97,7 @@ export default function App() {
               element={
                 <RequireAuth>
                   <Navbar />
-                  <div className="ml-20 full-bleed parallax-surface min-h-screen flex flex-col bg-gray-50">
+                  <div className="ml-24 full-bleed parallax-surface min-h-screen flex flex-col bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900">
                     <main className="flex-1">
                       <Contact />
                     </main>

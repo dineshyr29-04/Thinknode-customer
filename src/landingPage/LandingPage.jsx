@@ -374,7 +374,7 @@ function Navbar() {
               e.currentTarget.style.borderColor = "rgba(0, 212, 255, 0.4)";
               e.currentTarget.style.boxShadow = "none";
             }}
-           href="/pages/login.jsx"
+           onClick={() => navigate('/login')}
           >
             GET STARTED
           </motion.button>
@@ -523,15 +523,14 @@ export default function LandingPage() {
                   Professional freelance services for web, design, and automation. Precision-crafted for results.
                 </p>
                 <div style={{ display: "flex", gap: 16, justifyContent: "center" }}>
-                    <a href="/pages/login.jsx">
-                        <motion.button
-                            style={BTN.blue}
-                            whileHover={{ scale: 1.07, boxShadow: "0 0 44px rgba(0,212,255,0.5)" }}
-                            whileTap={{ scale: 0.97 }}
-                        >
-                            START PROJECT
-                        </motion.button>
-                    </a>
+                    <motion.button
+                        style={BTN.blue}
+                        whileHover={{ scale: 1.07, boxShadow: "0 0 44px rgba(0,212,255,0.5)" }}
+                        whileTap={{ scale: 0.97 }}
+                        onClick={() => navigate('/login')}
+                    >
+                        START PROJECT
+                    </motion.button>
                   <motion.button
                     style={BTN.ghost}
                     whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(255,255,255,0.2)" }}

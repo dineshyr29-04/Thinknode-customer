@@ -951,7 +951,7 @@ export default function LandingPage() {
                             marginTop: 10,
                           }}
                         >
-                          VIEW PROJECT ->
+                          VIEW PROJECT -
                         </div>
                       </motion.div>
                       <div style={{ position: "absolute", bottom: 20, left: 20, zIndex: 3 }}>
@@ -1137,7 +1137,7 @@ export default function LandingPage() {
                   whileTap={{ scale: 0.97 }}
                   onClick={() => navigate('/login')}
                 >
-                  START YOUR PROJECT ->
+                  START YOUR PROJECT -
                   <motion.div
                     style={{ position: "absolute", inset: 0, background: "rgba(255,255,255,0.18)" }}
                     animate={{ x: ["-100%", "200%"] }}

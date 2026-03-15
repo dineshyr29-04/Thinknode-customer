@@ -209,17 +209,19 @@ const LandingPage = () => {
   ];
 
   return (
-    <div className="bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 min-h-screen overflow-hidden">
+    <div className="parallax-surface bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 min-h-screen overflow-hidden">
       {/* Navbar */}
       <motion.nav
         initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled 
-            ? 'bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-lg' 
-            : 'bg-transparent border-b border-transparent'
-        }`}
+        animate={{
+          opacity: 1,
+          y: 0,
+          backgroundColor: scrolled ? 'rgba(25, 24, 24, 0.19)' : 'rgba(255, 255, 255, 0)',
+          boxShadow: scrolled ? '0 12px 30px rgba(15, 23, 42, 0.15)' : '0 0 0 rgba(0, 0, 0, 0)',
+          borderColor: scrolled ? 'rgba(226, 232, 240, 0.31)' : 'rgba(255, 255, 255, 0.15)',
+        }}
+        transition={{ duration: 0.35, ease: 'easeOut' }}
+        className="fixed top-0 left-0 right-0 z-50 border-b backdrop-blur-md"
       >
         <div className="mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
@@ -248,7 +250,7 @@ const LandingPage = () => {
                   whileHover={{ textDecoration: 'underline' }}
                   className={`transition-colors duration-300 font-medium ${
                     scrolled
-                      ? 'text-slate-700 hover:text-blue-600'
+                      ? 'text-[#333333] hover:text-blue-600'
                       : 'text-white/90 hover:text-white'
                   }`}
                 >

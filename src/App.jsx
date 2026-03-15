@@ -30,7 +30,7 @@ export default function App() {
               path="/home"
               element={
                 <RequireAuth>
-                  <div className="full-bleed min-h-screen flex flex-col bg-gray-50">
+                  <div className="full-bleed parallax-surface min-h-screen flex flex-col bg-gray-50">
                     <Navbar />
                     <main className="flex-1">
                       <Routes>
@@ -51,7 +51,7 @@ export default function App() {
               path="/services/*"
               element={
                 <RequireAuth>
-                  <div className="full-bleed min-h-screen flex flex-col bg-gray-50">
+                  <div className="full-bleed parallax-surface min-h-screen flex flex-col bg-gray-50">
                     <Navbar />
                     <main className="flex-1">
                       <Routes>
@@ -68,7 +68,7 @@ export default function App() {
               path="/order"
               element={
                 <RequireAuth>
-                  <div className="full-bleed min-h-screen flex flex-col bg-gray-50">
+                  <div className="full-bleed parallax-surface min-h-screen flex flex-col bg-gray-50">
                     <Navbar />
                     <main className="flex-1">
                       <Order />
@@ -82,7 +82,7 @@ export default function App() {
               path="/orders"
               element={
                 <RequireAuth>
-                  <div className="full-bleed min-h-screen flex flex-col bg-gray-50">
+                  <div className="full-bleed parallax-surface min-h-screen flex flex-col bg-gray-50">
                     <Navbar />
                     <main className="flex-1">
                       <Orders />
@@ -96,7 +96,7 @@ export default function App() {
               path="/contact"
               element={
                 <RequireAuth>
-                  <div className="full-bleed min-h-screen flex flex-col bg-gray-50">
+                  <div className="full-bleed parallax-surface min-h-screen flex flex-col bg-gray-50">
                     <Navbar />
                     <main className="flex-1">
                       <Contact />

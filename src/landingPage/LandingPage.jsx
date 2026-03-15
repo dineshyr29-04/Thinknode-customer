@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence, useInView, useScroll, useTransform } from "framer-motion";
 
 /* Global particle canvas */
@@ -258,11 +259,14 @@ const BTN = {
     fontSize: 12,
     letterSpacing: "0.2em",
     padding: "14px 36px",
-    color: "#000",
-    background: "linear-gradient(135deg,#00c8ff,#0055ff)",
-    border: "none",
+    color: "#fff",
+    background: "rgba(0, 212, 255, 0.15)",
+    border: "1.5px solid rgba(0, 212, 255, 0.5)",
+    backdropFilter: "blur(10px)",
     cursor: "pointer",
-    clipPath: "polygon(14px 0%,100% 0%,calc(100% - 14px) 100%,0% 100%)",
+    borderRadius: "16px",
+    position: "relative",
+    transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
   },
   ghost: {
     ...F.sub,
@@ -270,10 +274,13 @@ const BTN = {
     letterSpacing: "0.2em",
     padding: "14px 36px",
     color: "#cbd5e1",
-    background: "transparent",
-    border: "1px solid rgba(255,255,255,0.22)",
+    background: "rgba(255, 255, 255, 0.08)",
+    border: "1.5px solid rgba(255, 255, 255, 0.25)",
+    backdropFilter: "blur(10px)",
     cursor: "pointer",
-    clipPath: "polygon(14px 0%,100% 0%,calc(100% - 14px) 100%,0% 100%)",
+    borderRadius: "16px",
+    position: "relative",
+    transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
   },
 };
 

@@ -316,7 +316,8 @@ function Navbar() {
           <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
             <img 
               src="/logo.jpeg" 
-              alt="ThinkNode" />
+              alt="ThinkNode"
+              className="w-[3rem] rounded-lg" />
             <span style={{ ...F.head, fontSize: 17, letterSpacing: "0.28em", color: "#fff" }}>
               THINK
               <span style={{ color: "#00d4ff", textShadow: "0 0 16px rgba(0,212,255,0.75)" }}>NODE</span>

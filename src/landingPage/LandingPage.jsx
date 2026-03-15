@@ -314,21 +314,9 @@ function Navbar() {
       }}
     >
           <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-            <div style={{ position: "relative", width: 38, height: 38 }}>
-              <motion.div
-                style={{ position: "absolute", inset: 0, borderRadius: "50%", border: "2px solid #00d4ff" }}
-                animate={{ rotate: 360 }}
-                transition={{ duration: 7, repeat: Infinity, ease: "linear" }}
-              />
-              <motion.div
-                style={{ position: "absolute", inset: 7, borderRadius: "50%", border: "1px solid rgba(168,85,247,0.8)" }}
-                animate={{ rotate: -360 }}
-                transition={{ duration: 4.5, repeat: Infinity, ease: "linear" }}
-              />
-              <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#00d4ff", boxShadow: "0 0 12px #00d4ff" }} />
-              </div>
-            </div>
+            <img 
+              src="/logo.jpeg" 
+              alt="ThinkNode" />
             <span style={{ ...F.head, fontSize: 17, letterSpacing: "0.28em", color: "#fff" }}>
               THINK
               <span style={{ color: "#00d4ff", textShadow: "0 0 16px rgba(0,212,255,0.75)" }}>NODE</span>
@@ -990,13 +978,11 @@ export default function LandingPage() {
               }}
             >
               <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                <div style={{ position: "relative", width: 28, height: 28 }}>
-                  <motion.div
-                    style={{ position: "absolute", inset: 0, borderRadius: "50%", border: "1.5px solid #00d4ff" }}
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 7, repeat: Infinity, ease: "linear" }}
-                  />
-                </div>
+                <img 
+                  src="/logo.svg" 
+                  alt="ThinkNode" 
+                  style={{ width: 28, height: 28 }}
+                />
                 <span style={{ ...F.head, fontSize: 15, letterSpacing: "0.28em", color: "#fff" }}>
                   THINK<span style={{ color: "#00d4ff" }}>NODE</span>
                 </span>

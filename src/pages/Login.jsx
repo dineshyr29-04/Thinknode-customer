@@ -41,9 +41,11 @@ export default function Login() {
         {/* Logo */}
         <div className="text-center mb-12">
           <Link to="/" className="inline-block mb-6 group">
-            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-indigo-500 to-cyan-500 flex items-center justify-center mx-auto transform group-hover:scale-105 transition-transform duration-300">
-              <span className="text-white font-black text-3xl">TN</span>
-            </div>
+            <img 
+              src="/logo.jpeg" 
+              alt="ThinkNode" 
+              className="w-20 h-20 mx-auto transform group-hover:scale-110 transition-transform duration-300"
+            />
           </Link>
           <h1 className="text-white text-4xl font-black mb-2">ThinkNode</h1>
           <p className="text-cyan-400 text-sm font-medium">Client Portal</p>

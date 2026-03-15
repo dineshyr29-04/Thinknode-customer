@@ -160,13 +160,13 @@ const LandingPage = () => {
       id: 1,
       title: 'E-Commerce Platform',
       category: 'Web Development',
-      image: 'https://images.unsplash.com/photo-1460925895917-afdab684c3c7?w=500&h=500&fit=crop',
+      image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=80',
     },
     {
       id: 2,
       title: 'Mobile App Design',
       category: 'Frontend',
-      image: 'https://images.unsplash.com/photo-1512941691920-25bda097440d?w=500&h=500&fit=crop',
+      image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80',
     },
     {
       id: 3,
@@ -440,7 +440,7 @@ const LandingPage = () => {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-20 px-4 sm:px-6 lg:px-8 relative">
+      <section id="services" className="section-shell section-services py-20 px-4 sm:px-6 lg:px-8 relative">
         <div className="mx-auto">
           {/* Section Header */}
           <motion.div
@@ -477,7 +477,7 @@ const LandingPage = () => {
                   className="group relative"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-400 rounded-2xl opacity-0 group-hover:opacity-100 blur-xl transition-all duration-300" />
-                  <div className="relative bg-white rounded-2xl p-6 sm:p-8 hover:shadow-2xl transition-all duration-300">
+                  <div className="glass-card relative rounded-2xl p-6 sm:p-8 hover:shadow-2xl transition-all duration-300">
                     {/* Icon */}
                     <div className={`inline-flex items-center justify-center w-16 h-16 rounded-xl bg-gradient-to-r ${service.color} mb-6 text-white`}>
                       <Icon size={32} />
@@ -507,7 +507,7 @@ const LandingPage = () => {
       </section>
 
       {/* How It Works Section */}
-      <section id="howitworks" className="py-20 px-4 sm:px-6 lg:px-8 bg-white/50">
+      <section id="howitworks" className="section-shell section-how py-20 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto">
           {/* Section Header */}
           <motion.div
@@ -559,7 +559,7 @@ const LandingPage = () => {
       </section>
 
       {/* Portfolio Section */}
-      <section id="portfolio" className="py-20 px-4 sm:px-6 lg:px-8">
+      <section id="portfolio" className="section-shell section-portfolio py-20 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto">
           {/* Section Header */}
           <motion.div
@@ -589,7 +589,7 @@ const LandingPage = () => {
                 custom={index}
                 variants={fadeInUp}
                 whileHover={{ y: -5 }}
-                className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300"
+                className="glass-card group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300"
               >
                 {/* Image */}
                 <div className="relative h-80 overflow-hidden bg-slate-200">
@@ -636,7 +636,7 @@ const LandingPage = () => {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-blue-50 to-purple-50">
+      <section id="features" className="section-shell section-features py-20 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto">
           {/* Section Header */}
           <motion.div
@@ -668,7 +668,7 @@ const LandingPage = () => {
                   custom={index}
                   variants={fadeInUp}
                   whileHover={{ y: -5, boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1)' }}
-                  className="bg-white rounded-2xl p-8 hover:shadow-xl transition-all"
+                  className="glass-card rounded-2xl p-8 hover:shadow-xl transition-all"
                 >
                   {/* Icon */}
                   <div className="w-14 h-14 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white mb-6">
@@ -688,7 +688,7 @@ const LandingPage = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
+      <section className="section-shell section-testimonials py-20 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto">
           {/* Section Header */}
           <motion.div
@@ -718,7 +718,7 @@ const LandingPage = () => {
                 custom={index}
                 variants={fadeInUp}
                 whileHover={{ y: -5 }}
-                className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow"
+                className="glass-card rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow"
               >
                 {/* Stars */}
                 <div className="flex gap-1 mb-4">
@@ -742,7 +742,7 @@ const LandingPage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-blue-600 to-purple-600 relative overflow-hidden">
+      <section className="section-shell section-cta py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
         {/* Animated Background */}
         <motion.div
           animate={{
@@ -793,7 +793,7 @@ const LandingPage = () => {
       </section>
 
       {/* Footer */}
-      <footer className="bg-slate-900 text-white py-12 px-4 sm:px-6 lg:px-8">
+      <footer className="glass-footer text-white py-12 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             {/* Brand */}

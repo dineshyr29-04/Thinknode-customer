@@ -58,13 +58,14 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row gap-3">
               <button
                 onClick={() => navigate('/order')}
-                className="px-7 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl transition-colors text-sm shadow-xl shadow-indigo-900/40"
+                className="group relative px-7 py-3.5 backdrop-blur-md bg-gradient-to-r from-cyan-500/30 to-indigo-500/30 text-white font-bold rounded-2xl border border-white/40 hover:border-white/60 transition-all duration-300 overflow-hidden text-sm"
               >
-                Start a Project →
+                <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/20 to-indigo-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
+                <span className="relative">Start a Project →</span>
               </button>
               <button
                 onClick={() => navigate('/services')}
-                className="px-7 py-3.5 border border-slate-700 hover:border-slate-500 text-slate-200 font-semibold rounded-xl transition-colors text-sm"
+                className="px-7 py-3.5 backdrop-blur-md bg-white/10 border border-white/30 text-white/90 font-semibold rounded-2xl hover:bg-white/15 hover:border-white/50 transition-all duration-300 text-sm"
               >
                 Explore Services
               </button>
@@ -165,7 +166,7 @@ export default function Home() {
               <p className="text-indigo-400 text-sm font-bold uppercase tracking-widest mb-3">Why us</p>
               <h2 className="text-4xl font-black text-white mb-5 leading-tight">Built for clients<br />who value their time.</h2>
               <p className="text-slate-400 leading-relaxed mb-8 max-w-md">No agency overhead. No guesswork. Just clear timelines, direct communication, and deliverables you can ship immediately.</p>
-              <button onClick={() => navigate('/order')} className="px-7 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl transition-colors text-sm">Start a Project Today →</button>
+              <button onClick={() => navigate('/order')} className="group relative px-7 py-3.5 backdrop-blur-md bg-gradient-to-r from-cyan-500/30 to-indigo-500/30 text-white font-bold rounded-2xl border border-white/40 hover:border-white/60 transition-all duration-300 overflow-hidden text-sm"><div className="absolute inset-0 bg-gradient-to-r from-cyan-400/20 to-indigo-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div><span className="relative">Start a Project Today →</span></button>
             </div>
             <div className="grid grid-cols-2 gap-4">
               {PILLARS.map((p) => (
@@ -215,7 +216,7 @@ export default function Home() {
               <h2 className="text-3xl sm:text-4xl font-black text-white mb-4">Ready to get started?</h2>
               <p className="text-indigo-200 text-lg mb-8">Submit your project brief in under 5 minutes.</p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <button onClick={() => navigate('/order')} className="px-8 py-4 bg-white text-indigo-700 font-black rounded-xl hover:bg-gray-50 transition-colors shadow-lg text-sm">Start a Project →</button>
+                <button onClick={() => navigate('/order')} className="group relative px-8 py-4 backdrop-blur-md bg-white/20 text-white font-black rounded-2xl border border-white/40 hover:bg-white/30 hover:border-white/60 transition-all duration-300 shadow-lg text-sm overflow-hidden"><div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div><span className="relative">Start a Project →</span></button>
                 <button onClick={() => navigate('/contact')} className="px-8 py-4 border border-indigo-400/40 text-white font-semibold rounded-xl hover:bg-white/10 transition-colors text-sm">Ask a Question</button>
               </div>
             </div>

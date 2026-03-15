@@ -370,9 +370,16 @@ const LandingPage = () => {
 
       {/* Hero Section */}
       <section 
-        className="hero-shell relative min-h-screen pt-20 flex items-center justify-center overflow-hidden"
+        className="relative min-h-screen pt-20 flex items-center justify-center overflow-hidden"
+        style={{
+          backgroundImage: 'url(/image.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed',
+        }}
       >
-        <div className="section-orbs" aria-hidden="true" />
+        {/* Subtle overlay for glassmorphism text */}
+        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-black/20 via-black/10 to-black/20" />
 
         {/* Hero Content (glassmorphism) */}
         <motion.div

@@ -444,8 +444,8 @@ const LandingPage = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-4">Our Services</h2>
-            <p className="text-lg sm:text-xl text-slate-600">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">Our Services</h2>
+            <p className="text-lg sm:text-xl text-slate-200">
               Comprehensive solutions tailored to your business needs
             </p>
           </motion.div>
@@ -478,16 +478,16 @@ const LandingPage = () => {
                     </div>
 
                     {/* Title */}
-                    <h3 className="text-xl font-bold text-slate-900 mb-3">{service.title}</h3>
+                    <h3 className="text-xl font-bold text-white mb-3">{service.title}</h3>
 
                     {/* Description */}
-                    <p className="text-slate-600 mb-6">{service.description}</p>
+                    <p className="text-slate-200 mb-6">{service.description}</p>
 
                     {/* Learn More */}
                     <motion.div
                       initial={{ x: 0 }}
                       animate={{ x: hoveredService === service.id ? 5 : 0 }}
-                      className="flex items-center text-blue-600 font-semibold"
+                      className="flex items-center text-cyan-200 font-semibold"
                     >
                       Learn more
                       <ArrowRight size={16} className="ml-2" />
@@ -512,8 +512,8 @@ const LandingPage = () => {
             viewport={{ once: true }}
             className="text-center mb-12 sm:mb-16"
           >
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-4">How It Works</h2>
-            <p className="text-lg sm:text-xl text-slate-600">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">How It Works</h2>
+            <p className="text-lg sm:text-xl text-slate-200">
               Simple, streamlined process for your project success
             </p>
           </motion.div>
@@ -544,8 +544,8 @@ const LandingPage = () => {
 
                 {/* Step Content */}
                 <div className="text-center">
-                  <h3 className="text-2xl font-bold text-slate-900 mb-3">{step.title}</h3>
-                  <p className="text-slate-600 leading-relaxed">{step.description}</p>
+                  <h3 className="text-2xl font-bold text-white mb-3">{step.title}</h3>
+                  <p className="text-slate-200 leading-relaxed">{step.description}</p>
                 </div>
               </motion.div>
             ))}
@@ -565,8 +565,8 @@ const LandingPage = () => {
             viewport={{ once: true }}
             className="text-center mb-12 sm:mb-16"
           >
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-4">Our Portfolio</h2>
-            <p className="text-lg sm:text-xl text-slate-600">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">Our Portfolio</h2>
+            <p className="text-lg sm:text-xl text-slate-200">
               Showcase of our latest projects and successful deliverables
             </p>
           </motion.div>
@@ -588,12 +588,10 @@ const LandingPage = () => {
                 className="glass-card group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300"
               >
                 {/* Image */}
-                <div className="relative h-80 overflow-hidden bg-slate-200">
-                  <motion.img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover"
-                    whileHover={{ scale: 1.1 }}
+                <div className="portfolio-media relative h-80 overflow-hidden">
+                  <motion.div
+                    className="absolute inset-0"
+                    whileHover={{ scale: 1.05 }}
                     transition={{ duration: 0.4 }}
                   />
 
@@ -604,7 +602,7 @@ const LandingPage = () => {
                     className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent flex flex-col justify-end p-8"
                   >
                     <h3 className="text-2xl font-bold text-white mb-2">{project.title}</h3>
-                    <p className="text-blue-200">{project.category}</p>
+                    <p className="text-cyan-200">{project.category}</p>
                   </motion.div>
                 </div>
               </motion.div>
@@ -623,7 +621,7 @@ const LandingPage = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => navigate('/login')}
-              className="px-8 py-3 border-2 border-slate-300 text-slate-700 rounded-xl font-semibold hover:bg-slate-100 transition-all"
+              className="px-8 py-3 border-2 border-white/30 text-white rounded-xl font-semibold hover:bg-white/10 transition-all"
             >
               View All Projects
             </motion.button>
@@ -643,8 +641,8 @@ const LandingPage = () => {
             viewport={{ once: true }}
             className="text-center mb-12 sm:mb-16"
           >
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-4">Why Choose Us</h2>
-            <p className="text-lg sm:text-xl text-slate-600">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">Why Choose Us</h2>
+            <p className="text-lg sm:text-xl text-slate-200">
               Key features that set us apart from the competition
             </p>
           </motion.div>
@@ -673,10 +671,10 @@ const LandingPage = () => {
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-xl font-bold text-slate-900 mb-3">{feature.title}</h3>
+                  <h3 className="text-xl font-bold text-white mb-3">{feature.title}</h3>
 
                   {/* Description */}
-                  <p className="text-slate-600">{feature.description}</p>
+                  <p className="text-slate-200">{feature.description}</p>
                 </motion.div>
               );
             })}
@@ -696,8 +694,8 @@ const LandingPage = () => {
             viewport={{ once: true }}
             className="text-center mb-12 sm:mb-16"
           >
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-4">Client Testimonials</h2>
-            <p className="text-lg sm:text-xl text-slate-600">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">Client Testimonials</h2>
+            <p className="text-lg sm:text-xl text-slate-200">
               What our happy clients are saying about us
             </p>
           </motion.div>
@@ -726,12 +724,12 @@ const LandingPage = () => {
                 </div>
 
                 {/* Text */}
-                <p className="text-slate-700 mb-6 leading-relaxed italic">"{testimonial.text}"</p>
+                <p className="text-slate-200 mb-6 leading-relaxed italic">"{testimonial.text}"</p>
 
                 {/* Author */}
                 <div>
-                  <p className="font-bold text-slate-900">{testimonial.name}</p>
-                  <p className="text-slate-600 text-sm">{testimonial.role}</p>
+                  <p className="font-bold text-white">{testimonial.name}</p>
+                  <p className="text-slate-300 text-sm">{testimonial.role}</p>
                 </div>
               </motion.div>
             ))}

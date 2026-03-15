@@ -52,7 +52,7 @@ export default function App() {
               element={
                 <RequireAuth>
                   <Navbar />
-                  <div className="lg:ml-20 mt-16 lg:mt-0 full-bleed parallax-surface min-h-screen flex flex-col bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900">
+                  <div className="lg:ml-15 mt-16 lg:mt-0 full-bleed parallax-surface min-h-screen flex flex-col bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900">
                     <main className="flex-1">
                       <Routes>
                         <Route path="/" element={<Services />} />

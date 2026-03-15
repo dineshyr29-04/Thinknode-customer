@@ -285,7 +285,7 @@ const BTN = {
 };
 
 /* navbar */
-function Navbar({ entered }) {
+function Navbar() {
   const [sc, setSc] = useState(false);
   useEffect(() => {
     const fn = () => setSc(window.scrollY > 50);
@@ -293,28 +293,26 @@ function Navbar({ entered }) {
     return () => window.removeEventListener("scroll", fn);
   }, []);
   return (
-    <AnimatePresence>
-      {entered && (
-        <motion.nav
-          initial={{ y: -90, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            zIndex: 100,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            padding: "14px 40px",
-            background: sc ? "rgba(2,6,18,0.93)" : "rgba(2,6,18,0.45)",
-            backdropFilter: "blur(20px)",
-            borderBottom: "1px solid rgba(0,200,255,0.1)",
-            transition: "background 0.4s",
-          }}
-        >
+    <motion.nav
+      initial={{ y: -90, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 100,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        padding: "14px 40px",
+        background: sc ? "rgba(2,6,18,0.93)" : "rgba(2,6,18,0.45)",
+        backdropFilter: "blur(20px)",
+        borderBottom: "1px solid rgba(0,200,255,0.1)",
+        transition: "background 0.4s",
+      }}
+    >
           <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
             <div style={{ position: "relative", width: 38, height: 38 }}>
               <motion.div
@@ -364,7 +362,6 @@ function Navbar({ entered }) {
           <motion.button
             whileHover={{ scale: 1.06 }}
             whileTap={{ scale: 0.96 }}
-            onClick={() => { window.location.href = '/login'; }}
             style={{
               ...F.sub,
               fontSize: 11,
@@ -392,12 +389,10 @@ function Navbar({ entered }) {
             GET STARTED
           </motion.button>
         </motion.nav>
-      )}
-    </AnimatePresence>
-  );
-}
+      );
+    }
 
-/* data */
+    /* data */
 const SERVICES = [
   {
     sym: "A",
@@ -474,7 +469,6 @@ const TESTIMONIALS = [
 /* main */
 export default function LandingPage() {
   const navigate = useNavigate();
-  const [entered, setEntered] = useState(false);
   const [tIdx, setTIdx] = useState(0);
   const { scrollY } = useScroll();
   const heroY = useTransform(scrollY, [0, 700], [0, -180]);
@@ -489,176 +483,11 @@ export default function LandingPage() {
     <div style={{ background: "#020812", minHeight: "100vh", overflowX: "hidden", color: "#fff" }}>
       <Fonts />
       <ParticleBg />
-      <Navbar entered={entered} />
+      <Navbar />
 
-      <AnimatePresence>
-        {!entered && (
-          <motion.div
-            key="gate"
-            exit={{ opacity: 0, scale: 1.06 }}
-            transition={{ duration: 1.1, ease: [0.4, 0, 0.2, 1] }}
-            style={{
-              position: "fixed",
-              inset: 0,
-              zIndex: 200,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              background: "rgba(2,6,18,0.94)",
-            }}
-          >
-            <Grid />
-            <Scan />
-
-            <div style={{ position: "relative", zIndex: 5, textAlign: "center", padding: "0 24px", maxWidth: 760 }}>
-              <motion.div
-                initial={{ scale: 0.5, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: 20,
-                  marginBottom: 52,
-                }}
-              >
-                <div style={{ position: "relative", width: 72, height: 72 }}>
-                  <motion.div
-                    style={{ position: "absolute", inset: 0, borderRadius: "50%", border: "2px solid #00d4ff" }}
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
-                  />
-                  <motion.div
-                    style={{ position: "absolute", inset: 9, borderRadius: "50%", border: "1.5px solid rgba(168,85,247,0.85)" }}
-                    animate={{ rotate: -360 }}
-                    transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-                  />
-                  <motion.div
-                    style={{ position: "absolute", inset: 18, borderRadius: "50%", border: "1px solid rgba(0,200,255,0.4)" }}
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                  />
-                  <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#00d4ff", boxShadow: "0 0 22px rgba(0,212,255,1)" }} />
-                  </div>
-                </div>
-                <div style={{ textAlign: "left" }}>
-                  <div
-                    style={{
-                      ...F.head,
-                      fontSize: 44,
-                      letterSpacing: "0.28em",
-                      color: "#ffffff",
-                      lineHeight: 1,
-                    }}
-                  >
-                    THINK
-                    <span style={{ color: "#00d4ff", textShadow: "0 0 28px rgba(0,212,255,0.9)" }}>NODE</span>
-                  </div>
-                  <div style={{ ...F.mono, fontSize: 10, letterSpacing: "0.45em", color: "#475569", marginTop: 5 }}>
-                    CLIENT PORTAL
-                  </div>
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 55 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 0.75, ease: [0.16, 1, 0.3, 1] }}
-                style={{ marginBottom: 28 }}
-              >
-                <div style={{ ...F.display, fontSize: "clamp(3.2rem,9vw,6rem)", lineHeight: 1.04 }}>
-                  <div style={{ color: "#ffffff" }}>Build.</div>
-                  <div
-                    style={{
-                      background: "linear-gradient(90deg,#00d4ff,#6050ff)",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                    }}
-                  >
-                    Design.
-                  </div>
-                  <div
-                    style={{
-                      background: "linear-gradient(90deg,#a855f7,#f43f5e)",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                    }}
-                  >
-                    Automate.
-                  </div>
-                </div>
-              </motion.div>
-
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1.35, duration: 0.9 }}
-                style={{ ...F.body, fontSize: 19, color: "#94a3b8", lineHeight: 1.75, marginBottom: 52 }}
-              >
-                Professional freelance services for web development, design, and automation.
-              </motion.p>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.75, duration: 0.8 }}
-                style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}
-              >
-                <motion.button
-                  style={BTN.blue}
-                  whileHover={{ scale: 1.07, boxShadow: "0 0 44px rgba(0,212,255,0.5)" }}
-                  whileTap={{ scale: 0.97 }}
-                  onClick={() => navigate('/login')}
-                >
-                  ENTER PLATFORM
-                </motion.button>
-                <motion.button
-                  style={BTN.ghost}
-                  whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(255,255,255,0.2)" }}
-                  whileTap={{ scale: 0.97 }}
-                  onClick={() => navigate('/login')}
-                >
-                  VIEW SERVICES
-                </motion.button>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 2.2 }}
-                style={{ display: "flex", gap: 60, justifyContent: "center", marginTop: 68 }}
-              >
-                {[
-                  ["50+", "Projects"],
-                  ["100%", "Satisfaction"],
-                  ["48h", "Delivery"],
-                ].map(([v, l]) => (
-                  <div key={l} style={{ textAlign: "center" }}>
-                    <div style={{ ...F.head, fontSize: 30, color: "#00d4ff", textShadow: "0 0 22px rgba(0,212,255,0.55)" }}>{v}</div>
-                    <div style={{ ...F.mono, fontSize: 10, color: "#475569", letterSpacing: "0.35em", marginTop: 5 }}>{l}</div>
-                  </div>
-                ))}
-              </motion.div>
-            </div>
-
-            <motion.div
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 2.2, repeat: Infinity }}
-              style={{ position: "absolute", bottom: 36, display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}
-            >
-              <div style={{ ...F.mono, fontSize: 9, color: "#334155", letterSpacing: "0.4em" }}>SCROLL TO EXPLORE</div>
-              <div style={{ width: 1, height: 36, background: "linear-gradient(#00d4ff,transparent)" }} />
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {entered && (
-        <>
-          <section
+      <>
+        {/* Main Landing Content - All Visible */}
+        <section
             style={{
               position: "relative",
               zIndex: 10,
@@ -708,7 +537,6 @@ export default function LandingPage() {
                     style={BTN.blue}
                     whileHover={{ scale: 1.07, boxShadow: "0 0 44px rgba(0,212,255,0.5)" }}
                     whileTap={{ scale: 0.97 }}
-                    onClick={() => navigate('/login')}
                   >
                     START PROJECT
                   </motion.button>
@@ -716,7 +544,6 @@ export default function LandingPage() {
                     style={BTN.ghost}
                     whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(255,255,255,0.2)" }}
                     whileTap={{ scale: 0.97 }}
-                    onClick={() => navigate('/login')}
                   >
                     VIEW SERVICES
                   </motion.button>
@@ -1205,7 +1032,6 @@ export default function LandingPage() {
             </div>
           </Sec>
         </>
-      )}
-    </div>
-  );
-}
+      </div>
+    );
+  }

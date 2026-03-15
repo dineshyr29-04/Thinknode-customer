@@ -20,7 +20,14 @@ const LandingPage = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [hoveredService, setHoveredService] = useState(null);
   const [scrolled, setScrolled] = useState(false);
-
+  const navVariants = {
+  rest: { scale: 1, backgroundColor: "rgba(143, 0, 255, 0)" },
+  hover: { 
+    scale: 1.05, 
+    backgroundColor: "rgba(143, 0, 255, 0.1)", // Light Violet tint
+    transition: { duration: 0.2, ease: "easeInOut" }
+  }
+};
   React.useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
@@ -77,6 +84,15 @@ const LandingPage = () => {
       opacity: 1,
       scale: 1,
       transition: { duration: 0.6 },
+    },
+  };
+
+  const navHover = {
+    rest: { opacity: 0, scaleX: 0 },
+    hover: {
+      opacity: 1,
+      scaleX: 1,
+      transition: { duration: 0.25, ease: 'easeOut' },
     },
   };
 
@@ -247,14 +263,37 @@ const LandingPage = () => {
                 <motion.a
                   key={item}
                   href={`#${item.replace(/\s/g, '').toLowerCase()}`}
-                  whileHover={{ textDecoration: 'underline' }}
-                  className={`transition-colors duration-300 font-medium ${
+                  initial="rest"
+                  animate="rest"
+                  whileHover={{
+                    y:-3,
+                    color:"#1211134d",
+                    textShadow: '0 0 8px 10px rgba(143, 0, 255, 0.3)',
+                  }}
+                  whileFocus="hover"
+                  className={`relative px-3 py-2 rounded-full transition-colors duration-300 font-medium ${
                     scrolled
                       ? 'text-[#333333] hover:text-blue-600'
-                      : 'text-white/90 hover:text-white'
+                      : 'text-white/90 hover:text-white hover:bounce'
                   }`}
                 >
-                  {item}
+                  <motion.span
+                    variants={navHover}
+                    className={`absolute inset-0 rounded-full ${
+                      scrolled
+                        ? 'bg-blue-500/10'
+                        : 'bg-white/15'
+                    }`}
+                  />
+                  <span className="relative z-10">{item}</span>
+                  <motion.span
+                    variants={navHover}
+                    className={`absolute left-3 right-3 -bottom-0.5 h-0.5 rounded-full ${
+                      scrolled
+                        ? 'bg-gradient-to-r from-blue-500 to-purple-500'
+                        : 'bg-white/80'
+                    }`}
+                  />
                 </motion.a>
               ))}
             </div>

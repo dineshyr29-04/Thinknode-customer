@@ -261,7 +261,7 @@ const LandingPage = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => navigate('/order')}
+              onClick={() => navigate('/login')}
               className={`hidden md:block px-6 py-2 rounded-lg font-semibold transition-all duration-300 ${
                 scrolled
                   ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:shadow-lg'
@@ -313,7 +313,7 @@ const LandingPage = () => {
                   <motion.button
                     whileTap={{ scale: 0.95 }}
                     onClick={() => {
-                      navigate('/order');
+                      navigate('/login');
                       setMobileMenuOpen(false);
                     }}
                     className="w-full px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold"
@@ -373,7 +373,7 @@ const LandingPage = () => {
               <motion.button
                 whileHover={{ scale: 1.03, boxShadow: '0 18px 40px rgba(0,0,0,0.35)' }}
                 whileTap={{ scale: 0.98 }}
-                onClick={() => navigate('/order')}
+                onClick={() => navigate('/login')}
                 className="px-8 py-3 bg-white/12 backdrop-blur-sm border border-white/25 text-white rounded-xl font-semibold text-lg hover:bg-white/16 transition-all"
               >
                 Enter the Platform
@@ -585,7 +585,7 @@ const LandingPage = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => navigate('/order')}
+              onClick={() => navigate('/login')}
               className="px-8 py-3 border-2 border-slate-300 text-slate-700 rounded-xl font-semibold hover:bg-slate-100 transition-all"
             >
               View All Projects
@@ -742,7 +742,7 @@ const LandingPage = () => {
             viewport={{ once: true }}
             whileHover={{ scale: 1.05, boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)' }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => navigate('/order')}
+            onClick={() => navigate('/login')}
             className="px-10 py-4 bg-white text-blue-600 rounded-xl font-bold text-lg hover:shadow-2xl transition-all"
           >
             Start Your Project

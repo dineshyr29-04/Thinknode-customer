@@ -596,7 +596,7 @@ const LandingPage = () => {
 
       {/* Features Section */}
       <section id="features" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-blue-50 to-purple-50">
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto">
           {/* Section Header */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}

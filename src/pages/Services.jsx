@@ -3,7 +3,7 @@ import { SERVICES } from '../data/services';
 
 export default function Services() {
   return (
-    <div className="px-[20px] bg-white min-h-screen">
+    <div className="bg-white min-h-screen">
       {/* Page header */}
       <div className="bg-slate-950 text-white py-16 px-4">
         <div className="mx-auto">
@@ -16,7 +16,7 @@ export default function Services() {
       </div>
 
       {/* Services list */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid gap-6">
           {SERVICES.map((s) => (
             <div key={s.id} className="bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-lg transition-all group">

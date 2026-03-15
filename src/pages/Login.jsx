@@ -44,7 +44,7 @@ export default function Login() {
             <img 
               src="/logo.jpeg" 
               alt="ThinkNode" 
-              className="w-20 h-20 mx-auto transform group-hover:scale-110 transition-transform duration-300"
+              className="w-20 h-20 mx-auto transform group-hover:scale-110 transition-transform duration-300 rounded-2xl shadow-lg shadow-cyan-500/30"
             />
           </Link>
           <h1 className="text-white text-4xl font-black mb-2">ThinkNode</h1>

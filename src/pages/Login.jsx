@@ -96,7 +96,7 @@ export default function Login() {
                   <input type="checkbox" className="w-4 h-4 accent-cyan-400 rounded" />
                   <span className="text-white/70 group-hover:text-white/90 transition-colors">Remember me</span>
                 </label>
-                <a href="#" className="text-cyan-400 hover:text-cyan-300 transition-colors font-medium">Forgot?</a>
+                <a href="#" className="text-cyan-400 hover:text-cyan-300 transition-colors font-medium">Forgot Password ?</a>
               </div>
 
               {/* Submit Button - Smooth Glassy */}

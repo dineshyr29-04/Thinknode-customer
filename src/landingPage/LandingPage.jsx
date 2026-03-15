@@ -294,17 +294,18 @@ const LandingPage = () => {
 
       {/* Hero Section */}
       <section className="relative min-h-screen pt-20 flex items-center justify-center overflow-hidden">
-        {/* Background image (public/image.png) with subtle motion */}
-        <motion.div
-          className="absolute inset-0 bg-center bg-cover -z-20"
-          style={{ backgroundImage: 'url(/image.png)' }}
+        {/* Background image (public/image.png) */}
+        <motion.img
+          src="/image.png"
+          alt="hero background"
+          className="absolute inset-0 w-full h-full object-cover -z-20"
           animate={{ scale: [1, 1.02, 1] }}
           transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
         />
 
         {/* Soft overlay gradients + particles */}
         <div className="absolute inset-0 -z-10">
-          <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-transparent to-black/20" />
+          <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-black/20 to-black/30" />
           {[...Array(4)].map((_, i) => (
             <motion.div
               key={i}

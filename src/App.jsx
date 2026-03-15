@@ -30,8 +30,8 @@ export default function App() {
               path="/home"
               element={
                 <RequireAuth>
-                  <div className="full-bleed parallax-surface min-h-screen flex flex-col bg-gray-50">
-                    <Navbar />
+                  <Navbar />
+                  <div className="ml-20 full-bleed parallax-surface min-h-screen flex flex-col bg-gray-50">
                     <main className="flex-1">
                       <Routes>
                         <Route path="/" element={<Home />} />
@@ -51,8 +51,8 @@ export default function App() {
               path="/services/*"
               element={
                 <RequireAuth>
-                  <div className="full-bleed parallax-surface min-h-screen flex flex-col bg-gray-50">
-                    <Navbar />
+                  <Navbar />
+                  <div className="ml-18 full-bleed parallax-surface min-h-screen flex flex-col bg-gray-50">
                     <main className="flex-1">
                       <Routes>
                         <Route path="/" element={<Services />} />
@@ -68,8 +68,8 @@ export default function App() {
               path="/order"
               element={
                 <RequireAuth>
-                  <div className="full-bleed parallax-surface min-h-screen flex flex-col bg-gray-50">
-                    <Navbar />
+                  <Navbar />
+                  <div className="ml-20 full-bleed parallax-surface min-h-screen flex flex-col bg-gray-50">
                     <main className="flex-1">
                       <Order />
                     </main>
@@ -82,8 +82,8 @@ export default function App() {
               path="/orders"
               element={
                 <RequireAuth>
-                  <div className="full-bleed parallax-surface min-h-screen flex flex-col bg-gray-50">
-                    <Navbar />
+                  <Navbar />
+                  <div className="ml-20 full-bleed parallax-surface min-h-screen flex flex-col bg-gray-50">
                     <main className="flex-1">
                       <Orders />
                     </main>
@@ -96,8 +96,8 @@ export default function App() {
               path="/contact"
               element={
                 <RequireAuth>
-                  <div className="full-bleed parallax-surface min-h-screen flex flex-col bg-gray-50">
-                    <Navbar />
+                  <Navbar />
+                  <div className="ml-20 full-bleed parallax-surface min-h-screen flex flex-col bg-gray-50">
                     <main className="flex-1">
                       <Contact />
                     </main>

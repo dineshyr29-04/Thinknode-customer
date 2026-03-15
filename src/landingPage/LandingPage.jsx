@@ -364,24 +364,29 @@ function Navbar({ entered }) {
           <motion.button
             whileHover={{ scale: 1.06 }}
             whileTap={{ scale: 0.96 }}
+            onClick={() => { window.location.href = '/login'; }}
             style={{
               ...F.sub,
               fontSize: 11,
               letterSpacing: "0.25em",
               padding: "10px 24px",
               color: "#00d4ff",
-              background: "transparent",
-              border: "1px solid #00d4ff",
+              background: "rgba(0, 212, 255, 0.1)",
+              border: "1px solid rgba(0, 212, 255, 0.4)",
+              backdropFilter: "blur(8px)",
               cursor: "pointer",
-              clipPath: "polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%)",
+              borderRadius: "14px",
+              transition: "all 0.3s ease",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = "#00d4ff";
-              e.currentTarget.style.color = "#000";
+              e.currentTarget.style.background = "rgba(0, 212, 255, 0.2)";
+              e.currentTarget.style.borderColor = "rgba(0, 212, 255, 0.8)";
+              e.currentTarget.style.boxShadow = "0 0 20px rgba(0, 212, 255, 0.3)";
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = "transparent";
-              e.currentTarget.style.color = "#00d4ff";
+              e.currentTarget.style.background = "rgba(0, 212, 255, 0.1)";
+              e.currentTarget.style.borderColor = "rgba(0, 212, 255, 0.4)";
+              e.currentTarget.style.boxShadow = "none";
             }}
           >
             GET STARTED
@@ -468,6 +473,7 @@ const TESTIMONIALS = [
 
 /* main */
 export default function LandingPage() {
+  const navigate = useNavigate();
   const [entered, setEntered] = useState(false);
   const [tIdx, setTIdx] = useState(0);
   const { scrollY } = useScroll();
@@ -603,17 +609,17 @@ export default function LandingPage() {
               >
                 <motion.button
                   style={BTN.blue}
-                  whileHover={{ scale: 1.07, boxShadow: "0 0 44px rgba(0,200,255,0.4)" }}
+                  whileHover={{ scale: 1.07, boxShadow: "0 0 44px rgba(0,212,255,0.5)" }}
                   whileTap={{ scale: 0.97 }}
-                  onClick={() => setEntered(true)}
+                  onClick={() => navigate('/login')}
                 >
                   ENTER PLATFORM
                 </motion.button>
                 <motion.button
                   style={BTN.ghost}
-                  whileHover={{ scale: 1.05, borderColor: "#00d4ff", color: "#00d4ff" }}
+                  whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(255,255,255,0.2)" }}
                   whileTap={{ scale: 0.97 }}
-                  onClick={() => setEntered(true)}
+                  onClick={() => navigate('/login')}
                 >
                   VIEW SERVICES
                 </motion.button>
@@ -700,15 +706,17 @@ export default function LandingPage() {
                 <div style={{ display: "flex", gap: 16, justifyContent: "center" }}>
                   <motion.button
                     style={BTN.blue}
-                    whileHover={{ scale: 1.07, boxShadow: "0 0 44px rgba(0,200,255,0.4)" }}
+                    whileHover={{ scale: 1.07, boxShadow: "0 0 44px rgba(0,212,255,0.5)" }}
                     whileTap={{ scale: 0.97 }}
+                    onClick={() => navigate('/login')}
                   >
                     START PROJECT
                   </motion.button>
                   <motion.button
                     style={BTN.ghost}
-                    whileHover={{ scale: 1.05, borderColor: "#00d4ff", color: "#00d4ff" }}
+                    whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(255,255,255,0.2)" }}
                     whileTap={{ scale: 0.97 }}
+                    onClick={() => navigate('/login')}
                   >
                     VIEW SERVICES
                   </motion.button>
@@ -1125,8 +1133,9 @@ export default function LandingPage() {
                 </p>
                 <motion.button
                   style={{ ...BTN.blue, fontSize: 14, padding: "18px 60px", position: "relative", overflow: "hidden" }}
-                  whileHover={{ scale: 1.07, boxShadow: "0 0 64px rgba(0,200,255,0.45)" }}
+                  whileHover={{ scale: 1.07, boxShadow: "0 0 64px rgba(0,212,255,0.5)" }}
                   whileTap={{ scale: 0.97 }}
+                  onClick={() => navigate('/login')}
                 >
                   START YOUR PROJECT ->
                   <motion.div

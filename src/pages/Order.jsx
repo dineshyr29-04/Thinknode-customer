@@ -10,7 +10,7 @@ export default function Order() {
   const service = defaultService ? getServiceById(defaultService) : null;
 
   return (
-    <div className="pt-16 bg-gray-50 min-h-screen">
+    <div className="bg-gray-50 min-h-screen">
       {/* Header */}
       <div className="bg-slate-950 text-white py-10 px-4 border-b border-slate-800">
         <div className="max-w-5xl mx-auto">

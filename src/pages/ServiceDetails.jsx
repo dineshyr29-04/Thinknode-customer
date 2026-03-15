@@ -8,7 +8,7 @@ export default function ServiceDetails() {
 
   if (!service) {
     return (
-      <div className="pt-32 text-center px-4">
+      <div className="text-center px-4">
         <p className="text-6xl mb-4">🔍</p>
         <h2 className="text-2xl font-black text-slate-800 mb-2">Service not found</h2>
         <p className="text-slate-500 mb-6">The service you are looking for does not exist.</p>

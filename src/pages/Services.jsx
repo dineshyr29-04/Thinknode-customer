@@ -3,10 +3,10 @@ import { SERVICES } from '../data/services';
 
 export default function Services() {
   return (
-    <div className="pt-16 px-[20px] bg-white min-h-screen">
+    <div className="px-[20px] bg-white min-h-screen">
       {/* Page header */}
       <div className="bg-slate-950 text-white py-16 px-4">
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto">
           <p className="text-indigo-400 text-xs font-bold uppercase tracking-widest mb-3">Catalog</p>
           <h1 className="text-4xl font-black mb-3">Services</h1>
           <p className="text-slate-400 text-base max-w-xl">

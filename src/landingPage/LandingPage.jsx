@@ -648,7 +648,7 @@ const LandingPage = () => {
 
       {/* Testimonials Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto">
           {/* Section Header */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -713,7 +713,7 @@ const LandingPage = () => {
           <div className="absolute inset-0 bg-gradient-to-r from-blue-600/50 to-purple-600/50" />
         </motion.div>
 
-        <div className="max-w-4xl mx-auto text-center relative z-10">
+        <div className="mx-auto text-center relative z-10">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -753,7 +753,7 @@ const LandingPage = () => {
 
       {/* Footer */}
       <footer className="bg-slate-900 text-white py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             {/* Brand */}
             <div>

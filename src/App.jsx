@@ -1,8 +1,10 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { OrderProvider } from './context/OrderContext';
 import { AuthProvider } from './context/AuthContext';
+import { NavbarProvider } from './context/NavbarContext';
 import RequireAuth from './components/RequireAuth';
 import Navbar from './components/Navbar';
+import MainContent from './components/MainContent';
 import Footer from './components/Footer';
 import LandingPage from './landingPage/LandingPage';
 import Login from './pages/Login';
@@ -17,7 +19,8 @@ export default function App() {
   return (
     <AuthProvider>
       <OrderProvider>
-        <BrowserRouter>
+        <NavbarProvider>
+          <BrowserRouter>
           <Routes>
             {/* Landing Page - First route (public) */}
             <Route path="/" element={<LandingPage />} />
@@ -31,7 +34,7 @@ export default function App() {
               element={
                 <RequireAuth>
                   <Navbar />
-                  <div className="lg:ml-20 mt-16 lg:mt-0 full-bleed parallax-surface min-h-screen flex flex-col bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900">
+                  <MainContent>
                     <main className="flex-1">
                       <Routes>
                         <Route path="/" element={<Home />} />
@@ -43,7 +46,7 @@ export default function App() {
                       </Routes>
                     </main>
                     <Footer />
-                  </div>
+                  </MainContent>
                 </RequireAuth>
               }
             />
@@ -52,7 +55,7 @@ export default function App() {
               element={
                 <RequireAuth>
                   <Navbar />
-                  <div className="lg:ml-15 mt-16 lg:mt-0 full-bleed parallax-surface min-h-screen flex flex-col bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900">
+                  <MainContent>
                     <main className="flex-1">
                       <Routes>
                         <Route path="/" element={<Services />} />
@@ -60,7 +63,7 @@ export default function App() {
                       </Routes>
                     </main>
                     <Footer />
-                  </div>
+                  </MainContent>
                 </RequireAuth>
               }
             />
@@ -69,12 +72,12 @@ export default function App() {
               element={
                 <RequireAuth>
                   <Navbar />
-                  <div className="lg:ml-20 mt-16 lg:mt-0 full-bleed parallax-surface min-h-screen flex flex-col bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900">
+                  <MainContent>
                     <main className="flex-1">
                       <Order />
                     </main>
                     <Footer />
-                  </div>
+                  </MainContent>
                 </RequireAuth>
               }
             />
@@ -83,12 +86,12 @@ export default function App() {
               element={
                 <RequireAuth>
                   <Navbar />
-                  <div className="lg:ml-20 mt-16 lg:mt-0 full-bleed parallax-surface min-h-screen flex flex-col bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900">
+                  <MainContent>
                     <main className="flex-1">
                       <Orders />
                     </main>
                     <Footer />
-                  </div>
+                  </MainContent>
                 </RequireAuth>
               }
             />
@@ -97,17 +100,18 @@ export default function App() {
               element={
                 <RequireAuth>
                   <Navbar />
-                  <div className="lg:ml-20 mt-16 lg:mt-0 full-bleed parallax-surface min-h-screen flex flex-col bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900">
+                  <MainContent>
                     <main className="flex-1">
                       <Contact />
                     </main>
                     <Footer />
-                  </div>
+                  </MainContent>
                 </RequireAuth>
               }
             />
           </Routes>
         </BrowserRouter>
+        </NavbarProvider>
       </OrderProvider>
     </AuthProvider>
   );

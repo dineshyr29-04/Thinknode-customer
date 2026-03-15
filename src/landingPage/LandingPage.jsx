@@ -225,7 +225,7 @@ const LandingPage = () => {
   ];
 
   return (
-    <div className="parallax-surface bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 min-h-screen overflow-hidden">
+    <div className="parallax-surface futuristic-surface min-h-screen overflow-hidden">
       {/* Navbar */}
       <motion.nav
         initial={{ opacity: 0, y: -20 }}
@@ -370,16 +370,9 @@ const LandingPage = () => {
 
       {/* Hero Section */}
       <section 
-        className="relative min-h-screen pt-20 flex items-center justify-center overflow-hidden"
-        style={{
-          backgroundImage: 'url(/image.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed',
-        }}
+        className="hero-shell relative min-h-screen pt-20 flex items-center justify-center overflow-hidden"
       >
-        {/* Subtle overlay for glassmorphism text */}
-        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-black/20 via-black/10 to-black/20" />
+        <div className="section-orbs" aria-hidden="true" />
 
         {/* Hero Content (glassmorphism) */}
         <motion.div
@@ -440,7 +433,8 @@ const LandingPage = () => {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="section-shell section-services py-20 px-4 sm:px-6 lg:px-8 relative">
+      <section id="services" className="section-shell py-20 px-4 sm:px-6 lg:px-8 relative">
+        <div className="section-orbs" aria-hidden="true" />
         <div className="mx-auto">
           {/* Section Header */}
           <motion.div
@@ -507,7 +501,8 @@ const LandingPage = () => {
       </section>
 
       {/* How It Works Section */}
-      <section id="howitworks" className="section-shell section-how py-20 px-4 sm:px-6 lg:px-8">
+      <section id="howitworks" className="section-shell py-20 px-4 sm:px-6 lg:px-8">
+        <div className="section-orbs" aria-hidden="true" />
         <div className="mx-auto">
           {/* Section Header */}
           <motion.div
@@ -559,7 +554,8 @@ const LandingPage = () => {
       </section>
 
       {/* Portfolio Section */}
-      <section id="portfolio" className="section-shell section-portfolio py-20 px-4 sm:px-6 lg:px-8">
+      <section id="portfolio" className="section-shell py-20 px-4 sm:px-6 lg:px-8">
+        <div className="section-orbs" aria-hidden="true" />
         <div className="mx-auto">
           {/* Section Header */}
           <motion.div
@@ -636,7 +632,8 @@ const LandingPage = () => {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="section-shell section-features py-20 px-4 sm:px-6 lg:px-8">
+      <section id="features" className="section-shell py-20 px-4 sm:px-6 lg:px-8">
+        <div className="section-orbs" aria-hidden="true" />
         <div className="mx-auto">
           {/* Section Header */}
           <motion.div
@@ -688,7 +685,8 @@ const LandingPage = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section className="section-shell section-testimonials py-20 px-4 sm:px-6 lg:px-8">
+      <section className="section-shell py-20 px-4 sm:px-6 lg:px-8">
+        <div className="section-orbs" aria-hidden="true" />
         <div className="mx-auto">
           {/* Section Header */}
           <motion.div
@@ -742,7 +740,8 @@ const LandingPage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="section-shell section-cta py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      <section className="section-shell py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        <div className="section-orbs" aria-hidden="true" />
         {/* Animated Background */}
         <motion.div
           animate={{

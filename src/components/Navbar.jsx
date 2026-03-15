@@ -13,16 +13,16 @@ export default function Navbar() {
   const navigate = useNavigate();
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 shadow-sm">
+    <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-white/10 border-b border-white/20 shadow-lg before:absolute before:inset-0 before:bg-gradient-to-b before:from-white/10 before:to-transparent before:pointer-events-none">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-16 relative z-10">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-cyan-500 flex items-center justify-center">
+          <Link to="/" className="flex items-center gap-2 group">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-400 to-indigo-500 flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-cyan-500/30">
               <span className="text-white font-black text-sm">TN</span>
             </div>
-            <span className="font-bold text-slate-800 text-lg tracking-tight">ThinkNode</span>
-            <span className="hidden sm:inline text-indigo-600 font-semibold text-xs bg-indigo-50 px-2 py-0.5 rounded-full border border-indigo-100">
+            <span className="font-black text-white text-lg tracking-tight">ThinkNode</span>
+            <span className="hidden sm:inline text-cyan-300 font-semibold text-xs bg-white/10 backdrop-blur-md px-2.5 py-1 rounded-full border border-cyan-400/40 hover:border-cyan-400/60 transition-colors">
               Portal
             </span>
           </Link>
@@ -35,10 +35,10 @@ export default function Navbar() {
                 to={link.path}
                 end={link.path === '/'}
                 className={({ isActive }) =>
-                  `px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  `px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
                     isActive
-                      ? 'text-indigo-600 bg-indigo-50'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-gray-100'
+                      ? 'text-cyan-300 bg-white/15 backdrop-blur-md border border-cyan-400/50'
+                      : 'text-white/80 hover:text-white hover:bg-white/10 hover:backdrop-blur-md'
                   }`
                 }
               >
@@ -51,13 +51,14 @@ export default function Navbar() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => navigate('/order')}
-              className="hidden md:inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-600 to-indigo-500 text-white text-sm font-semibold rounded-xl hover:from-indigo-700 hover:to-indigo-600 transition-all shadow-md hover:shadow-indigo-200 shadow-indigo-100"
+              className="hidden md:inline-flex items-center gap-2 px-4 py-2 relative group backdrop-blur-md bg-gradient-to-r from-cyan-500/30 to-indigo-500/30 text-white text-sm font-semibold rounded-xl border border-white/40 hover:border-white/70 transition-all duration-300 overflow-hidden"
             >
-              Start a Project
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/20 to-indigo-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl"></div>
+              <span className="relative">Start a Project</span>
             </button>
             <button
               onClick={() => setOpen(!open)}
-              className="md:hidden p-2 rounded-lg text-slate-600 hover:bg-gray-100 transition-colors"
+              className="md:hidden p-2 rounded-lg text-white/80 hover:text-white hover:bg-white/15 backdrop-blur-md transition-all duration-300"
               aria-label="Toggle menu"
             >
               {open ? (
@@ -75,7 +76,7 @@ export default function Navbar() {
 
         {/* Mobile menu */}
         {open && (
-          <div className="md:hidden pb-4 pt-2 border-t border-gray-100 space-y-1">
+          <div className="md:hidden pb-4 pt-2 border-t border-white/20 space-y-2 bg-white/5 -mx-4 -mr-4 px-4 backdrop-blur-md">
             {NAV_LINKS.map((link) => (
               <NavLink
                 key={link.path}
@@ -83,8 +84,10 @@ export default function Navbar() {
                 end={link.path === '/'}
                 onClick={() => setOpen(false)}
                 className={({ isActive }) =>
-                  `block px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-                    isActive ? 'text-indigo-600 bg-indigo-50' : 'text-slate-600 hover:bg-gray-50'
+                  `block px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${
+                    isActive
+                      ? 'text-cyan-300 bg-white/15 border border-cyan-400/50'
+                      : 'text-white/80 hover:text-white hover:bg-white/10'
                   }`
                 }
               >
@@ -93,9 +96,10 @@ export default function Navbar() {
             ))}
             <button
               onClick={() => { navigate('/order'); setOpen(false); }}
-              className="w-full mt-2 px-4 py-3 bg-gradient-to-r from-indigo-600 to-indigo-500 text-white text-sm font-semibold rounded-xl"
+              className="w-full mt-3 px-4 py-3 relative group backdrop-blur-md bg-gradient-to-r from-cyan-500/30 to-indigo-500/30 text-white text-sm font-semibold rounded-xl border border-white/40 hover:border-white/70 transition-all duration-300 overflow-hidden"
             >
-              Start a Project
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/20 to-indigo-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl"></div>
+              <span className="relative">Start a Project</span>
             </button>
           </div>
         )}

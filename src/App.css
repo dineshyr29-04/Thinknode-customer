@@ -95,6 +95,90 @@ html {
   box-shadow: 0 20px 50px rgba(15, 23, 42, 0.3);
 }
 
+/* Glassy Button Styles */
+.glass-btn {
+  position: relative;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.glass-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+  border-radius: 12px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.glass-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px rgba(0, 212, 255, 0.2);
+}
+
+.glass-btn:hover::before {
+  opacity: 1;
+}
+
+.glass-btn-primary {
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.25), rgba(168, 85, 247, 0.25));
+  border: 1px solid rgba(0, 212, 255, 0.5);
+  color: #fff;
+}
+
+.glass-btn-primary:hover {
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.35), rgba(168, 85, 247, 0.35));
+  border-color: rgba(0, 212, 255, 0.8);
+  box-shadow: 0 10px 40px rgba(0, 212, 255, 0.3);
+}
+
+.glass-btn-secondary {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.glass-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #fff;
+}
+
+/* Glassy Input */
+.glass-input {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  color: #fff;
+  padding: 10px 16px;
+  transition: all 0.3s ease;
+}
+
+.glass-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.glass-input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(0, 212, 255, 0.8);
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+}
+
+.glass-input:hover:not(:focus) {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
 .section-orbs {
   position: absolute;
   inset: 0;

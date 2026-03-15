@@ -268,18 +268,19 @@ export default function OrderForm({ defaultService = '' }) {
         <button
           type="submit"
           disabled={loading}
-          className="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-indigo-600 to-indigo-500 text-white font-bold text-base rounded-2xl hover:from-indigo-700 hover:to-indigo-600 transition-all shadow-lg hover:shadow-indigo-200 shadow-indigo-100 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          className="w-full sm:w-auto px-10 py-4 relative group backdrop-blur-md bg-gradient-to-r from-cyan-500/30 to-indigo-500/30 text-white font-bold text-base rounded-2xl border border-white/40 hover:border-white/70 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 overflow-hidden"
         >
+          <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/20 to-indigo-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
           {loading ? (
             <>
-              <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+              <svg className="animate-spin w-4 h-4 relative z-10" fill="none" viewBox="0 0 24 24">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
               </svg>
-              Submitting…
+              <span className="relative z-10">Submitting…</span>
             </>
           ) : (
-            'Submit Order →'
+            <span className="relative z-10">Submit Order →</span>
           )}
         </button>
         <p className="text-slate-400 text-xs">🔒 Your information is secure and private.</p>

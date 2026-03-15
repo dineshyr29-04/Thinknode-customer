@@ -345,7 +345,7 @@ const LandingPage = () => {
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="relative z-10 mx-auto px-4 sm:px-6 lg:px-8 text-center"
+          className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
         >
           <div className="mx-auto bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-8 sm:p-12 shadow-xl">
             {/* Logo */}
@@ -400,7 +400,7 @@ const LandingPage = () => {
 
       {/* Services Section */}
       <section id="services" className="py-20 px-4 sm:px-6 lg:px-8 relative">
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto">
           {/* Section Header */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -467,7 +467,7 @@ const LandingPage = () => {
 
       {/* How It Works Section */}
       <section id="howitworks" className="py-20 px-4 sm:px-6 lg:px-8 bg-white/50">
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto">
           {/* Section Header */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -519,7 +519,7 @@ const LandingPage = () => {
 
       {/* Portfolio Section */}
       <section id="portfolio" className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto">
           {/* Section Header */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}

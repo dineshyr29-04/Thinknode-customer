@@ -19,6 +19,15 @@ const LandingPage = () => {
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [hoveredService, setHoveredService] = useState(null);
+  const [scrolled, setScrolled] = useState(false);
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Animation variants
   const containerVariants = {
@@ -206,7 +215,11 @@ const LandingPage = () => {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200"
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          scrolled 
+            ? 'bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-lg' 
+            : 'bg-transparent border-b border-transparent'
+        }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
@@ -217,7 +230,11 @@ const LandingPage = () => {
               onClick={() => window.scrollTo(0, 0)}
             >
               <img src="/logo.jpeg" alt="ThinkNode" className="h-10 w-10 rounded-lg" />
-              <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <span className={`text-xl font-bold transition-colors duration-300 ${
+                scrolled
+                  ? 'bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent'
+                  : 'text-white drop-shadow-lg'
+              }`}>
                 THINKNODE
               </span>
             </motion.div>
@@ -229,7 +246,11 @@ const LandingPage = () => {
                   key={item}
                   href={`#${item.replace(/\s/g, '').toLowerCase()}`}
                   whileHover={{ textDecoration: 'underline' }}
-                  className="text-slate-700 hover:text-blue-600 transition-colors font-medium"
+                  className={`transition-colors duration-300 font-medium ${
+                    scrolled
+                      ? 'text-slate-700 hover:text-blue-600'
+                      : 'text-white/90 hover:text-white'
+                  }`}
                 >
                   {item}
                 </motion.a>
@@ -241,7 +262,11 @@ const LandingPage = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => navigate('/order')}
-              className="hidden md:block px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold hover:shadow-lg transition-shadow"
+              className={`hidden md:block px-6 py-2 rounded-lg font-semibold transition-all duration-300 ${
+                scrolled
+                  ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:shadow-lg'
+                  : 'bg-white/10 backdrop-blur-sm border border-white/30 text-white hover:bg-white/20'
+              }`}
             >
               Get Started
             </motion.button>
@@ -249,7 +274,9 @@ const LandingPage = () => {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden text-slate-700"
+              className={`md:hidden transition-colors duration-300 ${
+                scrolled ? 'text-slate-700' : 'text-white'
+              }`}
             >
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -262,14 +289,22 @@ const LandingPage = () => {
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
-                className="md:hidden border-t border-slate-200 bg-white"
+                className={`md:hidden border-t transition-colors duration-300 ${
+                  scrolled 
+                    ? 'bg-white border-slate-200' 
+                    : 'bg-white/10 backdrop-blur-md border-white/20'
+                }`}
               >
                 <div className="px-4 py-4 space-y-4">
                   {['Services', 'How It Works', 'Portfolio', 'Features'].map((item) => (
                     <a
                       key={item}
                       href={`#${item.replace(/\s/g, '').toLowerCase()}`}
-                      className="block text-slate-700 hover:text-blue-600 font-medium"
+                      className={`block font-medium transition-colors duration-300 ${
+                        scrolled
+                          ? 'text-slate-700 hover:text-blue-600'
+                          : 'text-white/90 hover:text-white'
+                      }`}
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       {item}
@@ -374,8 +409,8 @@ const LandingPage = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-4">Our Services</h2>
-            <p className="text-xl text-slate-600">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-4">Our Services</h2>
+            <p className="text-lg sm:text-xl text-slate-600">
               Comprehensive solutions tailored to your business needs
             </p>
           </motion.div>
@@ -386,7 +421,7 @@ const LandingPage = () => {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6"
           >
             {services.map((service, index) => {
               const Icon = service.icon;
@@ -401,7 +436,7 @@ const LandingPage = () => {
                   className="group relative"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-400 rounded-2xl opacity-0 group-hover:opacity-100 blur-xl transition-all duration-300" />
-                  <div className="relative bg-white rounded-2xl p-8 hover:shadow-2xl transition-all duration-300">
+                  <div className="relative bg-white rounded-2xl p-6 sm:p-8 hover:shadow-2xl transition-all duration-300">
                     {/* Icon */}
                     <div className={`inline-flex items-center justify-center w-16 h-16 rounded-xl bg-gradient-to-r ${service.color} mb-6 text-white`}>
                       <Icon size={32} />
@@ -439,16 +474,16 @@ const LandingPage = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-12 sm:mb-16"
           >
-            <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-4">How It Works</h2>
-            <p className="text-xl text-slate-600">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-4">How It Works</h2>
+            <p className="text-lg sm:text-xl text-slate-600">
               Simple, streamlined process for your project success
             </p>
           </motion.div>
 
           {/* Steps */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 relative">
             {/* Connection Line */}
             <div className="hidden md:block absolute top-24 left-0 right-0 h-1 bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400" />
 
@@ -491,17 +526,17 @@ const LandingPage = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-12 sm:mb-16"
           >
-            <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-4">Our Portfolio</h2>
-            <p className="text-xl text-slate-600">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-4">Our Portfolio</h2>
+            <p className="text-lg sm:text-xl text-slate-600">
               Showcase of our latest projects and successful deliverables
             </p>
           </motion.div>
 
           {/* Portfolio Grid */}
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
@@ -568,17 +603,17 @@ const LandingPage = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-12 sm:mb-16"
           >
-            <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-4">Why Choose Us</h2>
-            <p className="text-xl text-slate-600">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-4">Why Choose Us</h2>
+            <p className="text-lg sm:text-xl text-slate-600">
               Key features that set us apart from the competition
             </p>
           </motion.div>
 
           {/* Features Grid */}
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
@@ -620,17 +655,17 @@ const LandingPage = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-12 sm:mb-16"
           >
-            <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-4">Client Testimonials</h2>
-            <p className="text-xl text-slate-600">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-4">Client Testimonials</h2>
+            <p className="text-lg sm:text-xl text-slate-600">
               What our happy clients are saying about us
             </p>
           </motion.div>
 
           {/* Testimonials Carousel */}
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
@@ -684,7 +719,7 @@ const LandingPage = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6"
+            className="text-3xl sm:text-4xl lg:text-6xl font-bold text-white mb-6"
           >
             Ready to Start Your Project?
           </motion.h2>
@@ -694,7 +729,7 @@ const LandingPage = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-xl text-blue-100 mb-8 leading-relaxed"
+            className="text-lg sm:text-xl text-blue-100 mb-8 leading-relaxed"
           >
             Let's transform your ideas into reality. Get in touch with us today
             and discover what's possible.

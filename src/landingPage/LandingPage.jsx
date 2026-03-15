@@ -293,33 +293,17 @@ const LandingPage = () => {
       </motion.nav>
 
       {/* Hero Section */}
-      <section className="relative min-h-screen pt-20 flex items-center justify-center overflow-hidden">
-        {/* Background image (public/image.png) */}
-        <motion.img
-          src="/image.png"
-          alt="hero background"
-          className="absolute inset-0 w-full h-full object-cover -z-20"
-          animate={{ scale: [1, 1.02, 1] }}
-          transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
-        />
-
-        {/* Soft overlay gradients + particles */}
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-black/20 to-black/30" />
-          {[...Array(4)].map((_, i) => (
-            <motion.div
-              key={i}
-              animate={{ y: [0, -30 + i * 10, 0], opacity: [0.25, 0.6, 0.25] }}
-              transition={{ duration: 10 + i * 3, repeat: Infinity, ease: 'easeInOut' }}
-              className="absolute w-72 h-72 rounded-full blur-2xl"
-              style={{
-                left: `${10 + i * 20}%`,
-                top: `${15 + i * 18}%`,
-                background: i % 2 === 0 ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)',
-              }}
-            />
-          ))}
-        </div>
+      <section 
+        className="relative min-h-screen pt-20 flex items-center justify-center overflow-hidden"
+        style={{
+          backgroundImage: 'url(/image.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed',
+        }}
+      >
+        {/* Subtle overlay for glassmorphism text */}
+        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-black/20 via-black/10 to-black/20" />
 
         {/* Hero Content (glassmorphism) */}
         <motion.div

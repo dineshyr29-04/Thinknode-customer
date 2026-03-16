@@ -7,7 +7,7 @@ import Navbar from './components/Navbar';
 import MainContent from './components/MainContent';
 import Footer from './components/Footer';
 import LandingPage from './landingPage/LandingPage';
-import Login from './pages/Login';
+import CustomerLogin from './pages/CustomerLogin';
 import Home from './pages/Home';
 import Services from './pages/Services';
 import ServiceDetails from './pages/ServiceDetails';
@@ -26,7 +26,7 @@ export default function App() {
             <Route path="/" element={<LandingPage />} />
 
             {/* Login Page (public) */}
-            <Route path="/login" element={<Login />} />
+            <Route path="/login" element={<CustomerLogin />} />
 
             {/* Protected Dashboard Routes */}
             <Route

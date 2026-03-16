@@ -1,14 +1,34 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 export default function CustomerLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const DUMMY_EMAIL = 'demo@thinknode.test';
+  const DUMMY_PASS = 'demo';
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Submit logic goes here
+    setError('');
+    // Demo credential shortcut
+    if (email === DUMMY_EMAIL && password === DUMMY_PASS) {
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        navigate('/home');
+      }, 700);
+      return;
+    }
+
+    // Otherwise just log for now
     console.log('Login:', { email, password });
+    setError('Invalid credentials (use demo credentials shown below)');
   };
 
   return (
@@ -59,19 +79,37 @@ export default function CustomerLogin() {
             />
           </label>
 
+          {error && <div className="text-sm text-red-300">{error}</div>}
+
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             type="submit"
-            className="w-full mt-2 py-3 rounded-lg text-white font-semibold bg-gradient-to-r from-purple-500 via-indigo-600 to-blue-500 shadow-lg"
+            disabled={loading}
+            className="w-full mt-2 py-3 rounded-lg text-white font-semibold bg-gradient-to-r from-purple-500 via-indigo-600 to-blue-500 shadow-lg disabled:opacity-60"
           >
-            Sign in
+            {loading ? 'Signing in...' : 'Sign in'}
           </motion.button>
+
+          <button
+            type="button"
+            onClick={() => {
+              setEmail(DUMMY_EMAIL);
+              setPassword(DUMMY_PASS);
+            }}
+            className="w-full mt-2 py-2 rounded-lg text-sm text-white/80 bg-white/5 border border-white/8"
+          >
+            Fill demo credentials
+          </button>
         </form>
 
         <div className="mt-4 text-center text-sm text-white/70">
           Don't have an account?{' '}
           <a href="/signup" className="text-purple-300 hover:underline font-medium">Sign Up</a>
+        </div>
+
+        <div className="mt-3 text-xs text-white/60 text-center">
+          Demo credentials: <span className="font-medium text-white">{DUMMY_EMAIL}</span> / <span className="font-medium text-white">{DUMMY_PASS}</span>
         </div>
       </motion.div>
 

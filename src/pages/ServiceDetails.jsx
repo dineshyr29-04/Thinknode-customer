@@ -18,7 +18,7 @@ export default function ServiceDetails() {
   }
 
   return (
-    <div className="pt-16 bg-white min-h-screen">
+    <div className="bg-white min-h-screen">
       {/* Header */}
       <div className={`bg-gradient-to-br ${service.color}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-0">

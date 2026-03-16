@@ -1,1 +1,38 @@
 @import "tailwindcss";
+
+/* Global modern thin scrollbar */
+/* Firefox */
+* {
+	scrollbar-width: thin;
+	scrollbar-color: rgba(168,85,247,0.7) rgba(2,6,23,0.35);
+}
+
+/* WebKit / Blink */
+::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+	background: linear-gradient(180deg,#a855f7,#06b6d4);
+	border-radius: 9999px;
+	border: 2px solid rgba(2,6,23,0.25);
+}
+
+::-webkit-scrollbar-thumb:hover {
+	filter: brightness(1.05);
+}
+
+/* Corner */
+::-webkit-scrollbar-corner {
+	background: transparent;
+}
+
+/* Ensure scrollbars inside overlays are also subtle */
+.overflow-auto::-webkit-scrollbar,
+.overflow-auto { scrollbar-width: thin; }
+

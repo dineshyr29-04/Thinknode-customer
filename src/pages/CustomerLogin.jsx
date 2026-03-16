@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 export default function CustomerLogin() {
   const [email, setEmail] = useState('');
@@ -105,7 +105,7 @@ export default function CustomerLogin() {
 
         <div className="mt-4 text-center text-sm text-white/70">
           Don't have an account?{' '}
-          <a href="/signup" className="text-purple-300 hover:underline font-medium">Sign Up</a>
+          <Link to="/signup" className="text-purple-300 hover:underline font-medium">Sign Up</Link>
         </div>
 
         <div className="mt-3 text-xs text-white/60 text-center">

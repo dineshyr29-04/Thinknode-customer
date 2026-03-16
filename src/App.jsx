@@ -8,6 +8,7 @@ import MainContent from './components/MainContent';
 import Footer from './components/Footer';
 import LandingPage from './landingPage/LandingPage';
 import CustomerLogin from './pages/CustomerLogin';
+import SignUp from './pages/SignUp';
 import Home from './pages/Home';
 import Services from './pages/Services';
 import ServiceDetails from './pages/ServiceDetails';
@@ -21,96 +22,100 @@ export default function App() {
       <OrderProvider>
         <NavbarProvider>
           <BrowserRouter>
-          <Routes>
-            {/* Landing Page - First route (public) */}
-            <Route path="/" element={<LandingPage />} />
+            <Routes>
+              {/* Public routes */}
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/login" element={<CustomerLogin />} />
+              <Route path="/signup" element={<SignUp />} />
 
-            {/* Login Page (public) */}
-            <Route path="/login" element={<CustomerLogin />} />
+              {/* Protected dashboard area mounted at /home */}
+              <Route
+                path="/home/*"
+                element={
+                  <RequireAuth>
+                    <Navbar />
+                    <MainContent>
+                      <main className="flex-1">
+                        <Routes>
+                          <Route path="/" element={<Home />} />
+                          <Route path="services" element={<Services />} />
+                          <Route path="services/:id" element={<ServiceDetails />} />
+                          <Route path="order" element={<Order />} />
+                          <Route path="orders" element={<Orders />} />
+                          <Route path="contact" element={<Contact />} />
+                        </Routes>
+                      </main>
+                      <Footer />
+                    </MainContent>
+                  </RequireAuth>
+                }
+              />
 
-            {/* Protected Dashboard Routes */}
-            <Route
-              path="/home"
-              element={
-                <RequireAuth>
-                  <Navbar />
-                  <MainContent>
-                    <main className="flex-1">
-                      <Routes>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/services" element={<Services />} />
-                        <Route path="/services/:id" element={<ServiceDetails />} />
-                        <Route path="/order" element={<Order />} />
-                        <Route path="/orders" element={<Orders />} />
-                        <Route path="/contact" element={<Contact />} />
-                      </Routes>
-                    </main>
-                    <Footer />
-                  </MainContent>
-                </RequireAuth>
-              }
-            />
-            <Route
-              path="/services/*"
-              element={
-                <RequireAuth>
-                  <Navbar />
-                  <MainContent>
-                    <main className="flex-1">
-                      <Routes>
-                        <Route path="/" element={<Services />} />
-                        <Route path="/:id" element={<ServiceDetails />} />
-                      </Routes>
-                    </main>
-                    <Footer />
-                  </MainContent>
-                </RequireAuth>
-              }
-            />
-            <Route
-              path="/order"
-              element={
-                <RequireAuth>
-                  <Navbar />
-                  <MainContent>
-                    <main className="flex-1">
-                      <Order />
-                    </main>
-                    <Footer />
-                  </MainContent>
-                </RequireAuth>
-              }
-            />
-            <Route
-              path="/orders"
-              element={
-                <RequireAuth>
-                  <Navbar />
-                  <MainContent>
-                    <main className="flex-1">
-                      <Orders />
-                    </main>
-                    <Footer />
-                  </MainContent>
-                </RequireAuth>
-              }
-            />
-            <Route
-              path="/contact"
-              element={
-                <RequireAuth>
-                  <Navbar />
-                  <MainContent>
-                    <main className="flex-1">
-                      <Contact />
-                    </main>
-                    <Footer />
-                  </MainContent>
-                </RequireAuth>
-              }
-            />
-          </Routes>
-        </BrowserRouter>
+              {/* Alternate protected routes for direct paths (optional) */}
+              <Route
+                path="/services/*"
+                element={
+                  <RequireAuth>
+                    <Navbar />
+                    <MainContent>
+                      <main className="flex-1">
+                        <Routes>
+                          <Route path="/" element={<Services />} />
+                          <Route path=":id" element={<ServiceDetails />} />
+                        </Routes>
+                      </main>
+                      <Footer />
+                    </MainContent>
+                  </RequireAuth>
+                }
+              />
+
+              <Route
+                path="/order"
+                element={
+                  <RequireAuth>
+                    <Navbar />
+                    <MainContent>
+                      <main className="flex-1">
+                        <Order />
+                      </main>
+                      <Footer />
+                    </MainContent>
+                  </RequireAuth>
+                }
+              />
+
+              <Route
+                path="/orders"
+                element={
+                  <RequireAuth>
+                    <Navbar />
+                    <MainContent>
+                      <main className="flex-1">
+                        <Orders />
+                      </main>
+                      <Footer />
+                    </MainContent>
+                  </RequireAuth>
+                }
+              />
+
+              <Route
+                path="/contact"
+                element={
+                  <RequireAuth>
+                    <Navbar />
+                    <MainContent>
+                      <main className="flex-1">
+                        <Contact />
+                      </main>
+                      <Footer />
+                    </MainContent>
+                  </RequireAuth>
+                }
+              />
+            </Routes>
+          </BrowserRouter>
         </NavbarProvider>
       </OrderProvider>
     </AuthProvider>

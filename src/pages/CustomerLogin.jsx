@@ -22,10 +22,9 @@ export default function CustomerLogin() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setError('');
-    // Demo credential shortcut
+    // Check built-in demo credentials
     if (email === DUMMY_EMAIL && password === DUMMY_PASS) {
       setLoading(true);
-      // use AuthContext login so RequireAuth recognizes user
       login(email, password).then(() => {
         setTimeout(() => {
           setLoading(false);
@@ -35,9 +34,21 @@ export default function CustomerLogin() {
       return;
     }
 
-    // Otherwise just log for now
+    // Check against saved custom dummy (if any)
+    if (savedDummy && email === savedDummy.email && password === savedDummy.password) {
+      setLoading(true);
+      login(email, password).then(() => {
+        setTimeout(() => {
+          setLoading(false);
+          navigate('/home');
+        }, 400);
+      });
+      return;
+    }
+
+    // Otherwise fail with guidance
     console.log('Login:', { email, password });
-    setError('Invalid credentials (use demo credentials shown below)');
+    setError('Invalid credentials (use saved dummy or create one below)');
   };
 
   // load saved dummy if present
@@ -180,22 +191,46 @@ export default function CustomerLogin() {
           Demo credentials: <span className="font-medium text-white">{DUMMY_EMAIL}</span> / <span className="font-medium text-white">{DUMMY_PASS}</span>
         </div>
 
-        <div className="mt-2 flex gap-3">
-          <button
-            onClick={saveDummy}
-            className="flex-1 py-2 rounded-lg text-sm text-white bg-purple-600/30 border border-white/10"
-          >
-            Save demo credentials
-          </button>
-          <button
-            onClick={() => {
-              localStorage.removeItem('dummyCredentials');
-              setHasSavedDummy(false);
-            }}
-            className="py-2 px-3 rounded-lg text-sm text-white bg-white/5 border border-white/8"
-          >
-            Clear
-          </button>
+        <div className="mt-4">
+          {!hasSavedDummy || editingDummy ? (
+            <div className="space-y-3">
+              <div className="text-sm text-white/70">Create a persistent dummy credential (saved locally; won't change unless you delete it)</div>
+              <input
+                type="email"
+                placeholder="dummy@you.test"
+                value={dummyEmailInput}
+                onChange={(e) => setDummyEmailInput(e.target.value)}
+                className="w-full py-2 px-3 rounded-lg bg-white/6 border border-white/8 text-white"
+              />
+              <input
+                type="text"
+                placeholder="dummy password"
+                value={dummyPassInput}
+                onChange={(e) => setDummyPassInput(e.target.value)}
+                className="w-full py-2 px-3 rounded-lg bg-white/6 border border-white/8 text-white"
+              />
+              <div className="flex gap-3">
+                <button onClick={saveDummy} className="flex-1 py-2 rounded-lg bg-purple-600 text-white">Save Dummy</button>
+                {hasSavedDummy && (
+                  <button onClick={() => setEditingDummy(false)} className="py-2 px-3 rounded-lg bg-white/5 text-white">Cancel</button>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className="space-y-2">
+              <div className="text-sm text-white/70">Saved dummy:</div>
+              <div className="flex items-center justify-between bg-white/6 p-3 rounded-lg">
+                <div className="text-sm">
+                  <div className="font-medium">{savedDummy?.email}</div>
+                  <div className="text-xs text-white/60">Password: {'•'.repeat(6)}</div>
+                </div>
+                <div className="flex gap-2">
+                  <button onClick={startEditDummy} className="py-2 px-3 rounded-lg bg-white/5 text-white">Replace</button>
+                  <button onClick={deleteSavedDummy} className="py-2 px-3 rounded-lg bg-red-600 text-white">Delete</button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </motion.div>
 

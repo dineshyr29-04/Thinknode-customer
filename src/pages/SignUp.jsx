@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate, Link } from 'react-router-dom';
+import BeautifulSelect from '../components/BeautifulSelect';
 
 export default function SignUp() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
+  const [role, setRole] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -58,6 +60,19 @@ export default function SignUp() {
             placeholder="you@company.com"
             className="w-full py-3 px-4 rounded-lg bg-white/6 border border-white/8 placeholder-white/60 text-white focus:outline-none focus:ring-2 focus:ring-purple-400/40 transition"
           />
+
+          <BeautifulSelect
+            label="Who are you?"
+            value={role}
+            onChange={(v) => setRole(v)}
+            options={[
+              { value: 'student', label: 'Student' },
+              { value: 'developer', label: 'Developer' },
+              { value: 'organization', label: 'Organization' },
+              { value: 'other', label: 'Other' },
+            ]}
+          />
+
           <input
             type="password"
             value={password}

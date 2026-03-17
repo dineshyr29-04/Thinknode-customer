@@ -23,3 +23,31 @@ dist-ssr
 *.sln
 *.sw?
 .env
+
+# Environment variants and local secrets
+.env.local
+.env.*
+.env.*.local
+.envrc
+
+# Sensitive credential files and keys
+credentials.json
+*.pem
+*.key
+*.crt
+*.cer
+*.p12
+*.pfx
+*.jks
+*.keystore
+
+# Cloud provider credentials/config
+.aws/
+.azure/
+.gcloud/
+
+# Coverage and caches
+coverage/
+.nyc_output/
+.cache/
+

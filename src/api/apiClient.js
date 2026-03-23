@@ -26,4 +26,8 @@ export const uploadFiles = (formData) =>
   });
 export const sendContactMessage = (data) => apiClient.post('/api/contact', data);
 
+// Authentication endpoints
+export const registerUser = (data) => apiClient.post('/api/auth/register', data);
+export const loginUser = (credentials) => apiClient.post('/api/auth/login', credentials);
+
 export default apiClient;

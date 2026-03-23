@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate, Link } from 'react-router-dom';
 import BeautifulSelect from '../components/BeautifulSelect';
+import { registerUser } from '../api/apiClient';
 
 export default function SignUp() {
   const [name, setName] = useState('');
@@ -13,7 +14,7 @@ export default function SignUp() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     if (!name || !email || !password || !confirm) {
@@ -25,12 +26,15 @@ export default function SignUp() {
       return;
     }
     setLoading(true);
-    // placeholder: user will add backend logic later
-    setTimeout(() => {
+    try {
+      const payload = { name, email, password, role };
+      await registerUser(payload);
       setLoading(false);
-      // after sign up, redirect to login where they can sign in
       navigate('/login');
-    }, 800);
+    } catch (err) {
+      setError(err?.response?.data?.message || err.message || 'Registration failed');
+      setLoading(false);
+    }
   };
 
   return (

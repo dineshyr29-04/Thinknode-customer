@@ -19,36 +19,48 @@ export default function CustomerLogin() {
   const [dummyEmailInput, setDummyEmailInput] = useState('');
   const [dummyPassInput, setDummyPassInput] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+
     // Check built-in demo credentials
     if (email === DUMMY_EMAIL && password === DUMMY_PASS) {
       setLoading(true);
-      login(email, password).then(() => {
-        setTimeout(() => {
-          setLoading(false);
-          navigate('/home');
-        }, 400);
-      });
+      try {
+        await login(email, password);
+        navigate('/home');
+      } catch (err) {
+        setError(err?.response?.data?.message || err.message || 'Login failed');
+      } finally {
+        setLoading(false);
+      }
       return;
     }
 
     // Check against saved custom dummy (if any)
     if (savedDummy && email === savedDummy.email && password === savedDummy.password) {
       setLoading(true);
-      login(email, password).then(() => {
-        setTimeout(() => {
-          setLoading(false);
-          navigate('/home');
-        }, 400);
-      });
+      try {
+        await login(email, password);
+        navigate('/home');
+      } catch (err) {
+        setError(err?.response?.data?.message || err.message || 'Login failed');
+      } finally {
+        setLoading(false);
+      }
       return;
     }
 
-    // Otherwise fail with guidance
-    console.log('Login:', { email, password });
-    setError('Invalid credentials (use saved dummy or create one below)');
+    // Attempt backend login
+    setLoading(true);
+    try {
+      await login(email, password);
+      navigate('/home');
+    } catch (err) {
+      setError(err?.response?.data?.message || err.message || 'Invalid credentials');
+    } finally {
+      setLoading(false);
+    }
   };
 
   // load saved dummy if present

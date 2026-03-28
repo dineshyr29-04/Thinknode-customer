@@ -11,6 +11,7 @@ export default function CustomerLogin() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [status, setStatus] = useState(null); // 'success' | 'error' | null
   const { login } = useContext(AuthContext);
 
 
@@ -24,11 +25,15 @@ export default function CustomerLogin() {
     setLoading(true);
     try {
       await login(email, password);
-      navigate('/home');
-    } catch (err) {
-      setError(err?.response?.data?.message || err.message || 'Invalid credentials');
-    } finally {
+      setStatus('success');
       setLoading(false);
+      setTimeout(() => navigate('/home'), 800);
+    } catch (err) {
+      const msg = err?.response?.data?.message || err.message || 'Invalid credentials';
+      setError(msg);
+      setStatus('error');
+      setLoading(false);
+      setTimeout(() => setStatus(null), 1600);
     }
   };
 
@@ -116,6 +121,30 @@ export default function CustomerLogin() {
           {/* spacer for layout balance */}
           <div className="h-2" />
         </form>
+
+        {/* status indicator (success / error) */}
+        {status && (
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ duration: 0.28 }}
+              className={`flex items-center gap-3 px-4 py-2 rounded-full ${status === 'success' ? 'bg-green-500/95' : 'bg-red-500/95'} text-white shadow-lg`}
+            >
+              {status === 'success' ? (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                </svg>
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              )}
+              <span className="font-medium text-sm">{status === 'success' ? 'Signed in' : 'Sign in failed'}</span>
+            </motion.div>
+          </div>
+        )}
 
         <div className="mt-4 text-center text-sm text-white/70">
           Don't have an account?{' '}

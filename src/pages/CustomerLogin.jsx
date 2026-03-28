@@ -13,44 +13,12 @@ export default function CustomerLogin() {
   const [error, setError] = useState('');
   const { login } = useContext(AuthContext);
 
-  const DUMMY_EMAIL = 'demo@thinknode.test';
-  const DUMMY_PASS = 'demo';
-  const [savedDummy, setSavedDummy] = useState(null);
-  const [editingDummy, setEditingDummy] = useState(false);
-  const [dummyEmailInput, setDummyEmailInput] = useState('');
-  const [dummyPassInput, setDummyPassInput] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
-    // Check built-in demo credentials
-    if (email === DUMMY_EMAIL && password === DUMMY_PASS) {
-      setLoading(true);
-      try {
-        await login(email, password);
-        navigate('/home');
-      } catch (err) {
-        setError(err?.response?.data?.message || err.message || 'Login failed');
-      } finally {
-        setLoading(false);
-      }
-      return;
-    }
-
-    // Check against saved custom dummy (if any)
-    if (savedDummy && email === savedDummy.email && password === savedDummy.password) {
-      setLoading(true);
-      try {
-        await login(email, password);
-        navigate('/home');
-      } catch (err) {
-        setError(err?.response?.data?.message || err.message || 'Login failed');
-      } finally {
-        setLoading(false);
-      }
-      return;
-    }
+    // Attempt backend login
 
     // Attempt backend login
     setLoading(true);
@@ -64,54 +32,7 @@ export default function CustomerLogin() {
     }
   };
 
-  // load saved dummy if present
-  useEffect(() => {
-    const saved = localStorage.getItem('dummyCredentials');
-    if (saved) {
-      try {
-        const obj = JSON.parse(saved);
-        // remember saved dummy and availability
-        setSavedDummy(obj);
-        setHasSavedDummy(true);
-      } catch (err) {}
-    }
-  }, []);
-
-  const [hasSavedDummy, setHasSavedDummy] = useState(false);
-
-  const saveDummy = () => {
-    const payload = { email: dummyEmailInput || DUMMY_EMAIL, password: dummyPassInput || DUMMY_PASS };
-    localStorage.setItem('dummyCredentials', JSON.stringify(payload));
-    setSavedDummy(payload);
-    setHasSavedDummy(true);
-    setEditingDummy(false);
-  };
-
-  const useSavedDummy = () => {
-    const raw = localStorage.getItem('dummyCredentials');
-    if (!raw) return;
-    try {
-      const obj = JSON.parse(raw);
-      setEmail(obj.email || DUMMY_EMAIL);
-      setPassword(obj.password || DUMMY_PASS);
-    } catch (err) {
-      setEmail(DUMMY_EMAIL);
-      setPassword(DUMMY_PASS);
-    }
-  };
-
-  const deleteSavedDummy = () => {
-    localStorage.removeItem('dummyCredentials');
-    setSavedDummy(null);
-    setHasSavedDummy(false);
-    setEditingDummy(false);
-  };
-
-  const startEditDummy = () => {
-    setDummyEmailInput(savedDummy?.email || DUMMY_EMAIL);
-    setDummyPassInput(savedDummy?.password || DUMMY_PASS);
-    setEditingDummy(true);
-  };
+  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-black text-white relative overflow-hidden">
@@ -192,26 +113,8 @@ export default function CustomerLogin() {
             {loading ? 'Signing in...' : 'Sign in'}
           </motion.button>
 
-          <div className="grid grid-cols-2 gap-3">
-            <button
-              type="button"
-              onClick={() => {
-                setEmail(DUMMY_EMAIL);
-                setPassword(DUMMY_PASS);
-              }}
-              className="w-full mt-2 py-2 rounded-lg text-sm text-white/80 bg-white/5 border border-white/8"
-            >
-              Fill demo
-            </button>
-            <button
-              type="button"
-              onClick={useSavedDummy}
-              className="w-full mt-2 py-2 rounded-lg text-sm text-white/80 bg-white/5 border border-white/8 disabled:opacity-50"
-              disabled={!hasSavedDummy}
-            >
-              Use saved
-            </button>
-          </div>
+          {/* spacer for layout balance */}
+          <div className="h-2" />
         </form>
 
         <div className="mt-4 text-center text-sm text-white/70">
@@ -219,51 +122,7 @@ export default function CustomerLogin() {
           <Link to="/signup" className="text-purple-300 hover:underline font-medium">Sign Up</Link>
         </div>
 
-        <div className="mt-3 text-xs text-white/60 text-center">
-          Demo credentials: <span className="font-medium text-white">{DUMMY_EMAIL}</span> / <span className="font-medium text-white">{DUMMY_PASS}</span>
-        </div>
-
-        <div className="mt-4">
-          {!hasSavedDummy || editingDummy ? (
-            <div className="space-y-3">
-              <div className="text-sm text-white/70">Create a persistent dummy credential (saved locally; won't change unless you delete it)</div>
-              <input
-                type="email"
-                placeholder="dummy@you.test"
-                value={dummyEmailInput}
-                onChange={(e) => setDummyEmailInput(e.target.value)}
-                className="w-full py-2 px-3 rounded-lg bg-white/6 border border-white/8 text-white"
-              />
-              <input
-                type="text"
-                placeholder="dummy password"
-                value={dummyPassInput}
-                onChange={(e) => setDummyPassInput(e.target.value)}
-                className="w-full py-2 px-3 rounded-lg bg-white/6 border border-white/8 text-white"
-              />
-              <div className="flex gap-3">
-                <button onClick={saveDummy} className="flex-1 py-2 rounded-lg bg-purple-600 text-white">Save Dummy</button>
-                {hasSavedDummy && (
-                  <button onClick={() => setEditingDummy(false)} className="py-2 px-3 rounded-lg bg-white/5 text-white">Cancel</button>
-                )}
-              </div>
-            </div>
-          ) : (
-            <div className="space-y-2">
-              <div className="text-sm text-white/70">Saved dummy:</div>
-              <div className="flex items-center justify-between bg-white/6 p-3 rounded-lg">
-                <div className="text-sm">
-                  <div className="font-medium">{savedDummy?.email}</div>
-                  <div className="text-xs text-white/60">Password: {'•'.repeat(6)}</div>
-                </div>
-                <div className="flex gap-2">
-                  <button onClick={startEditDummy} className="py-2 px-3 rounded-lg bg-white/5 text-white">Replace</button>
-                  <button onClick={deleteSavedDummy} className="py-2 px-3 rounded-lg bg-red-600 text-white">Delete</button>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
+        {/* removed demo credential UI */}
       </motion.div>
 
       {/* Local CSS for animations and keyframes */}

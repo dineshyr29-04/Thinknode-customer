@@ -9,6 +9,8 @@ export default function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
   const [role, setRole] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -77,20 +79,63 @@ export default function SignUp() {
             ]}
           />
 
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-            className="w-full py-3 px-4 rounded-lg bg-white/6 border border-white/8 placeholder-white/60 text-white focus:outline-none focus:ring-2 focus:ring-purple-400/40 transition"
-          />
-          <input
-            type="password"
-            value={confirm}
-            onChange={(e) => setConfirm(e.target.value)}
-            placeholder="Confirm password"
-            className="w-full py-3 px-4 rounded-lg bg-white/6 border border-white/8 placeholder-white/60 text-white focus:outline-none focus:ring-2 focus:ring-purple-400/40 transition"
-          />
+          <div className="relative">
+            <input
+              type={showPassword ? 'text' : 'password'}
+              name="password"
+              autoComplete="new-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              className="w-full py-3 pr-12 pl-4 rounded-lg bg-white/6 border border-white/8 placeholder-white/60 text-white focus:outline-none focus:ring-2 focus:ring-purple-400/40 transition"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((s) => !s)}
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-white/80 hover:text-white focus:outline-none"
+            >
+              {showPassword ? (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-5.523 0-10-4.477-10-10a9.96 9.96 0 012.29-6.017M3 3l18 18" />
+                </svg>
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+              )}
+            </button>
+          </div>
+
+          <div className="relative">
+            <input
+              type={showConfirm ? 'text' : 'password'}
+              name="confirm"
+              autoComplete="new-password"
+              value={confirm}
+              onChange={(e) => setConfirm(e.target.value)}
+              placeholder="Confirm password"
+              className="w-full py-3 pr-12 pl-4 rounded-lg bg-white/6 border border-white/8 placeholder-white/60 text-white focus:outline-none focus:ring-2 focus:ring-purple-400/40 transition"
+            />
+            <button
+              type="button"
+              onClick={() => setShowConfirm((s) => !s)}
+              aria-label={showConfirm ? 'Hide confirm password' : 'Show confirm password'}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-white/80 hover:text-white focus:outline-none"
+            >
+              {showConfirm ? (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-5.523 0-10-4.477-10-10a9.96 9.96 0 012.29-6.017M3 3l18 18" />
+                </svg>
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+              )}
+            </button>
+          </div>
 
           <motion.button
             whileHover={{ scale: 1.02 }}

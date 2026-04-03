@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
@@ -122,37 +122,42 @@ export default function CustomerLogin() {
           <div className="h-2" />
         </form>
 
-        {/* status indicator (success / error) */}
-        {status && (
-          <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ duration: 0.28 }}
-              className={`flex items-center gap-3 px-4 py-2 rounded-full ${status === 'success' ? 'bg-green-500/95' : 'bg-red-500/95'} text-white shadow-lg`}
-            >
-              {status === 'success' ? (
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                </svg>
-              ) : (
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              )}
-              <span className="font-medium text-sm">{status === 'success' ? 'Signed in' : 'Sign in failed'}</span>
-            </motion.div>
-          </div>
-        )}
-
         <div className="mt-4 text-center text-sm text-white/70">
           Don't have an account?{' '}
           <Link to="/signup" className="text-purple-300 hover:underline font-medium">Sign Up</Link>
         </div>
-
-        {/* removed demo credential UI */}
       </motion.div>
+        
+        {/* Updated fixed status indicator (success / error) at the top of the screen */}
+        <AnimatePresence>
+          {status && (
+            <div className="fixed top-8 left-0 right-0 z-[100] flex items-center justify-center pointer-events-none px-4">
+              <motion.div
+                initial={{ y: -80, opacity: 0, scale: 0.95 }}
+                animate={{ y: 0, opacity: 1, scale: 1 }}
+                exit={{ y: -80, opacity: 0, scale: 0.95 }}
+                transition={{ 
+                  duration: 0.5, 
+                  ease: [0.16, 1, 0.3, 1] // modern easeOutExpo
+                }}
+                className={`flex items-center gap-3 px-6 py-3.5 rounded-2xl ${status === 'success' ? 'bg-green-500/90' : 'bg-red-500/90'} text-white shadow-2xl backdrop-blur-xl border border-white/20`}
+              >
+                {status === 'success' ? (
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
+                  </svg>
+                ) : (
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                )}
+                <span className="font-semibold text-sm tracking-wide">
+                  {status === 'success' ? 'Welcome back! Signed in.' : (error || 'Sign in failed')}
+                </span>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
 
       {/* Local CSS for animations and keyframes */}
       <style>{` 

@@ -135,65 +135,66 @@ export default function CustomizationPanel({ serviceType, customization, onChang
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className={label}>Poster Size</label>
-          <select
-            className={field}
+          <BeautifulSelect
+            label="Poster Size"
             value={customization.size || ''}
-            onChange={(e) => set('size', e.target.value)}
-          >
-            <option value="">Select size</option>
-            <option value="a4">A4 (Print)</option>
-            <option value="a3">A3 (Print)</option>
-            <option value="instagram">Instagram (1080×1080)</option>
-            <option value="facebook">Facebook Cover</option>
-            <option value="banner">Web Banner</option>
-            <option value="custom">Custom size</option>
-          </select>
+            onChange={(v) => set('size', v)}
+            placeholder="Select size"
+            labelClass={label}
+            options={[
+              { value: 'a4', label: 'A4 (Print)' },
+              { value: 'a3', label: 'A3 (Print)' },
+              { value: 'instagram', label: 'Instagram (1080×1080)' },
+              { value: 'facebook', label: 'Facebook Cover' },
+              { value: 'banner', label: 'Web Banner' },
+              { value: 'custom', label: 'Custom size' },
+            ]}
+          />
         </div>
         <div>
-          <label className={label}>Color Theme</label>
-          <select
-            className={field}
+          <BeautifulSelect
+            label="Color Theme"
             value={customization.colorTheme || ''}
-            onChange={(e) => set('colorTheme', e.target.value)}
-          >
-            <option value="">Select theme</option>
-            <option value="brand">My brand colors</option>
-            <option value="dark">Dark & Elegant</option>
-            <option value="light">Light & Clean</option>
-            <option value="vibrant">Vibrant & Bold</option>
-            <option value="gradient">Gradient</option>
-          </select>
+            onChange={(v) => set('colorTheme', v)}
+            placeholder="Select theme"
+            labelClass={label}
+            options={[
+              { value: 'brand', label: 'My brand colors' },
+              { value: 'dark', label: 'Dark & Elegant' },
+              { value: 'light', label: 'Light & Clean' },
+              { value: 'vibrant', label: 'Vibrant & Bold' },
+              { value: 'gradient', label: 'Gradient' },
+            ]}
+          />
         </div>
         <div>
-          <label className={label}>Design Style</label>
-          <select
-            className={field}
+          <BeautifulSelect
+            label="Design Style"
             value={customization.style || ''}
-            onChange={(e) => set('style', e.target.value)}
-          >
-            <option value="">Select style</option>
-            <option value="professional">Professional</option>
-            <option value="creative">Creative</option>
-            <option value="minimalist">Minimalist</option>
-            <option value="vintage">Vintage</option>
-            <option value="modern">Modern Flat</option>
-          </select>
+            onChange={(v) => set('style', v)}
+            placeholder="Select style"
+            labelClass={label}
+            options={[
+              { value: 'professional', label: 'Professional' },
+              { value: 'creative', label: 'Creative' },
+              { value: 'minimalist', label: 'Minimalist' },
+              { value: 'vintage', label: 'Vintage' },
+              { value: 'modern', label: 'Modern Flat' },
+            ]}
+          />
         </div>
         <div>
-          <label className={label}>Number of Designs</label>
-          <select
-            className={field}
+          <BeautifulSelect
+            label="Number of Designs"
             value={customization.quantity || ''}
-            onChange={(e) => set('quantity', e.target.value)}
-          >
-            <option value="">Select quantity</option>
-            {['1', '2', '3', '5', '10+'].map((v) => (
-              <option key={v} value={v}>
-                {v} design{v !== '1' ? 's' : ''}
-              </option>
-            ))}
-          </select>
+            onChange={(v) => set('quantity', v)}
+            placeholder="Select quantity"
+            labelClass={label}
+            options={['1', '2', '3', '5', '10+'].map((v) => ({
+              value: v,
+              label: `${v} design${v !== '1' ? 's' : ''}`,
+            }))}
+          />
         </div>
       </div>
     );
@@ -203,33 +204,35 @@ export default function CustomizationPanel({ serviceType, customization, onChang
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className={label}>Workflow Type</label>
-          <select
-            className={field}
+          <BeautifulSelect
+            label="Workflow Type"
             value={customization.workflowType || ''}
-            onChange={(e) => set('workflowType', e.target.value)}
-          >
-            <option value="">Select type</option>
-            <option value="data-sync">Data Sync</option>
-            <option value="notification">Notification Flow</option>
-            <option value="reporting">Automated Reporting</option>
-            <option value="lead-management">Lead Management</option>
-            <option value="custom">Custom Workflow</option>
-          </select>
+            onChange={(v) => set('workflowType', v)}
+            placeholder="Select type"
+            labelClass={label}
+            options={[
+              { value: 'data-sync', label: 'Data Sync' },
+              { value: 'notification', label: 'Notification Flow' },
+              { value: 'reporting', label: 'Automated Reporting' },
+              { value: 'lead-management', label: 'Lead Management' },
+              { value: 'custom', label: 'Custom Workflow' },
+            ]}
+          />
         </div>
         <div>
-          <label className={label}>Trigger Type</label>
-          <select
-            className={field}
+          <BeautifulSelect
+            label="Trigger Type"
             value={customization.triggerType || ''}
-            onChange={(e) => set('triggerType', e.target.value)}
-          >
-            <option value="">Select trigger</option>
-            <option value="webhook">Webhook</option>
-            <option value="schedule">Scheduled (Cron)</option>
-            <option value="manual">Manual trigger</option>
-            <option value="event">Event-based</option>
-          </select>
+            onChange={(v) => set('triggerType', v)}
+            placeholder="Select trigger"
+            labelClass={label}
+            options={[
+              { value: 'webhook', label: 'Webhook' },
+              { value: 'schedule', label: 'Scheduled (Cron)' },
+              { value: 'manual', label: 'Manual trigger' },
+              { value: 'event', label: 'Event-based' },
+            ]}
+          />
         </div>
         <div className="sm:col-span-2">
           <label className={label}>Tools / Integrations Required</label>
@@ -242,17 +245,18 @@ export default function CustomizationPanel({ serviceType, customization, onChang
           />
         </div>
         <div className="sm:col-span-2">
-          <label className={label}>Complexity Level</label>
-          <select
-            className={field}
+          <BeautifulSelect
+            label="Complexity Level"
             value={customization.complexity || ''}
-            onChange={(e) => set('complexity', e.target.value)}
-          >
-            <option value="">Select</option>
-            <option value="simple">Simple (1–3 steps)</option>
-            <option value="moderate">Moderate (4–10 steps)</option>
-            <option value="complex">Complex (10+ steps, multiple branches)</option>
-          </select>
+            onChange={(v) => set('complexity', v)}
+            placeholder="Select"
+            labelClass={label}
+            options={[
+              { value: 'simple', label: 'Simple (1–3 steps)' },
+              { value: 'moderate', label: 'Moderate (4–10 steps)' },
+              { value: 'complex', label: 'Complex (10+ steps, multiple branches)' },
+            ]}
+          />
         </div>
       </div>
     );
@@ -269,47 +273,50 @@ export default function CustomizationPanel({ serviceType, customization, onChang
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className={label}>Video Type</label>
-          <select
-            className={field}
+          <BeautifulSelect
+            label="Video Type"
             value={customization.videoType || ''}
-            onChange={(e) => set('videoType', e.target.value)}
-          >
-            <option value="">Select video type</option>
-            <option value="youtube">YouTube Video</option>
-            <option value="social-media">Social Media</option>
-            <option value="advertisement">Advertisement</option>
-            <option value="documentary">Documentary</option>
-            <option value="short-form">Short-form (Reels / Shorts)</option>
-          </select>
+            onChange={(v) => set('videoType', v)}
+            placeholder="Select video type"
+            labelClass={label}
+            options={[
+              { value: 'youtube', label: 'YouTube Video' },
+              { value: 'social-media', label: 'Social Media' },
+              { value: 'advertisement', label: 'Advertisement' },
+              { value: 'documentary', label: 'Documentary' },
+              { value: 'short-form', label: 'Short-form (Reels / Shorts)' },
+            ]}
+          />
         </div>
         <div>
-          <label className={label}>Video Length</label>
-          <select
-            className={field}
+          <BeautifulSelect
+            label="Video Length"
             value={customization.videoLength || ''}
-            onChange={(e) => set('videoLength', e.target.value)}
-          >
-            <option value="">Select length</option>
-            <option value="under-1min">Under 1 minute</option>
-            <option value="1-5min">1–5 minutes</option>
-            <option value="5-10min">5–10 minutes</option>
-            <option value="10plus">10+ minutes</option>
-          </select>
+            onChange={(v) => set('videoLength', v)}
+            placeholder="Select length"
+            labelClass={label}
+            options={[
+              { value: 'under-1min', label: 'Under 1 minute' },
+              { value: '1-5min', label: '1–5 minutes' },
+              { value: '5-10min', label: '5–10 minutes' },
+              { value: '10plus', label: '10+ minutes' },
+            ]}
+          />
         </div>
         <div>
-          <label className={label}>Editing Style</label>
-          <select
-            className={field}
+          <BeautifulSelect
+            label="Editing Style"
             value={customization.editingStyle || ''}
-            onChange={(e) => set('editingStyle', e.target.value)}
-          >
-            <option value="">Select style</option>
-            <option value="basic-cuts">Basic Cuts</option>
-            <option value="cinematic">Cinematic Edit</option>
-            <option value="fast-paced">Fast-paced Social Edit</option>
-            <option value="corporate">Corporate Style</option>
-          </select>
+            onChange={(v) => set('editingStyle', v)}
+            placeholder="Select style"
+            labelClass={label}
+            options={[
+              { value: 'basic-cuts', label: 'Basic Cuts' },
+              { value: 'cinematic', label: 'Cinematic Edit' },
+              { value: 'fast-paced', label: 'Fast-paced Social Edit' },
+              { value: 'corporate', label: 'Corporate Style' },
+            ]}
+          />
         </div>
         <div>
           <label className={label}>Additional Features</label>

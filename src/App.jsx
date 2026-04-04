@@ -15,6 +15,7 @@ import ServiceDetails from './pages/ServiceDetails';
 import Order from './pages/Order';
 import Orders from './pages/Orders';
 import Contact from './pages/Contact';
+import Settings from './pages/Settings';
 
 export default function App() {
   return (
@@ -43,6 +44,7 @@ export default function App() {
                           <Route path="order" element={<Order />} />
                           <Route path="orders" element={<Orders />} />
                           <Route path="contact" element={<Contact />} />
+                          <Route path="settings" element={<Settings />} />
                         </Routes>
                       </main>
                       <Footer />

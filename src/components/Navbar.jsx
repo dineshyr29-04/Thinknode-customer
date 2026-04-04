@@ -76,9 +76,10 @@ export default function Navbar() {
           </button>
         </div>
 
-        {/* User Profile Section */}
         <div className="px-3 py-5 border-t-2 border-cyan-500/40 flex-shrink-0">
-          <button className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-white/15 hover:border-2 hover:border-cyan-400/50 transition-all duration-300 group min-w-0 ${
+          <button 
+            onClick={() => navigate('/home/settings')}
+            className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-white/15 hover:border-2 hover:border-cyan-400/50 transition-all duration-300 group min-w-0 ${
             isExpanded ? 'justify-start' : 'justify-center'
           }`}>
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-400 to-indigo-600 flex items-center justify-center flex-shrink-0 text-white font-bold text-xs shadow-lg shadow-cyan-500/30">
@@ -146,6 +147,17 @@ export default function Navbar() {
                 <span>{link.label}</span>
               </NavLink>
             ))}
+            {/* Added Settings for Mobile */}
+            <button
+              onClick={() => {
+                navigate('/home/settings');
+                setMobileMenuOpen(false);
+              }}
+              className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-white/70 hover:text-white hover:bg-white/15 active:bg-white/25 transition-all"
+            >
+              <span className="text-xl">⚙️</span>
+              <span>Settings</span>
+            </button>
             <button
               onClick={() => {
                 navigate('/order');

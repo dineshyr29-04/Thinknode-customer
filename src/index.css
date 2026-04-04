@@ -5,8 +5,8 @@
 * {
 	scrollbar-width: thin;
 	scrollbar-color: rgba(7, 7, 7, 0.7) rgba(2,6,23,0.35);
-}
 
+}
 /* WebKit / Blink */
 ::-webkit-scrollbar {
 	width: 8px;

@@ -37,10 +37,14 @@ export default function OrderForm({ defaultService = '' }) {
 
   const [errors, setErrors] = useState({});
   const [done, setDone] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   const set = (key, value) => {
     setForm((prev) => ({ ...prev, [key]: value }));
-    if (errors[key]) setErrors((prev) => ({ ...prev, [key]: null }));
+    // Only clear error if form has been submitted
+    if (submitted && errors[key]) {
+      setErrors((prev) => ({ ...prev, [key]: null }));
+    }
   };
 
   const validate = () => {
@@ -60,6 +64,7 @@ export default function OrderForm({ defaultService = '' }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitted(true);
     if (!validate()) return;
 
     setLoading(true);

@@ -1,3 +1,5 @@
+import BeautifulSelect from './BeautifulSelect';
+
 const field =
   'w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-slate-700 focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 outline-none transition-colors bg-white';
 const label = 'block text-sm font-medium text-slate-700 mb-1.5';
@@ -9,60 +11,60 @@ export default function CustomizationPanel({ serviceType, customization, onChang
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className={label}>Number of Pages</label>
-          <select
-            className={field}
+          <BeautifulSelect
+            label="Number of Pages"
             value={customization.pages || ''}
-            onChange={(e) => set('pages', e.target.value)}
-          >
-            <option value="">Select pages</option>
-            {['1–3', '4–7', '8–15', '15+'].map((v) => (
-              <option key={v} value={v}>{v} pages</option>
-            ))}
-          </select>
+            onChange={(v) => set('pages', v)}
+            placeholder="Select pages"
+            labelClass={label}
+            options={['1–3', '4–7', '8–15', '15+'].map((v) => ({ value: v, label: `${v} pages` }))}
+          />
         </div>
         <div>
-          <label className={label}>CMS Required?</label>
-          <select
-            className={field}
+          <BeautifulSelect
+            label="CMS Required?"
             value={customization.cms || ''}
-            onChange={(e) => set('cms', e.target.value)}
-          >
-            <option value="">Select</option>
-            <option value="none">No CMS needed</option>
-            <option value="wordpress">WordPress</option>
-            <option value="sanity">Sanity.io</option>
-            <option value="contentful">Contentful</option>
-            <option value="custom">Custom CMS</option>
-          </select>
+            onChange={(v) => set('cms', v)}
+            placeholder="Select"
+            labelClass={label}
+            options={[
+              { value: 'none', label: 'No CMS needed' },
+              { value: 'wordpress', label: 'WordPress' },
+              { value: 'sanity', label: 'Sanity.io' },
+              { value: 'contentful', label: 'Contentful' },
+              { value: 'custom', label: 'Custom CMS' },
+            ]}
+          />
         </div>
         <div>
-          <label className={label}>E-Commerce Support</label>
-          <select
-            className={field}
+          <BeautifulSelect
+            label="E-Commerce Support"
             value={customization.ecommerce || ''}
-            onChange={(e) => set('ecommerce', e.target.value)}
-          >
-            <option value="">Select</option>
-            <option value="none">Not needed</option>
-            <option value="basic">Basic shop</option>
-            <option value="full">Full e-commerce</option>
-            <option value="woocommerce">WooCommerce</option>
-          </select>
+            onChange={(v) => set('ecommerce', v)}
+            placeholder="Select"
+            labelClass={label}
+            options={[
+              { value: 'none', label: 'Not needed' },
+              { value: 'basic', label: 'Basic shop' },
+              { value: 'full', label: 'Full e-commerce' },
+              { value: 'woocommerce', label: 'WooCommerce' },
+            ]}
+          />
         </div>
         <div>
-          <label className={label}>Design Style</label>
-          <select
-            className={field}
+          <BeautifulSelect
+            label="Design Style"
             value={customization.designStyle || ''}
-            onChange={(e) => set('designStyle', e.target.value)}
-          >
-            <option value="">Select</option>
-            <option value="minimal">Minimal</option>
-            <option value="corporate">Corporate</option>
-            <option value="creative">Creative</option>
-            <option value="bold">Bold & Modern</option>
-          </select>
+            onChange={(v) => set('designStyle', v)}
+            placeholder="Select"
+            labelClass={label}
+            options={[
+              { value: 'minimal', label: 'Minimal' },
+              { value: 'corporate', label: 'Corporate' },
+              { value: 'creative', label: 'Creative' },
+              { value: 'bold', label: 'Bold & Modern' },
+            ]}
+          />
         </div>
       </div>
     );
@@ -72,31 +74,33 @@ export default function CustomizationPanel({ serviceType, customization, onChang
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className={label}>Framework Preference</label>
-          <select
-            className={field}
+          <BeautifulSelect
+            label="Framework Preference"
             value={customization.framework || ''}
-            onChange={(e) => set('framework', e.target.value)}
-          >
-            <option value="">Select framework</option>
-            <option value="react">React.js</option>
-            <option value="vue">Vue.js</option>
-            <option value="next">Next.js</option>
-            <option value="remix">Remix</option>
-          </select>
+            onChange={(v) => set('framework', v)}
+            placeholder="Select framework"
+            labelClass={label}
+            options={[
+              { value: 'react', label: 'React.js' },
+              { value: 'vue', label: 'Vue.js' },
+              { value: 'next', label: 'Next.js' },
+              { value: 'remix', label: 'Remix' },
+            ]}
+          />
         </div>
         <div>
-          <label className={label}>UI Complexity</label>
-          <select
-            className={field}
+          <BeautifulSelect
+            label="UI Complexity"
             value={customization.uiComplexity || ''}
-            onChange={(e) => set('uiComplexity', e.target.value)}
-          >
-            <option value="">Select complexity</option>
-            <option value="simple">Simple — basic pages</option>
-            <option value="moderate">Moderate — dashboard</option>
-            <option value="complex">Complex — data-heavy</option>
-          </select>
+            onChange={(v) => set('uiComplexity', v)}
+            placeholder="Select complexity"
+            labelClass={label}
+            options={[
+              { value: 'simple', label: 'Simple — basic pages' },
+              { value: 'moderate', label: 'Moderate — dashboard' },
+              { value: 'complex', label: 'Complex — data-heavy' },
+            ]}
+          />
         </div>
         <div>
           <label className={label}>API Integrations</label>
@@ -109,18 +113,19 @@ export default function CustomizationPanel({ serviceType, customization, onChang
           />
         </div>
         <div>
-          <label className={label}>Authentication Required</label>
-          <select
-            className={field}
+          <BeautifulSelect
+            label="Authentication Required"
             value={customization.auth || ''}
-            onChange={(e) => set('auth', e.target.value)}
-          >
-            <option value="">Select</option>
-            <option value="none">No auth needed</option>
-            <option value="basic">Basic login / signup</option>
-            <option value="roles">Role-based access</option>
-            <option value="oauth">OAuth (Google, GitHub)</option>
-          </select>
+            onChange={(v) => set('auth', v)}
+            placeholder="Select"
+            labelClass={label}
+            options={[
+              { value: 'none', label: 'No auth needed' },
+              { value: 'basic', label: 'Basic login / signup' },
+              { value: 'roles', label: 'Role-based access' },
+              { value: 'oauth', label: 'OAuth (Google, GitHub)' },
+            ]}
+          />
         </div>
       </div>
     );

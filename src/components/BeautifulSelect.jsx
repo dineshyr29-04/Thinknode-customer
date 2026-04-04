@@ -1,24 +1,32 @@
 import React from 'react';
 
-export default function BeautifulSelect({ label, value, onChange, options = [] }) {
+export default function BeautifulSelect({
+  label,
+  value,
+  onChange,
+  options = [],
+  className = '',
+  labelClass = 'block text-sm font-medium text-slate-700 mb-1.5',
+  placeholder = 'Select...',
+}) {
   return (
     <label className="block">
-      <span className="text-sm text-white/80 block mb-2">{label}</span>
+      {label && <span className={`${labelClass}`}>{label}</span>}
       <div className="relative">
         <select
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="w-full py-3 pl-4 pr-10 rounded-lg bg-white/6 border border-white/8 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-purple-400/40 appearance-none"
+          className={`${className} appearance-none`}
         >
-          <option value="">Select...</option>
+          <option value="">{placeholder}</option>
           {options.map((o) => (
-            <option key={o.value} value={o.value} className="text-black">
+            <option key={o.value} value={o.value} className="text-slate-800">
               {o.label}
             </option>
           ))}
         </select>
         <svg
-          className="w-5 h-5 absolute right-3 top-3 text-white/70 pointer-events-none"
+          className="w-5 h-5 absolute right-3 top-3 text-slate-400 pointer-events-none"
           viewBox="0 0 20 20"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"

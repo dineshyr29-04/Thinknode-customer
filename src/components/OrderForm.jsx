@@ -2,25 +2,22 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CustomizationPanel from './CustomizationPanel';
 import FileUpload from './FileUpload';
+import BeautifulSelect from './BeautifulSelect';
 import { useOrder } from '../context/OrderContext';
 import { submitOrder, uploadFiles } from '../api/apiClient';
 import { SERVICES } from '../data/services';
-
-const inp =
-  'w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-slate-700 focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 outline-none transition-colors bg-white';
-const lbl = 'block text-sm font-medium text-slate-700 mb-1.5';
-
-function StepBadge({ n }) {
-  return (
-    <span className="w-7 h-7 rounded-full bg-indigo-100 text-indigo-600 text-xs font-bold flex items-center justify-center flex-shrink-0">
-      {n}
-    </span>
-  );
-}
-
-export default function OrderForm({ defaultService = '' }) {
-  const navigate = useNavigate();
-  const { updateOrder, resetOrder, setLoading, loading, setError, error } = useOrder();
+          <div>
+            <BeautifulSelect
+              label="Service Type *"
+              value={form.serviceType}
+              onChange={(v) => { set('serviceType', v); set('customization', {}); }}
+              placeholder="Choose a service…"
+              className={`${inp} ${errors.serviceType ? 'border-red-400' : ''}`}
+              labelClass={lbl}
+              options={SERVICES.map((s) => ({ value: s.id, label: `${s.icon} ${s.title}` }))}
+            />
+            {errors.serviceType && <p className="text-red-500 text-xs mt-1">{errors.serviceType}</p>}
+          </div>
 
   const [form, setForm] = useState({
     customerName: '',
@@ -153,9 +150,10 @@ export default function OrderForm({ defaultService = '' }) {
           <div>
             <label className={lbl}>Service Type *</label>
             <select
-              className={`${inp} ${errors.serviceType ? 'border-red-400' : ''}`}
+             
               value={form.serviceType}
               onChange={(e) => { set('serviceType', e.target.value); set('customization', {}); }}
+              className={`${inp} ${errors.serviceType ? 'border-red-400 focus:ring-red-200' : ''}`}
             >
               <option value="">Choose a service…</option>
               {SERVICES.map((s) => (
@@ -287,4 +285,4 @@ export default function OrderForm({ defaultService = '' }) {
       </div>
     </form>
   );
-}
+

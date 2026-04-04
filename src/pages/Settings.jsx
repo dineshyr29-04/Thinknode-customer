@@ -13,7 +13,7 @@ export default function Settings() {
   };
 
   return (
-    <div className="p-6 lg:p-10 max-w-5xl mx-auto min-h-screen bg-gradient-to-r from-[#8494FF] to-[#6367FF]">
+    <div className="p-6 lg:p-10 max-w-5xl mx-auto min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 ">
       <header className="mb-10">
         <h1 className="text-3xl font-bold tracking-tight text-[#450693]">Account Settings</h1>
         <p className="text-slate-400 mt-2">Manage your profile, security, and preferences.</p>
@@ -21,14 +21,14 @@ export default function Settings() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Left Column: Profile Card */}
-        <div className="lg:col-span-1 space-y-6">
+        <div className="lg:col-span-1 space-y-6 hover:scale-105 transition-all ease-in-out duration-400">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="bg-slate-900/50 backdrop-blur-xl border-2 border-cyan-500/20 rounded-3xl p-8 text-center shadow-xl relative overflow-hidden"
           >
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-500 to-indigo-600" />
-            <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-cyan-400 to-indigo-600 mx-auto flex items-center justify-center text-white text-3xl font-black shadow-2xl shadow-cyan-500/40 mb-6">
+            {/*<div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-500 to-indigo-600" />*/}
+            <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-cyan-400 to-indigo-600 mx-auto flex items-center justify-center text-white text-3xl font-black shadow-2xl mb-6">
               {user?.name?.charAt(0) || 'U'}
             </div>
             <h2 className="text-xl font-bold text-white mb-1">{user?.name || 'User'}</h2>

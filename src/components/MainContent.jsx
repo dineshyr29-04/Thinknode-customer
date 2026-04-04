@@ -1,8 +1,7 @@
-import { useContext } from 'react';
-import { NavbarContext } from '../context/NavbarContext';
+import { useNavbar } from '../context/NavbarContext';
 
 export default function MainContent({ children }) {
-  const { isExpanded } = useContext(NavbarContext);
+  const { isExpanded } = useNavbar();
 
   return (
     <div

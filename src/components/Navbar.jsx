@@ -1,6 +1,6 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { NavbarContext } from '../context/NavbarContext';
+import { useNavbar } from '../context/NavbarContext';
 
 const NAV_LINKS = [
   { label: 'Home', path: '/home', icon: '🏠' },
@@ -10,7 +10,7 @@ const NAV_LINKS = [
 ];
 
 export default function Navbar() {
-  const { isExpanded, setIsExpanded } = useContext(NavbarContext);
+  const { isExpanded, setIsExpanded } = useNavbar();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
 

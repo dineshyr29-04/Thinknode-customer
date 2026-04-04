@@ -34,8 +34,8 @@ export default function Navbar() {
             />
             {isExpanded && (
               <div className="flex flex-col gap-0.5 overflow-hidden min-w-0">
-                <span className="font-black text-white text-sm tracking-tight leading-tight truncate">ThinkNode</span>
-                <span className="text-cyan-300 font-bold text-xs bg-cyan-500/20 px-2 py-0.5 rounded-lg inline-block whitespace-nowrap">Portal</span>
+                <span className="font-black text-white text-lg tracking-tight leading-tight truncate">ThinkNode</span>
+                <span className="text-cyan-300 font-bold text-sm bg-cyan-500/20 px-2 py-0.5 rounded-md inline-block whitespace-nowrap">Portal</span>
               </div>
             )}
           </Link>

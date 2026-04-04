@@ -157,18 +157,11 @@ export default function OrderForm({ defaultService = '' }) {
               value={form.serviceType}
               onChange={(v) => { set('serviceType', v); set('customization', {}); }}
               placeholder="Choose a service…"
-              className={`${inp} ${errors.serviceType ? 'border-red-400' : ''}`}
+              className={errors.serviceType ? '!border-red-400 !ring-red-300' : ''}
               labelClass={lbl}
               options={SERVICES.map((s) => ({
                 value: s.id,
-                label: (
-                  <>
-                    <div className="flex items-start gap-2 bg-gradient-to-br from-cyan-400 to-indigo-600 text-white font-bold text-xs rounded-xl px-2 py-1 shadow-lg">
-                      <span className="inline-block mr-2 align-middle ">{s.icon}</span>
-                      <span className="align-middle text-white">{s.title}</span>
-                    </div>
-                  </>
-                ),
+                label: `${s.icon} ${s.title}`,
               }))}
             />
             {errors.serviceType && <p className="text-red-500 text-xs mt-1">{errors.serviceType}</p>}

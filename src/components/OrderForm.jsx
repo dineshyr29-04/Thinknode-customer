@@ -157,7 +157,7 @@ export default function OrderForm({ defaultService = '' }) {
               value={form.serviceType}
               onChange={(v) => { set('serviceType', v); set('customization', {}); }}
               placeholder="Choose a service…"
-              className={errors.serviceType ? '!border-red-400 !ring-red-300' : ''}
+              className={errors.serviceType ? '!border-red-400 !ring-red-300' : 'border-gray-200'}
               labelClass={lbl}
               options={SERVICES.map((s) => ({
                 value: s.id,

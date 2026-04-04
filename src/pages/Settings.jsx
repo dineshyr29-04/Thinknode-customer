@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { 
   User, 
   ShieldCheck, 
@@ -24,6 +24,13 @@ export default function Settings() {
   const [showPassword, setShowPassword] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [tempName, setTempName] = useState(user?.name || 'ThinkNode User');
+
+  useEffect(() => {
+    if (user?.name && !isEditing) {
+      setTempName(user.name);
+    }
+  }, [user?.name, isEditing]);
+
   const [visualPrefs, setVisualPrefs] = useState({
     glass: true,
     motion: true,

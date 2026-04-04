@@ -68,7 +68,7 @@ export default function Settings() {
             <motion.h1 
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="text-5xl font-black tracking-tight bg-gradient-to-r from-[#450693] via-purple-400 to-cyan-400 bg-clip-text text-transparent"
+              className="text-[40px] font-black tracking-tight bg-gradient-to-r from-[#450693] via-purple-400 to-cyan-400 bg-clip-text text-transparent"
             >
               Portal Settings
             </motion.h1>
@@ -112,16 +112,16 @@ export default function Settings() {
             <>
               {/* Profile Overview (Span 4) */}
               <BentoTile className="md:col-span-4 flex flex-col items-center text-center justify-center min-h-[400px]">
-                <div className="relative group/avatar cursor-pointer">
-                  <div className="w-40 h-40 rounded-[3rem] bg-gradient-to-br from-[#450693] via-indigo-600 to-cyan-500 flex items-center justify-center text-white text-6xl font-black shadow-[0_0_50px_rgba(69,6,147,0.3)] mb-8 transform group-hover/avatar:scale-105 transition-transform duration-500">
-                    {user?.name?.charAt(0) || 'U'}
+                <div className="relative group/avatar cursor-pointer flex flex-col items-center">
+                  <div className="w-40  h-40 rounded-[2rem] bg-gradient-to-br from-[#450693] via-indigo-600 to-cyan-500 flex items-center justify-center text-white text-6xl font-black shadow-[0_0_50px_rgba(69,6,147,0.3)] mb-8 transform group-hover/avatar:scale-105 transition-transform duration-500">
+                    {user?.name?.charAt(0) || 'D'}
                   </div>
                   <div className="absolute inset-0 bg-black/40 rounded-[3rem] opacity-0 group-hover/avatar:opacity-100 flex items-center justify-center transition-opacity flex-col gap-2 backdrop-blur-sm">
                     <Camera className="w-10 h-10 text-white" />
                     <span className="text-xs font-bold uppercase tracking-widest text-white">Change</span>
                   </div>
                 </div>
-                <h2 className="text-3xl font-black text-white mb-2">{user?.name || 'ThinkNode User'}</h2>
+                <h2 className="text-3xl font-black text-white mb-3">{user?.name || 'ThinkNode User'}</h2>
                 <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-sm font-bold tracking-tight mb-8">
                   <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
                   Premium Subscriber

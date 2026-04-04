@@ -16,15 +16,15 @@ apiClient.interceptors.response.use(
   (err) => Promise.reject(err),
 );
 
-export const submitOrder = (data) => apiClient.post('/api/orders', data);
+export const submitOrder = (data) => apiClient.post('/api/customers/orders', data);
 export const getOrders = (email) =>
   apiClient.get(`/api/orders?email=${encodeURIComponent(email)}`);
-export const getOrderById = (id) => apiClient.get(`/api/orders/${id}`);
+export const getOrderById = (id) => apiClient.get(`/api/customers/orders/${id}`);
 export const uploadFiles = (formData) =>
   apiClient.post('/api/upload', formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
   });
-export const sendContactMessage = (data) => apiClient.post('/api/contact', data);
+export const sendContactMessage = (data) => apiClient.post('/api/customers/contact', data);
 
 // Authentication endpoints
 export const registerUser = (data) => apiClient.post('/api/customer/register', data);

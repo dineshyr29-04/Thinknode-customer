@@ -13,9 +13,9 @@ export default function Settings() {
   };
 
   return (
-    <div className="p-6 lg:p-10 max-w-5xl mx-auto min-h-screen">
+    <div className="p-6 lg:p-10 max-w-5xl mx-auto min-h-screen bg-gradient-to-r from-[#8494FF] to-[#6367FF]">
       <header className="mb-10">
-        <h1 className="text-3xl font-bold text-white tracking-tight">Account Settings</h1>
+        <h1 className="text-3xl font-bold tracking-tight text-[#450693]">Account Settings</h1>
         <p className="text-slate-400 mt-2">Manage your profile, security, and preferences.</p>
       </header>
 

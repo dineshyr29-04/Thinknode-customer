@@ -22,6 +22,13 @@ export default function Settings() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('profile');
   const [showPassword, setShowPassword] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [tempName, setTempName] = useState(user?.name || 'ThinkNode User');
+  const [visualPrefs, setVisualPrefs] = useState({
+    glass: true,
+    motion: true,
+    accent: false,
+  });
   const [notifications, setNotifications] = useState({
     email: true,
     push: false,
@@ -113,15 +120,17 @@ export default function Settings() {
               {/* Profile Overview (Span 4) */}
               <BentoTile className="md:col-span-4 flex flex-col items-center text-center justify-center min-h-[400px]">
                 <div className="relative group/avatar cursor-pointer flex flex-col items-center">
-                  <div className="w-40  h-40 rounded-[2rem] bg-gradient-to-br from-[#450693] via-indigo-600 to-cyan-500 flex items-center justify-center text-white text-6xl font-black shadow-[0_0_50px_rgba(69,6,147,0.3)] mb-8 transform group-hover/avatar:scale-105 transition-transform duration-500">
-                    {user?.name?.charAt(0) || 'D'}
+                  <div className="w-40 h-40 rounded-[2rem] bg-gradient-to-br from-[#450693] via-indigo-600 to-cyan-500 flex items-center justify-center text-white text-6xl font-black shadow-[0_0_50px_rgba(69,6,147,0.3)] mb-8 transform group-hover/avatar:scale-105 transition-transform duration-500">
+                    {user?.name?.substring(0, 2).toUpperCase() || 'TN'}
                   </div>
-                  <div className="absolute inset-0 bg-black/40 rounded-[3rem] opacity-0 group-hover/avatar:opacity-100 flex items-center justify-center transition-opacity flex-col gap-2 backdrop-blur-sm">
+                  <div className="absolute inset-0 bg-black/40 rounded-[2rem] opacity-0 group-hover/avatar:opacity-100 flex items-center justify-center transition-opacity flex-col gap-2 backdrop-blur-sm">
                     <Camera className="w-10 h-10 text-white" />
                     <span className="text-xs font-bold uppercase tracking-widest text-white">Change</span>
                   </div>
                 </div>
-                <h2 className="text-3xl font-black text-white mb-3">{user?.name || 'ThinkNode User'}</h2>
+                <h2 className="text-3xl font-black text-white mb-3 tracking-tighter">
+                  {user?.name || 'ThinkNode User'}
+                </h2>
                 <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-sm font-bold tracking-tight mb-8">
                   <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
                   Premium Subscriber
@@ -147,20 +156,25 @@ export default function Settings() {
                       <p className="text-slate-400 font-medium">Verify your portal presence and contact info.</p>
                     </div>
                   </div>
-                  <button className="px-6 py-2.5 bg-white/5 hover:bg-white/10 rounded-xl text-sm font-bold border border-white/10 transition-all">
-                    Edit Info
+                  <button 
+                    onClick={() => setIsEditing(!isEditing)}
+                    className={`px-6 py-2.5 rounded-xl text-sm font-bold border transition-all ${isEditing ? 'bg-cyan-500 text-white border-cyan-400' : 'bg-white/5 hover:bg-white/10 text-white border-white/10'}`}
+                  >
+                    {isEditing ? 'Save Changes' : 'Edit Info'}
                   </button>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="space-y-3">
-                    <label className="text-xs font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Email Authority</label>
+                    <label className="text-xs font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Identity Label</label>
                     <div className="relative">
-                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
+                      <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
                       <input 
-                        readOnly 
-                        value={user?.email || 'user@thinknode.com'}
-                        className="w-full pl-12 pr-4 py-4 bg-white/5 border-2 border-white/5 rounded-2xl text-white font-bold outline-none focus:border-cyan-500 transition-all"
+                        disabled={!isEditing}
+                        value={tempName}
+                        onChange={(e) => setTempName(e.target.value)}
+                        className={`w-full pl-12 pr-4 py-4 bg-white/5 border-2 rounded-2xl text-white font-bold outline-none transition-all ${isEditing ? 'border-cyan-500/50 focus:border-cyan-500' : 'border-white/5 pointer-events-none opacity-70'}`}
+                        placeholder="Enter your name"
                       />
                     </div>
                   </div>
@@ -191,17 +205,26 @@ export default function Settings() {
                 
                 <div className="space-y-6">
                   {[
-                    { id: 'glass', label: 'Ultra-Gloss Glassmorphism', desc: 'Enable advanced backdrop-blur effects.', active: true },
-                    { id: 'motion', label: 'Fluid Motion Engine', desc: 'Smoother transitions and micro-interactions.', active: true },
-                    { id: 'accent', label: 'Dynamic Accent Sync', desc: 'Auto-sync portal colors with your brand.', active: false },
+                    { id: 'glass', label: 'Ultra-Gloss Glassmorphism', desc: 'Enable advanced backdrop-blur effects.' },
+                    { id: 'motion', label: 'Fluid Motion Engine', desc: 'Smoother transitions and micro-interactions.' },
+                    { id: 'accent', label: 'Dynamic Accent Sync', desc: 'Auto-sync portal colors with your brand.' },
                   ].map((pref) => (
                     <div key={pref.id} className="flex items-center justify-between group p-2 hover:bg-white/5 rounded-2xl transition-all">
                       <div>
                         <p className="font-bold text-white group-hover:text-cyan-400 transition-colors uppercase text-sm tracking-wide">{pref.label}</p>
                         <p className="text-slate-500 text-xs font-medium mt-1">{pref.desc}</p>
                       </div>
-                      <div className={`w-14 h-8 rounded-full relative cursor-pointer transition-all duration-300 border-2 ${pref.active ? 'bg-cyan-500 border-cyan-400' : 'bg-slate-800 border-white/5'}`}>
-                        <div className={`absolute top-1 w-5 h-5 rounded-full bg-white shadow-lg transition-all duration-500 ${pref.active ? 'right-1' : 'left-1'}`} />
+                      <div 
+                        onClick={() => setVisualPrefs(prev => ({ ...prev, [pref.id]: !prev[pref.id] }))}
+                        className={`w-14 h-8 rounded-full relative cursor-pointer transition-all duration-300 border-2 ${visualPrefs[pref.id] ? 'bg-cyan-500 border-cyan-400' : 'bg-slate-800 border-white/5'}`}
+                      >
+                        <motion.div 
+                          animate={{ 
+                            x: visualPrefs[pref.id] ? 24 : 0,
+                            scale: visualPrefs[pref.id] ? 1.1 : 1
+                          }}
+                          className={`absolute top-1 left-1 w-5 h-5 rounded-full shadow-lg transition-all ${visualPrefs[pref.id] ? 'bg-white' : 'bg-slate-600'}`} 
+                        />
                       </div>
                     </div>
                   ))}
@@ -229,12 +252,18 @@ export default function Settings() {
                           <p className="text-slate-500 text-xs font-medium">Real-time sync enabled</p>
                         </div>
                       </div>
-                      <button 
+                      <div 
                         onClick={() => setNotifications(n => ({...n, [key]: !n[key]}))}
-                        className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${val ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30' : 'bg-white/5 text-slate-400 hover:text-white'}`}
+                        className={`w-14 h-8 rounded-full relative cursor-pointer transition-all duration-300 border-2 ${val ? 'bg-cyan-500 border-cyan-400' : 'bg-slate-800 border-white/5'}`}
                       >
-                        {val ? 'Enabled' : 'Disabled'}
-                      </button>
+                        <motion.div 
+                          animate={{ 
+                            x: val ? 24 : 0,
+                            scale: val ? 1.1 : 1
+                          }}
+                          className={`absolute top-1 left-1 w-5 h-5 rounded-full shadow-lg transition-all ${val ? 'bg-white' : 'bg-slate-600'}`} 
+                        />
+                      </div>
                     </div>
                   ))}
                 </div>

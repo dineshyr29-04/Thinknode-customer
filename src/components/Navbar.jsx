@@ -53,7 +53,7 @@ export default function Navbar() {
                 `flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-all duration-300 group min-w-0 ${
                   isActive
                     ? 'text-white bg-gradient-to-r from-cyan-500/40 to-indigo-500/40 border-2 border-cyan-400 shadow-lg shadow-cyan-500/40'
-                    : 'text-white/60 hover:text-white hover:bg-white/15 hover:border-2 hover:border-cyan-400/50'
+                    : 'text-white/60 hover:text-white hover:border-2 hover:border-cyan-400/50 hover:bg-white/15 active:bg-white/25 hover:bg-black/10'
                 }`
               }
             >

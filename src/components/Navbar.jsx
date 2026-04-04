@@ -7,6 +7,7 @@ const NAV_LINKS = [
   { label: 'Services', path: '/services', icon: '⚙️' },
   { label: 'My Orders', path: '/orders', icon: '📋' },
   { label: 'Contact', path: '/contact', icon: '✉️' },
+  {label: 'Settings', path:'/settings' , icon: '⚙️'},
 ];
 
 export default function Navbar() {

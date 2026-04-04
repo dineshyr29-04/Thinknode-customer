@@ -15,9 +15,9 @@ export default function Order() {
       <div className="bg-slate-950 text-white py-10 px-4 border-b border-slate-800">
         <div className="max-w-5xl mx-auto">
           <nav className="flex items-center gap-2 text-slate-500 text-sm mb-4">
-            <Link to="/" className="hover:text-slate-300 transition-colors">Home</Link>
-            <span>/</span>
-            <span className="text-slate-300">Place Order</span>
+            
+            
+            <span className="text--300 text-[15px]">Place Order</span>
           </nav>
           <div className="flex items-center gap-5">
             {service && (

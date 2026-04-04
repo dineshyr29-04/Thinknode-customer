@@ -1,7 +1,7 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate, Link } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
+import { useAuth } from '../context/AuthContext';
 
 export default function CustomerLogin() {
   const [email, setEmail] = useState('');
@@ -12,7 +12,7 @@ export default function CustomerLogin() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [status, setStatus] = useState(null); // 'success' | 'error' | null
-  const { login } = useContext(AuthContext);
+  const { login } = useAuth();
 
 
   const handleSubmit = async (e) => {

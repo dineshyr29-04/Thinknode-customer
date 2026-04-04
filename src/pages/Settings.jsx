@@ -1,7 +1,7 @@
-import React, { useContext, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { AuthContext } from '../context/AuthContext';
+import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import { 
   User, 
   ShieldCheck, 
@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 
 export default function Settings() {
-  const { user, logout } = useContext(AuthContext);
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('profile');
   const [showPassword, setShowPassword] = useState(false);

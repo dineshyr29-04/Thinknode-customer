@@ -31,7 +31,7 @@ apiClient.interceptors.response.use(
   },
 );
 
-export const submitOrder = (data) => apiClient.post('/api/customer/orders', data);
+export const submitOrder = (data) => apiClient.post('/api/upload', data);
 export const getOrders = (email) =>
   apiClient.get(`/api/orders?email=${encodeURIComponent(email)}`);
 export const getOrderById = (id) => apiClient.get(`/api/customer/orders/${id}`);

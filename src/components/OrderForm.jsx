@@ -95,7 +95,7 @@ export default function OrderForm({ defaultService = '' }) {
       updateOrder(payload);
       resetOrder();
       setDone(true);
-      setTimeout(() => navigate('/orders'), 2500);
+      setTimeout(() => navigate('/orders', { state: { success: true } }), 2500);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to submit order. Please try again.');
     } finally {

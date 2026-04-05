@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getOrders } from '../api/apiClient';
+import { useAuth } from '../context/AuthContext';
 
 const STATUS = {
   pending: { label: 'Pending', cls: 'bg-amber-100 text-amber-700 border-amber-200', dot: 'bg-amber-400' },
@@ -26,6 +27,7 @@ function Badge({ status }) {
 
 export default function Orders() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [email, setEmail] = useState('');
   const [orders, setOrders] = useState([]);
   const [searched, setSearched] = useState(false);
@@ -33,13 +35,12 @@ export default function Orders() {
   const [error, setError] = useState(null);
   const [expanded, setExpanded] = useState(null);
 
-  const handleSearch = async (e) => {
-    e.preventDefault();
-    if (!email.trim()) return;
+  const fetchOrders = async (targetEmail) => {
+    if (!targetEmail.trim()) return;
     setLoading(true);
     setError(null);
     try {
-      const res = await getOrders(email.trim());
+      const res = await getOrders(targetEmail.trim());
       setOrders(res.data.orders || []);
       setSearched(true);
     } catch {
@@ -48,6 +49,18 @@ export default function Orders() {
     } finally {
       setLoading(false);
     }
+  };
+
+  useEffect(() => {
+    if (user && user.email) {
+      setEmail(user.email);
+      fetchOrders(user.email);
+    }
+  }, [user]);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    fetchOrders(email);
   };
 
   return (
@@ -132,10 +145,10 @@ export default function Orders() {
                       <div className="flex items-start justify-between gap-4">
                         <div>
                           <h3 className="text-slate-800 font-bold text-lg leading-tight">
-                            {order.projectTitle}
+                            {order.projectTitle || order.project_title}
                           </h3>
                           <p className="text-slate-500 text-sm mt-0.5 capitalize">
-                            {order.serviceType?.replace(/-/g, ' ')}
+                            {(order.serviceType || order.service_type)?.replace(/-/g, ' ')}
                           </p>
                         </div>
                         <Badge status={order.status || 'pending'} />

@@ -80,10 +80,10 @@ export default function OrderForm({ defaultService = '' }) {
       }
 
       const payload = {
-        customerName: form.customerName,
+        customer_name: form.customerName,
         email: form.email,
-        serviceType: form.serviceType,
-        projectTitle: form.projectTitle,
+        service_type: form.serviceType,
+        project_title: form.projectTitle,
         description: form.description,
         customization: form.customization,
         files: uploadedFiles,

@@ -33,7 +33,7 @@ apiClient.interceptors.response.use(
 
 export const submitOrder = (data) => apiClient.post('/api/customer/orders', data);
 export const getOrders = (email) =>
-  apiClient.get(`/api/orders?email=${encodeURIComponent(email)}`);
+  apiClient.get(`/api/customer/orders?email=${encodeURIComponent(email)}`);
 export const getOrderById = (id) => apiClient.get(`/api/customer/orders/${id}`);
 export const uploadFiles = (formData) =>  
   apiClient.post('/api/upload', formData, {

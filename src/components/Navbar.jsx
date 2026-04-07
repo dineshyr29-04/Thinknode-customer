@@ -21,12 +21,12 @@ export default function Navbar() {
       <div
         className={`hidden lg:flex lg:fixed lg:left-0 lg:top-0 lg:h-screen lg:flex-col z-50 lg:transition-all lg:duration-300 lg:ease-in-out ${
           isExpanded ? 'lg:w-64' : 'lg:w-20'
-        } bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 border-r-2 border-cyan-500/40 shadow-2xl shadow-cyan-500/20 backdrop-blur-xl`}
+        } bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 shadow-2xl border-r-1 border-gray-800 shadow-cyan-500/20 backdrop-blur-xl`}
         onMouseEnter={() => setIsExpanded(true)}
         onMouseLeave={() => setIsExpanded(false)}
       >
         {/* Logo Section */}
-        <div className="h-20 flex items-center justify-center border-b-2 border-cyan-500/40 px-3 lg:px-4 flex-shrink-0">
+        <div className="h-20 flex items-center justify-centerpx-3 lg:px-4 flex-shrink-0">
           <Link to="/home" className="flex items-center gap-2 lg:gap-3 group w-full min-w-0">
             <img 
               src="/logo.jpeg" 
@@ -53,7 +53,7 @@ export default function Navbar() {
                 `flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-all duration-300 group min-w-0 ${
                   isActive
                     ? 'text-white bg-gradient-to-r from-cyan-500/40 to-indigo-500/40 border-2 border-cyan-400 shadow-lg shadow-cyan-500/40'
-                    : 'text-white/60 hover:text-white hover:border-2 hover:border-cyan-400/50 active:bg-white/25 hover:bg-black/10'
+                    : 'text-white/60 hover:text-white hover:border-2 hover:border-cyan-400/50 active:bg-white/25 hover:bg-black/10 hover:scale-105'
                 }`
               }
             >
@@ -64,7 +64,7 @@ export default function Navbar() {
         </nav>
 
         {/* CTA Button */}
-        <div className="px-3 py-5 border-t-2 border-cyan-500/40 flex-shrink-0">
+        <div className="px-3 py-5 border-t-2 border-gray-500/40 flex-shrink-0">
           <button
             onClick={() => navigate('/order')}
             className={`w-full relative group backdrop-blur-md bg-gradient-to-r from-cyan-500/50 to-indigo-600/50 text-white font-bold rounded-xl border-2 border-cyan-400 hover:border-cyan-300 hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 overflow-hidden flex items-center justify-center gap-2 ${
@@ -77,7 +77,7 @@ export default function Navbar() {
           </button>
         </div>
 
-        <div className="px-3 py-5 border-t-2 border-cyan-500/40 flex-shrink-0">
+        <div className="px-3 py-5 border-t-2 border-gray-500/40 flex-shrink-0">
           <button 
             onClick={() => navigate('/home/settings')}
             className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-white/15 hover:border-2 hover:border-cyan-400/50 transition-all duration-300 group min-w-0 ${
@@ -129,7 +129,7 @@ export default function Navbar() {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="border-t-2 border-cyan-500/40 bg-gradient-to-b from-slate-900 to-slate-950 px-4 py-4 space-y-2 animate-in fade-in slide-in-from-top-2 duration-200">
+          <div className="border-t-2 border-gray-500/40 bg-gradient-to-b from-slate-900 to-slate-950 px-4 py-4 space-y-2 animate-in fade-in slide-in-from-top-2 duration-200">
             {NAV_LINKS.map((link) => (
               <NavLink
                 key={link.path}

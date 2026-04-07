@@ -121,7 +121,7 @@ function Scan() {
         position: "absolute",
         left: 0,
         right: 0,
-        height: 2,
+        height: 1,
         background: "linear-gradient(90deg,transparent,rgba(0,220,255,0.28),transparent)",
         zIndex: 2,
         pointerEvents: "none",

@@ -119,41 +119,11 @@ export default function OrderForm({ defaultService = '' }) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-10" noValidate>
-      {/* ── Step 1: Customer info ── */}
-      <section>
-        <h3 className="text-lg font-bold text-slate-800 mb-5 flex items-center gap-3">
-          <StepBadge n="1" /> Your Information
-        </h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className={lbl}>Full Name *</label>
-            <input
-              type="text"
-              placeholder="Jane Smith"
-              className={`${inp} ${errors.customerName ? 'border-red-400 focus:ring-red-200' : ''}`}
-              value={form.customerName}
-              onChange={(e) => set('customerName', e.target.value)}
-            />
-            {errors.customerName && <p className="text-red-500 text-xs mt-1">{errors.customerName}</p>}
-          </div>
-          <div>
-            <label className={lbl}>Email Address *</label>
-            <input
-              type="email"
-              placeholder="jane@example.com"
-              className={`${inp} ${errors.email ? 'border-red-400 focus:ring-red-200' : ''}`}
-              value={form.email}
-              onChange={(e) => set('email', e.target.value)}
-            />
-            {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
-          </div>
-        </div>
-      </section>
 
       {/* ── Step 2: Project details ── */}
       <section>
         <h3 className="text-lg font-bold text-slate-800 mb-5 flex items-center gap-3">
-          <StepBadge n="2" /> Project Details
+          <StepBadge n="1" /> Project Details
         </h3>
         <div className="space-y-4">
           <div>

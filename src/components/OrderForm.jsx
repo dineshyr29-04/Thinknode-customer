@@ -273,7 +273,7 @@ export default function OrderForm({ defaultService = '' }) {
         <button
           type="submit"
           disabled={loading}
-          className="w-full sm:w-auto px-10 py-4 relative group backdrop-blur-md bg-gradient-to-r from-cyan-500/30 to-indigo-900 text-white font-bold text-base rounded-2xl border border-white/40 hover:border-white/70 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 overflow-hidden"
+          className="w-full sm:w-auto px-10 py-4 relative group backdrop-blur-md bg-gradient-to-r from-cyan-900 to-indigo-900 text-white font-bold text-base rounded-2xl border border-white/40 hover:border-white/70 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 overflow-hidden"
         >
           <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/20 to-indigo-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
           {loading ? (

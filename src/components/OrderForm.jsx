@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CustomizationPanel from './CustomizationPanel';
 import FileUpload from './FileUpload';
@@ -37,6 +37,17 @@ export default function OrderForm({ defaultService = '' }) {
     files: [],
   });
 
+  // Keep form in sync with user profile (essential for hidden fields)
+  useEffect(() => {
+    if (user) {
+      setForm(prev => ({
+        ...prev,
+        customerName: prev.customerName || user.name || '',
+        email: prev.email || user.email || ''
+      }));
+    }
+  }, [user]);
+
   const [errors, setErrors] = useState({});
   const [done, setDone] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -51,8 +62,8 @@ export default function OrderForm({ defaultService = '' }) {
 
   const validate = () => {
     const e = {};
-    if (!form.customerName.trim()) e.customerName = 'Full name is required.';
-    if (!form.email.trim() || !/^[^@]+@[^@]+\.[^@]+$/.test(form.email))
+    if (!form.customerName?.trim()) e.customerName = 'Full name is required in your profile.';
+    if (!form.email?.trim() || !/^[^@]+@[^@]+\.[^@]+$/.test(form.email))
       e.email = 'A valid email address is required.';
     if (!form.serviceType) e.serviceType = 'Please select a service.';
     if (!form.projectTitle.trim()) e.projectTitle = 'Project title is required.';
@@ -60,8 +71,19 @@ export default function OrderForm({ defaultService = '' }) {
       e.description = 'Please describe your project (at least 20 characters).';
     if (!form.budget) e.budget = 'Please enter your budget.';
     if (!form.deadline) e.deadline = 'Please select a deadline.';
+    
     setErrors(e);
-    return Object.keys(e).length === 0;
+    const isValid = Object.keys(e).length === 0;
+    
+    if (!isValid) {
+      console.warn('Form validation failed:', e);
+      // If the failure is in a hidden field, set a global error
+      if (e.customerName || e.email) {
+        setError('Your user profile seems to be missing required information (Name or Email). Please check your settings.');
+      }
+    }
+    
+    return isValid;
   };
 
   const handleSubmit = async (e) => {

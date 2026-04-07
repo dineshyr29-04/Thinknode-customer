@@ -58,7 +58,7 @@ export default function Order() {
 
           {/* Info sidebar */}
           <div className="space-y-6 ">
-            <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm top-6 sticky">
+            <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm top-6">
               <h3 className="text-slate-900 font-black text-sm mb-5 flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
                 Execution Roadmap
@@ -93,7 +93,7 @@ export default function Order() {
               </div>
             </div>
 
-            <div className="bg-slate-900 rounded-2xl p-6 text-white shadow-xl relative overflow-hidden group sticky">
+            <div className="bg-slate-900 rounded-2xl p-6 text-white shadow-xl relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/20 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-indigo-500/30 transition-colors" />
               <p className="text-indigo-400 font-black text-[10px] uppercase tracking-widest mb-2">Need Help?</p>
               <h4 className="font-bold text-base mb-2">Custom Requirements?</h4>

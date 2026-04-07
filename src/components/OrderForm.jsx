@@ -4,6 +4,7 @@ import CustomizationPanel from './CustomizationPanel';
 import FileUpload from './FileUpload';
 import BeautifulSelect from './BeautifulSelect';
 import { useOrder } from '../context/OrderContext';
+import { useAuth } from '../context/AuthContext';
 import { submitOrder, uploadFiles } from '../api/apiClient';
 import { SERVICES } from '../data/services';
 
@@ -21,11 +22,12 @@ function StepBadge({ n }) {
 
 export default function OrderForm({ defaultService = '' }) {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const { updateOrder, resetOrder, setLoading, loading, setError, error } = useOrder();
 
   const [form, setForm] = useState({
-    customerName: '',
-    email: '',
+    customerName: user?.name || '',
+    email: user?.email || '',
     serviceType: defaultService,
     projectTitle: '',
     description: '',
@@ -118,54 +120,75 @@ export default function OrderForm({ defaultService = '' }) {
   const stepNum = (n) => (form.serviceType ? n : n - 1);
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-10" noValidate>
+    <form onSubmit={handleSubmit} className="space-y-12" noValidate>
+      {/* ── User Context (Professional Touch) ── */}
+      <div className="flex items-center gap-4 p-4 bg-slate-50 border border-slate-100 rounded-2xl mb-2">
+        <div className="w-12 h-12 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold text-lg shadow-sm">
+          {user?.name?.charAt(0) || 'U'}
+        </div>
+        <div>
+          <p className="text-xs text-slate-400 font-semibold uppercase tracking-wider">Ordering as</p>
+          <p className="text-slate-800 font-bold">{user?.name}</p>
+          <p className="text-xs text-slate-500">{user?.email}</p>
+        </div>
+        <div className="ml-auto text-emerald-500 flex items-center gap-1.5 text-xs font-bold px-3 py-1 bg-emerald-50 rounded-full border border-emerald-100">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+          Verified Account
+        </div>
+      </div>
 
-      {/* ── Step 2: Project details ── */}
-      <section>
-        <h3 className="text-lg font-bold text-slate-800 mb-5 flex items-center gap-3">
-          <StepBadge n="1" /> Project Details
+      {/* ── Step 1: Project details ── */}
+      <section className="relative">
+        <div className="absolute -left-10 top-0 bottom-0 w-px bg-slate-100 hidden lg:block" />
+        <h3 className="text-xl font-black text-slate-900 mb-6 flex items-center gap-4">
+          <StepBadge n="1" /> 
+          <span>Project Essentials</span>
         </h3>
-        <div className="space-y-4">
-          <div>
-            <BeautifulSelect
-              label="Service Type *"
-              value={form.serviceType}
-              onChange={(v) => { set('serviceType', v); set('customization', {}); }}
-              placeholder="Choose a service…"
-              className={errors.serviceType ? '!border-red-400 !ring-red-300' : 'border-gray-200'}
-              labelClass={lbl}
-              options={SERVICES.map((s) => ({
-                value: s.id,
-                label: `${s.icon} ${s.title}`,
-              }))}
-            />
-            {errors.serviceType && <p className="text-red-500 text-xs mt-1">{errors.serviceType}</p>}
+        <div className="space-y-6">
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="md:col-span-2">
+              <BeautifulSelect
+                label="Service Type *"
+                value={form.serviceType}
+                onChange={(v) => { set('serviceType', v); set('customization', {}); }}
+                placeholder="Select the service you need…"
+                className={errors.serviceType ? '!border-red-400 !ring-red-300' : 'border-slate-200'}
+                labelClass={lbl}
+                options={SERVICES.map((s) => ({
+                  value: s.id,
+                  label: `${s.icon} ${s.title}`,
+                }))}
+              />
+              {errors.serviceType && <p className="text-red-500 text-xs mt-1.5 font-medium ml-1">× {errors.serviceType}</p>}
+            </div>
+            <div className="md:col-span-2">
+              <label className={lbl}>Project Title *</label>
+              <input
+                type="text"
+                placeholder="e.g., E-commerce Platform for TechSavy"
+                className={`${inp} ${errors.projectTitle ? 'border-red-400 bg-red-50/30' : 'hover:border-slate-300'}`}
+                value={form.projectTitle}
+                onChange={(e) => set('projectTitle', e.target.value)}
+              />
+              {errors.projectTitle && <p className="text-red-500 text-xs mt-1.5 font-medium ml-1">× {errors.projectTitle}</p>}
+            </div>
           </div>
           <div>
-            <label className={lbl}>Project Title *</label>
-            <input
-              type="text"
-              placeholder="e.g., E-commerce Site for My Boutique"
-              className={`${inp} ${errors.projectTitle ? 'border-red-400' : ''}`}
-              value={form.projectTitle}
-              onChange={(e) => set('projectTitle', e.target.value)}
-            />
-            {errors.projectTitle && <p className="text-red-500 text-xs mt-1">{errors.projectTitle}</p>}
-          </div>
-          <div>
-            <label className={lbl}>Project Description *</label>
+            <label className={lbl}>Description & Objectives *</label>
             <textarea
-              rows={5}
-              placeholder="Describe your project in detail — goals, scope, and any specific requirements…"
-              className={`${inp} resize-none ${errors.description ? 'border-red-400' : ''}`}
+              rows={6}
+              placeholder="Provide a detailed overview of your project requirements, goals, and any specific tech stack preferences…"
+              className={`${inp} resize-none ${errors.description ? 'border-red-400 bg-red-50/30' : 'hover:border-slate-300'}`}
               value={form.description}
               onChange={(e) => set('description', e.target.value)}
             />
-            <div className="flex justify-between mt-1">
+            <div className="flex justify-between mt-2">
               {errors.description
-                ? <p className="text-red-500 text-xs">{errors.description}</p>
+                ? <p className="text-red-500 text-xs font-medium ml-1">× {errors.description}</p>
                 : <span />}
-              <span className="text-xs text-slate-400">{form.description.length} chars</span>
+              <span className={`text-[10px] font-bold uppercase tracking-wider ${form.description.length < 20 ? 'text-slate-400' : 'text-emerald-500'}`}>
+                {form.description.length} Characters
+              </span>
             </div>
           </div>
         </div>
@@ -198,35 +221,36 @@ export default function OrderForm({ defaultService = '' }) {
       </section>
 
       {/* ── Budget & deadline ── */}
-      <section>
-        <h3 className="text-lg font-bold text-slate-800 mb-5 flex items-center gap-3">
+      <section className="relative">
+        <div className="absolute -left-10 top-0 bottom-0 w-px bg-slate-100 hidden lg:block" />
+        <h3 className="text-xl font-black text-slate-900 mb-6 flex items-center gap-4">
           <StepBadge n={form.serviceType ? '5' : '4'} /> Budget & Timeline
         </h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className={lbl}>Your Budget (USD) *</label>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="relative group">
+            <label className={lbl}>Target Budget (USD) *</label>
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm font-medium">$</span>
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm font-bold">$</span>
               <input
-                type="text"
-                placeholder="500"
-                className={`${inp} pl-7 ${errors.budget ? 'border-red-400' : ''}`}
+                type="number"
+                placeholder="e.g., 2500"
+                className={`${inp} pl-8 ${errors.budget ? 'border-red-400 bg-red-50/30' : 'hover:border-slate-300'}`}
                 value={form.budget}
                 onChange={(e) => set('budget', e.target.value)}
               />
             </div>
-            {errors.budget && <p className="text-red-500 text-xs mt-1">{errors.budget}</p>}
+            {errors.budget && <p className="text-red-500 text-xs mt-1.5 font-medium ml-1">× {errors.budget}</p>}
           </div>
-          <div>
-            <label className={lbl}>Deadline *</label>
+          <div className="relative">
+            <label className={lbl}>Preferred Deadline *</label>
             <input
               type="date"
-              className={`${inp} ${errors.deadline ? 'border-red-400' : ''}`}
+              className={`${inp} ${errors.deadline ? 'border-red-400 bg-red-50/30' : 'hover:border-slate-300'} appearance-none cursor-pointer`}
               min={new Date().toISOString().split('T')[0]}
               value={form.deadline}
               onChange={(e) => set('deadline', e.target.value)}
             />
-            {errors.deadline && <p className="text-red-500 text-xs mt-1">{errors.deadline}</p>}
+            {errors.deadline && <p className="text-red-500 text-xs mt-1.5 font-medium ml-1">× {errors.deadline}</p>}
           </div>
         </div>
       </section>

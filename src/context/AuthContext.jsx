@@ -17,17 +17,6 @@ export function AuthProvider({ children }) {
   }, []);
 
   const login = async (email, password) => {
-    // If the Vite env `VITE_NO_BACKEND` is set to "true", do a local mocked login
-    const noBackend = import.meta.env.VITE_NO_BACKEND === 'true';
-    if (noBackend) {
-      const userData = { email, name: email?.split?.('@')?.[0] || 'Demo User' };
-      const token = `dev-token-${Date.now()}`;
-      localStorage.setItem('tnc_token', token);
-      localStorage.setItem('user', JSON.stringify(userData));
-      setUser(userData);
-      return Promise.resolve(userData);
-    }
-
     try {
       const res = await loginUser({ email, password });
       const data = res.data || {};

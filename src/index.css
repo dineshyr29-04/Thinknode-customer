@@ -4,7 +4,7 @@
 /* Firefox */
 * {
 	scrollbar-width: thin;
-	scrollbar-color: rgba(7, 7, 7, 0.7) rgba(2,6,23,0.35);
+	scrollbar-color: #111 #fff;
 
 }
 /* WebKit / Blink */
@@ -14,17 +14,16 @@
 }
 
 ::-webkit-scrollbar-track {
-	background: black;
+	background: #fff;
 }
 
 ::-webkit-scrollbar-thumb {
-	background: linear-gradient(180deg,#a855f7,#06b6d4);
-	border-radius: 9999px;
-	border: 2px solid rgba(2,6,23,0.25);
+	background: #111;
+	border: 1px solid #fff;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-	filter: brightness(1.05);
+	filter: none;
 }
 
 /* Corner */

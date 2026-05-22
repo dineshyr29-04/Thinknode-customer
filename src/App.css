@@ -4,6 +4,8 @@ body,
   width: 100%;
   min-height: 100%;
   margin: 0;
+  background: #fff;
+  color: #111;
 }
 
 html {
@@ -15,17 +17,15 @@ html {
   padding-inline: 0;
 }
 
-/* Responsive Typography and Spacing */
 @media (max-width: 640px) {
   * {
-    /* Tap target minimum 44x44px for mobile */
     touch-action: manipulation;
   }
 }
 
-/* Optimize for touch devices */
 @media (hover: none) and (pointer: coarse) {
-  button, a {
+  button,
+  a {
     padding: 0.75rem 1rem;
     min-height: 44px;
     min-width: 44px;
@@ -37,80 +37,19 @@ html {
   width: 100%;
 }
 
-.parallax-surface {
-  background-image:
-    radial-gradient(900px 320px at 10% 0%, rgba(59, 130, 246, 0.18), transparent 60%),
-    radial-gradient(800px 280px at 90% 10%, rgba(168, 85, 247, 0.18), transparent 60%),
-    linear-gradient(180deg, rgba(248, 250, 252, 0.85), rgba(255, 255, 255, 0.95));
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-}
-
-@media (max-width: 768px) {
-  .parallax-surface {
-    background-attachment: scroll;
-  }
-}
-
-.futuristic-surface {
-  background-image:
-    linear-gradient(120deg, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.95)),
-    linear-gradient(90deg, rgba(148, 163, 184, 0.06) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(148, 163, 184, 0.06) 1px, transparent 1px),
-    radial-gradient(1200px 500px at 10% -10%, rgba(56, 189, 248, 0.25), transparent 60%),
-    radial-gradient(900px 420px at 90% 0%, rgba(196, 181, 253, 0.22), transparent 55%),
-    radial-gradient(700px 380px at 50% 110%, rgba(59, 130, 246, 0.2), transparent 60%),
-    linear-gradient(180deg, rgba(6, 11, 25, 0.92), rgba(15, 23, 42, 0.98));
-  background-attachment: fixed;
-  background-size: auto, 80px 80px, 80px 80px, auto, auto, auto, auto;
-  background-position: center, center, center, center, center, center, center;
-}
-
-@media (max-width: 768px) {
-  .futuristic-surface {
-    background-attachment: scroll;
-    background-size: auto, 40px 40px, 40px 40px, auto, auto, auto, auto;
-  }
+.parallax-surface,
+.futuristic-surface,
+.hero-shell,
+.portfolio-media {
+  background: #fff;
 }
 
 .section-shell {
   position: relative;
-  border-radius: clamp(12px, 3vw, 28px);
-  border: 1px solid rgba(148, 163, 184, 0.2);
-  background-color: rgba(15, 23, 42, 0.55);
-  backdrop-filter: blur(22px);
-  box-shadow: 0 30px 80px rgba(15, 23, 42, 0.35);
+  border: 1px solid #111;
+  background: #fff;
   overflow: hidden;
   margin: clamp(1rem, 3vw, 2rem);
-}
-
-.section-shell::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(135deg, rgba(148, 163, 184, 0.18), rgba(148, 163, 184, 0)),
-    radial-gradient(600px 300px at 10% 20%, rgba(94, 234, 212, 0.12), transparent 60%),
-    radial-gradient(500px 280px at 90% 80%, rgba(129, 140, 248, 0.14), transparent 60%);
-  opacity: 0.9;
-  pointer-events: none;
-}
-
-.section-shell::after {
-  content: '';
-  position: absolute;
-  width: 340px;
-  height: 340px;
-  border-radius: 50%;
-  top: -80px;
-  right: -120px;
-  background: radial-gradient(circle at 30% 30%, rgba(56, 189, 248, 0.35), rgba(14, 116, 144, 0.05));
-  filter: blur(0.5px);
-  opacity: 0.7;
-  animation: floatOrb 18s ease-in-out infinite;
-  pointer-events: none;
 }
 
 .section-shell > * {
@@ -119,94 +58,68 @@ html {
 }
 
 .glass-card {
-  background: rgba(15, 23, 42, 0.6);
-  border: 1px solid rgba(148, 163, 184, 0.2);
-  backdrop-filter: blur(18px);
-  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.3);
+  background: #fff;
+  border: 1px solid #111;
 }
 
-/* Glassy Button Styles */
 .glass-btn {
   position: relative;
-  backdrop-filter: blur(10px);
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 12px;
+  background: #fff;
+  border: 1px solid #111;
+  color: #111;
   font-weight: 600;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease, transform 160ms ease;
   overflow: hidden;
 }
 
-.glass-btn::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
-  border-radius: 12px;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-}
-
 .glass-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.4);
-  box-shadow: 0 8px 32px rgba(0, 212, 255, 0.2);
-}
-
-.glass-btn:hover::before {
-  opacity: 1;
+  background: #111;
+  border-color: #111;
+  color: #fff;
 }
 
 .glass-btn-primary {
-  background: linear-gradient(135deg, rgba(0, 212, 255, 0.25), rgba(168, 85, 247, 0.25));
-  border: 1px solid rgba(0, 212, 255, 0.5);
+  background: #111;
+  border: 1px solid #111;
   color: #fff;
 }
 
 .glass-btn-primary:hover {
-  background: linear-gradient(135deg, rgba(0, 212, 255, 0.35), rgba(168, 85, 247, 0.35));
-  border-color: rgba(0, 212, 255, 0.8);
-  box-shadow: 0 10px 40px rgba(0, 212, 255, 0.3);
+  background: #fff;
+  color: #111;
 }
 
 .glass-btn-secondary {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: rgba(255, 255, 255, 0.9);
+  background: #fff;
+  border: 1px solid #111;
+  color: #111;
 }
 
 .glass-btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.3);
+  background: #111;
   color: #fff;
 }
 
-/* Glassy Input */
 .glass-input {
-  backdrop-filter: blur(10px);
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 12px;
-  color: #fff;
+  background: #fff;
+  border: 1px solid #111;
+  color: #111;
   padding: 10px 16px;
-  transition: all 0.3s ease;
+  transition: border-color 160ms ease, background-color 160ms ease;
 }
 
 .glass-input::placeholder {
-  color: rgba(255, 255, 255, 0.5);
+  color: #666;
 }
 
 .glass-input:focus {
   outline: none;
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(0, 212, 255, 0.8);
-  box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+  border-color: #111;
+  background: #fff;
 }
 
 .glass-input:hover:not(:focus) {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.3);
+  background: #fff;
 }
 
 .section-orbs {
@@ -219,103 +132,18 @@ html {
 .section-orbs::after {
   content: '';
   position: absolute;
-  border-radius: 999px;
-  filter: blur(0.5px);
-  opacity: 0.7;
+  opacity: 1;
 }
 
-.section-orbs::before {
-  width: 220px;
-  height: 220px;
-  left: -60px;
-  bottom: -60px;
-  background: radial-gradient(circle at 30% 30%, rgba(129, 140, 248, 0.45), rgba(15, 23, 42, 0.05));
-  animation: floatOrb 16s ease-in-out infinite;
-}
-
-.section-orbs::after {
-  width: 180px;
-  height: 180px;
-  right: 10%;
-  top: -40px;
-  background: radial-gradient(circle at 70% 30%, rgba(56, 189, 248, 0.35), rgba(15, 23, 42, 0.08));
-  animation: floatOrb 20s ease-in-out infinite reverse;
-}
-
-.portfolio-media {
-  background:
-    radial-gradient(220px 140px at 20% 20%, rgba(129, 140, 248, 0.55), transparent 60%),
-    radial-gradient(240px 160px at 80% 30%, rgba(56, 189, 248, 0.45), transparent 60%),
-    radial-gradient(180px 120px at 50% 80%, rgba(94, 234, 212, 0.35), transparent 60%),
-    linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.9));
-  position: relative;
-  overflow: hidden;
-}
-
-.portfolio-media::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: conic-gradient(from 90deg, rgba(56, 189, 248, 0.2), rgba(99, 102, 241, 0.2), rgba(56, 189, 248, 0.2));
-  mix-blend-mode: screen;
-  opacity: 0.6;
-  animation: rotateGlow 12s linear infinite;
-}
-
+.section-orbs::before,
+.section-orbs::after,
+.section-shell::before,
+.section-shell::after,
+.portfolio-media::before,
 .portfolio-media::after {
-  content: '';
-  position: absolute;
-  inset: -40% 40% 40% -40%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.22), transparent 70%);
-  animation: sweepGlow 6s ease-in-out infinite;
+  display: none;
 }
 
-.hero-shell {
-  position: relative;
-  background:
-    radial-gradient(900px 420px at 50% -10%, rgba(129, 140, 248, 0.45), transparent 60%),
-    radial-gradient(700px 380px at 10% 20%, rgba(56, 189, 248, 0.4), transparent 60%),
-    linear-gradient(180deg, rgba(6, 11, 25, 0.92), rgba(15, 23, 42, 0.96));
-}
-
-@keyframes floatOrb {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(20px, -24px, 0) scale(1.08);
-  }
-}
-
-@keyframes rotateGlow {
-  0% {
-    transform: rotate(0deg) scale(1);
-  }
-  100% {
-    transform: rotate(360deg) scale(1.03);
-  }
-}
-
-@keyframes sweepGlow {
-  0%,
-  100% {
-    transform: translate3d(-10%, -10%, 0);
-    opacity: 0.35;
-  }
-  50% {
-    transform: translate3d(10%, 10%, 0);
-    opacity: 0.6;
-  }
-}
-
-.glass-footer {
-  background: rgba(2, 6, 23, 0.82);
-  border-top: 1px solid rgba(148, 163, 184, 0.25);
-  backdrop-filter: blur(16px);
-}
-
-  /* Apply clear, consistent padding to all page sections (excludes navbar/footer) */
 .full-bleed section {
   padding-inline: clamp(1rem, 3vw, 2rem) !important;
   padding-block: clamp(1.5rem, 4vh, 4rem) !important;

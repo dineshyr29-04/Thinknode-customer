@@ -1,778 +1,1026 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion, AnimatePresence, useInView, useScroll, useTransform } from "framer-motion";
 
-const NAV_ITEMS = [
-  { label: "Services", href: "#services" },
-  { label: "Process", href: "#process" },
-  { label: "Standards", href: "#standards" },
-  { label: "Proof", href: "#proof" },
-];
+/* Global particle canvas */
+function ParticleBg() {
+  const canvasRef = useRef(null);
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+    let raf;
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    resize();
+    window.addEventListener("resize", resize);
 
-const METRICS = [
-  { value: "24h", label: "Response window" },
-  { value: "48h", label: "Standard delivery" },
-  { value: "100%", label: "Focused scope" },
-  { value: "0", label: "Noise tolerance" },
-];
+    const COUNT = 140;
+    const nodes = Array.from({ length: COUNT }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      vx: (Math.random() - 0.5) * 0.45,
+      vy: (Math.random() - 0.5) * 0.45,
+      r: Math.random() * 1.8 + 0.4,
+      pulse: Math.random() * Math.PI * 2,
+      color: Math.random() > 0.55 ? [0, 210, 255] : Math.random() > 0.5 ? [110, 80, 255] : [0, 180, 220],
+    }));
 
-const SERVICES = [
-  {
-    index: "01",
-    title: "Product-grade web development",
-    description: "Fast, disciplined builds for platforms that need to look premium and work even harder.",
-    points: ["React interfaces", "Responsive systems", "Performance tuning"],
-  },
-  {
-    index: "02",
-    title: "Minimalist frontend systems",
-    description: "Sharp UI architecture with intentional spacing, hierarchy, and production-ready polish.",
-    points: ["Design systems", "Component libraries", "Accessibility pass"],
-  },
-  {
-    index: "03",
-    title: "Automation and operations",
-    description: "Reliable workflow logic for teams that want fewer manual steps and cleaner execution.",
-    points: ["Workflow design", "Tool integration", "Process cleanup"],
-  },
-  {
-    index: "04",
-    title: "Visual identity execution",
-    description: "Clean layouts and presentation assets that feel restrained, technical, and expensive.",
-    points: ["Brand pages", "Launch assets", "Pitch-ready visuals"],
-  },
-];
+    let mouse = { x: -9999, y: -9999 };
+    const onMove = (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    };
+    window.addEventListener("mousemove", onMove);
 
-const PROCESS = [
-  {
-    step: "01",
-    title: "Brief and scope",
-    description: "We define the output, remove ambiguity, and lock the delivery shape before work starts.",
-  },
-  {
-    step: "02",
-    title: "Build and refine",
-    description: "The interface is constructed in clean passes, with every surface checked for consistency.",
-  },
-  {
-    step: "03",
-    title: "Handoff and support",
-    description: "Final delivery includes clear structure, clean implementation, and room to scale later.",
-  },
-];
-
-const STANDARDS = [
-  ["Background", "Pure white"],
-  ["Typography", "Inter / Helvetica Neue / Geist"],
-  ["Corners", "None"],
-  ["Effects", "Flat, restrained, production-grade"],
-  ["Motion", "Short, subtle, and intentional"],
-];
-
-const PROOF = [
-  {
-    quote:
-      "The interface felt like something a senior product team would ship internally: clean, direct, and impossible to misread.",
-    name: "Arjun Mehta",
-    role: "Startup Founder",
-  },
-  {
-    quote:
-      "Everything was structured, fast, and highly considered. It looked expensive without trying to look decorative.",
-    name: "Sofia Laurent",
-    role: "Product Director",
-  },
-  {
-    quote:
-      "The result had that rare Swiss-modern discipline: precise spacing, strong hierarchy, and no visual excess.",
-    name: "Kevin Osei",
-    role: "Creative Director",
-  },
-];
-
-const FONT_STACK = "Inter, Helvetica Neue, Geist, SF Pro Display, SF Pro Text, system-ui, sans-serif";
-const MONO_STACK = "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, monospace";
-
-function SectionHeader({ eyebrow, title, description }) {
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < COUNT; i++) {
+        for (let j = i + 1; j < COUNT; j++) {
+          const dx = nodes[i].x - nodes[j].x;
+          const dy = nodes[i].y - nodes[j].y;
+          const d = Math.sqrt(dx * dx + dy * dy);
+          if (d < 140) {
+            const [r, g, b] = nodes[i].color;
+            ctx.beginPath();
+            ctx.moveTo(nodes[i].x, nodes[i].y);
+            ctx.lineTo(nodes[j].x, nodes[j].y);
+            ctx.strokeStyle = `rgba(${r},${g},${b},${(1 - d / 140) * 0.38})`;
+            ctx.lineWidth = 0.7;
+            ctx.stroke();
+          }
+        }
+      }
+      nodes.forEach((n) => {
+        n.x += n.vx;
+        n.y += n.vy;
+        n.pulse += 0.018;
+        if (n.x < 0 || n.x > canvas.width) n.vx *= -1;
+        if (n.y < 0 || n.y > canvas.height) n.vy *= -1;
+        const d = Math.hypot(mouse.x - n.x, mouse.y - n.y);
+        if (d < 130) {
+          n.x += (n.x - mouse.x) * 0.01;
+          n.y += (n.y - mouse.y) * 0.01;
+        }
+        const [r, g, b] = n.color;
+        const gr = n.r * (1 + 0.35 * Math.sin(n.pulse));
+        const grd = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, gr * 6);
+        grd.addColorStop(0, `rgba(${r},${g},${b},1)`);
+        grd.addColorStop(1, `rgba(${r},${g},${b},0)`);
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, gr, 0, Math.PI * 2);
+        ctx.fillStyle = grd;
+        ctx.fill();
+      });
+      raf = requestAnimationFrame(draw);
+    };
+    draw();
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("resize", resize);
+    };
+  }, []);
   return (
-    <div style={{ maxWidth: 760, marginBottom: 28 }}>
-      <div
-        style={{
-          fontFamily: MONO_STACK,
-          fontSize: 11,
-          letterSpacing: "0.34em",
-          textTransform: "uppercase",
-          color: "#444",
-          marginBottom: 14,
-        }}
-      >
-        {eyebrow}
-      </div>
-      <h2
-        style={{
-          fontFamily: FONT_STACK,
-          fontSize: "clamp(2rem, 4vw, 3.5rem)",
-          lineHeight: 1.02,
-          fontWeight: 800,
-          letterSpacing: "-0.06em",
-          margin: 0,
-        }}
-      >
-        {title}
-      </h2>
-      {description ? (
-        <p
-          style={{
-            margin: "16px 0 0",
-            maxWidth: 680,
-            fontSize: 16,
-            lineHeight: 1.7,
-            color: "#444",
-          }}
-        >
-          {description}
-        </p>
-      ) : null}
+    <canvas
+      ref={canvasRef}
+      style={{
+        position: "fixed",
+        inset: 0,
+        width: "100%",
+        height: "100%",
+        zIndex: 0,
+        pointerEvents: "none",
+      }}
+    />
+  );
+}
+
+/* grid overlay */
+function Grid() {
+  return (
+    <div style={{ position: "absolute", inset: 0, zIndex: 1, pointerEvents: "none" }}>
+      <svg width="100%" height="100%">
+        <defs>
+          <pattern id="g2" width="64" height="64" patternUnits="userSpaceOnUse">
+            <path d="M 64 0 L 0 0 0 64" fill="none" stroke="rgba(0,200,255,0.04)" strokeWidth="0.8" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#g2)" />
+      </svg>
     </div>
   );
 }
 
-function Panel({ children, style = {}, whileHover = {} }) {
+/* scan line */
+function Scan() {
   return (
     <motion.div
-      whileHover={whileHover}
       style={{
-        border: "1px solid #111",
-        background: "#fff",
-        ...style,
+        position: "absolute",
+        left: 0,
+        right: 0,
+        height: 1,
+        background: "linear-gradient(90deg,transparent,rgba(0,220,255,0.28),transparent)",
+        zIndex: 2,
+        pointerEvents: "none",
       }}
+      animate={{ top: ["0%", "100%"] }}
+      transition={{ duration: 7, repeat: Infinity, ease: "linear" }}
+    />
+  );
+}
+
+/* section wrapper */
+function Sec({ children, id, py = 120, extra = {} }) {
+  return (
+    <section
+      id={id}
+      style={{
+        position: "relative",
+        zIndex: 10,
+        background: "linear-gradient(180deg,rgba(2,6,18,0.84),rgba(3,10,26,0.90))",
+        padding: `${py}px 32px`,
+        ...extra,
+      }}
+    >
+      <Grid />
+      {children}
+    </section>
+  );
+}
+
+/* scroll reveal */
+function Reveal({ children, delay = 0, y = 44, className = "" }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+  return (
+    <motion.div
+      ref={ref}
+      className={className}
+      initial={{ opacity: 0, y }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] }}
     >
       {children}
     </motion.div>
   );
 }
 
-function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-
+/* counter */
+function Count({ to, suffix = "" }) {
+  const [v, setV] = useState(0);
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true });
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 16);
-    window.addEventListener("scroll", onScroll);
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    if (!inView) return;
+    let c = 0;
+    const step = () => {
+      c += Math.ceil(to / 55);
+      if (c >= to) {
+        setV(to);
+        return;
+      }
+      setV(c);
+      requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }, [inView, to]);
+  return (
+    <span ref={ref}>
+      {v}
+      {suffix}
+    </span>
+  );
+}
 
+/* font injector */
+function Fonts() {
+  useEffect(() => {
+    const l = document.createElement("link");
+    l.rel = "stylesheet";
+    l.href =
+      "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;600&display=swap";
+    document.head.appendChild(l);
+  }, []);
+  return null;
+}
+
+/* typography helpers */
+const F = {
+  display: { fontFamily: "'Orbitron', sans-serif", fontWeight: 800 },
+  head: { fontFamily: "'Orbitron', sans-serif", fontWeight: 700 },
+  sub: { fontFamily: "'Space Grotesk', sans-serif", fontWeight: 600 },
+  body: { fontFamily: "'Space Grotesk', sans-serif", fontWeight: 400 },
+  mono: { fontFamily: "'JetBrains Mono', monospace" },
+};
+
+function Chip({ children }) {
+  return (
+    <div
+      style={{
+        ...F.mono,
+        display: "inline-block",
+        fontSize: 10,
+        letterSpacing: "0.45em",
+        color: "#00d4ff",
+        padding: "4px 16px",
+        border: "1px solid rgba(0,212,255,0.3)",
+        background: "rgba(0,212,255,0.07)",
+        marginBottom: 16,
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+function H2({ children }) {
+  return (
+    <h2
+      style={{
+        ...F.display,
+        fontSize: "clamp(2rem,5vw,3.6rem)",
+        lineHeight: 1.1,
+        color: "#ffffff",
+        margin: 0,
+      }}
+    >
+      {children}
+    </h2>
+  );
+}
+
+/* button styles */
+const BTN = {
+  blue: {
+    ...F.sub,
+    fontSize: 12,
+    letterSpacing: "0.2em",
+    padding: "14px 36px",
+    color: "#fff",
+    background: "rgba(0, 212, 255, 0.15)",
+    border: "1.5px solid rgba(0, 212, 255, 0.5)",
+    backdropFilter: "blur(10px)",
+    cursor: "pointer",
+    borderRadius: "16px",
+    position: "relative",
+    transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
+  },
+  ghost: {
+    ...F.sub,
+    fontSize: 12,
+    letterSpacing: "0.2em",
+    padding: "14px 36px",
+    color: "#cbd5e1",
+    background: "rgba(255, 255, 255, 0.08)",
+    border: "1.5px solid rgba(255, 255, 255, 0.25)",
+    backdropFilter: "blur(10px)",
+    cursor: "pointer",
+    borderRadius: "16px",
+    position: "relative",
+    transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
+  },
+};
+
+/* navbar */
+function Navbar() {
+  const [sc, setSc] = useState(false);
+  useEffect(() => {
+    const fn = () => setSc(window.scrollY > 50);
+    window.addEventListener("scroll", fn);
+    return () => window.removeEventListener("scroll", fn);
+  }, []);
   return (
     <motion.nav
-      initial={{ y: -24, opacity: 0 }}
+      initial={{ y: -90, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       style={{
         position: "fixed",
         top: 0,
         left: 0,
         right: 0,
         zIndex: 100,
-        background: "rgba(255,255,255,0.96)",
-        backdropFilter: "blur(10px)",
-        borderBottom: scrolled ? "1px solid #111" : "1px solid rgba(17,17,17,0.55)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        padding: "14px 40px",
+        background: sc ? "rgba(2,6,18,0.93)" : "rgba(2,6,18,0.45)",
+        backdropFilter: "blur(20px)",
+        borderBottom: "1px solid rgba(0,200,255,0.1)",
+        transition: "background 0.4s",
       }}
     >
-      <div
-        style={{
-          maxWidth: 1280,
-          margin: "0 auto",
-          padding: "18px 24px",
-          display: "grid",
-          gridTemplateColumns: "auto 1fr auto",
-          alignItems: "center",
-          gap: 24,
-        }}
-      >
-        <a href="#top" style={{ display: "inline-flex", alignItems: "center", gap: 14, color: "#111", textDecoration: "none" }}>
-          <img
-            src="/logo.svg"
-            alt="ThinkNode"
-            style={{ width: 40, height: 40, display: "block", objectFit: "cover" }}
-          />
-          <span
+          <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+            <img 
+              src="/logo.jpeg" 
+              alt="ThinkNode"
+              className="w-[3rem] rounded-lg" />
+            <span style={{ ...F.head, fontSize: 17, letterSpacing: "0.28em", color: "#fff" }}>
+              THINK
+              <span style={{ color: "#00d4ff", textShadow: "0 0 16px rgba(0,212,255,0.75)" }}>NODE</span>
+            </span>
+          </div>
+          <div style={{ display: "flex", gap: 36 }}>
+            {["Services", "Process", "Portfolio", "Testimonials"].map((item) => (
+              <a
+                key={item}
+                href={`#${item.toLowerCase()}`}
+                style={{
+                  ...F.mono,
+                  fontSize: 10,
+                  letterSpacing: "0.3em",
+                  color: "#94a3b8",
+                  textDecoration: "none",
+                  textTransform: "uppercase",
+                  transition: "color 0.2s",
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.color = "#00d4ff";
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.color = "#94a3b8";
+                }}
+              >
+                {item}
+              </a>
+            ))}
+          </div>
+          <motion.button
+            whileHover={{ scale: 1.06 }}
+            whileTap={{ scale: 0.96 }}
             style={{
-              fontFamily: FONT_STACK,
-              fontSize: 14,
-              fontWeight: 800,
-              letterSpacing: "0.3em",
-              textTransform: "uppercase",
+              ...F.sub,
+              fontSize: 11,
+              letterSpacing: "0.25em",
+              padding: "10px 24px",
+              color: "#00d4ff",
+              background: "rgba(0, 212, 255, 0.1)",
+              border: "1px solid rgba(0, 212, 255, 0.4)",
+              backdropFilter: "blur(8px)",
+              cursor: "pointer",
+              borderRadius: "14px",
+              transition: "all 0.3s ease",
             }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "rgba(0, 212, 255, 0.2)";
+              e.currentTarget.style.borderColor = "rgba(0, 212, 255, 0.8)";
+              e.currentTarget.style.boxShadow = "0 0 20px rgba(0, 212, 255, 0.3)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "rgba(0, 212, 255, 0.1)";
+              e.currentTarget.style.borderColor = "rgba(0, 212, 255, 0.4)";
+              e.currentTarget.style.boxShadow = "none";
+            }}
+           onClick={() => navigate('/login')}
           >
-            ThinkNode
-          </span>
-        </a>
+            GET STARTED
+          </motion.button>
+        </motion.nav>
+      );
+    }
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            flexWrap: "wrap",
-            gap: 24,
-          }}
-        >
-          {NAV_ITEMS.map((item) => (
-            <a
-              key={item.label}
-              href={item.href}
-              style={{
-                fontFamily: MONO_STACK,
-                fontSize: 10,
-                letterSpacing: "0.26em",
-                textTransform: "uppercase",
-                color: "#111",
-                textDecoration: "none",
-                borderBottom: "1px solid transparent",
-                paddingBottom: 4,
-                transition: "border-color 160ms ease, opacity 160ms ease",
-              }}
-            >
-              {item.label}
-            </a>
-          ))}
-        </div>
+    /* data */
+const SERVICES = [
+  {
+    sym: "A",
+    title: "Web Development",
+    desc: "Full-stack applications engineered for performance, scale, and pixel-perfect precision.",
+    accent: "#00d4ff",
+  },
+  {
+    sym: "B",
+    title: "Frontend Apps",
+    desc: "Component-driven UI systems with cinematic micro-interactions that convert.",
+    accent: "#a855f7",
+  },
+  {
+    sym: "C",
+    title: "E-Poster Design",
+    desc: "Visual systems that communicate authority, brand intelligence, and aesthetic edge.",
+    accent: "#10b981",
+  },
+  {
+    sym: "D",
+    title: "n8n Automation",
+    desc: "Workflow automation that eliminates friction, multiplies output, and runs silently.",
+    accent: "#f59e0b",
+  },
+  {
+    sym: "E",
+    title: "Video Editing",
+    desc: "Post-production that transforms raw footage into unforgettable narrative experiences.",
+    accent: "#f43f5e",
+  },
+];
 
-        <motion.button
-          onClick={() => (window.location.hash = "#contact")}
-          whileHover={{ y: -1 }}
-          whileTap={{ scale: 0.98 }}
-          style={{
-            fontFamily: MONO_STACK,
-            fontSize: 11,
-            letterSpacing: "0.22em",
-            textTransform: "uppercase",
-            color: "#fff",
-            background: "#111",
-            border: "1px solid #111",
-            padding: "12px 18px",
-            cursor: "pointer",
-          }}
-        >
-          Get started
-        </motion.button>
-      </div>
-    </motion.nav>
-  );
-}
+const PORTFOLIO = [
+  { title: "E-Commerce Platform", tag: "Web Dev", a: "#0d3a5c", b: "#041520" },
+  { title: "SaaS Dashboard", tag: "Frontend", a: "#2d1b69", b: "#0d0b2e" },
+  { title: "Brand Identity System", tag: "Design", a: "#064e3b", b: "#012318" },
+  { title: "Workflow Automation", tag: "n8n", a: "#78350f", b: "#2c1508" },
+  { title: "Product Launch Video", tag: "Video", a: "#7f1d1d", b: "#2d0a0a" },
+  { title: "Mobile App UI", tag: "Frontend", a: "#0c4a6e", b: "#031c2c" },
+];
 
-function Footer() {
-  return (
-    <footer
-      id="contact"
-      style={{
-        borderTop: "1px solid #111",
-        padding: "24px 24px 34px",
-      }}
-    >
-      <div
-        style={{
-          maxWidth: 1280,
-          margin: "0 auto",
-          display: "flex",
-          flexWrap: "wrap",
-          gap: 16,
-          justifyContent: "space-between",
-          alignItems: "center",
-          color: "#444",
-          fontSize: 12,
-          letterSpacing: "0.08em",
-          textTransform: "uppercase",
-        }}
-      >
-        <span style={{ fontFamily: MONO_STACK }}>ThinkNode customer portal</span>
-        <span style={{ fontFamily: MONO_STACK }}>Built for clean execution</span>
-        <a href="#top" style={{ color: "#111", textDecoration: "none", fontFamily: MONO_STACK }}>
-          Back to top
-        </a>
-      </div>
-    </footer>
-  );
-}
+const TESTIMONIALS = [
+  {
+    name: "Arjun Mehta",
+    role: "Startup Founder",
+    quote:
+      "ThinkNode delivered a platform that exceeded every expectation. The level of craft is extraordinary - we went live ahead of schedule.",
+    av: "AM",
+  },
+  {
+    name: "Sofia Laurent",
+    role: "Product Director",
+    quote:
+      "Our automation workflows now run flawlessly. Response time, quality of output, and communication were all exceptional throughout.",
+    av: "SL",
+  },
+  {
+    name: "Kevin Osei",
+    role: "Creative Director",
+    quote:
+      "The visual design language they created for us is completely unique. Clients constantly ask who designed it - it just commands attention.",
+    av: "KO",
+  },
+  {
+    name: "Priya Nair",
+    role: "E-commerce Lead",
+    quote:
+      "From brief to delivery in record time. The frontend performance improvements alone paid for everything, twice over.",
+    av: "PN",
+  },
+];
 
+/* main */
 export default function LandingPage() {
   const navigate = useNavigate();
-  const [activeProof, setActiveProof] = useState(0);
+  const [tIdx, setTIdx] = useState(0);
+  const { scrollY } = useScroll();
+  const heroY = useTransform(scrollY, [0, 700], [0, -180]);
+  const heroOp = useTransform(scrollY, [0, 500], [1, 0]);
 
   useEffect(() => {
-    const timer = window.setInterval(() => {
-      setActiveProof((value) => (value + 1) % PROOF.length);
-    }, 5200);
-
-    return () => window.clearInterval(timer);
+    const t = setInterval(() => setTIdx((i) => (i + 1) % TESTIMONIALS.length), 5000);
+    return () => clearInterval(t);
   }, []);
 
   return (
-    <div
-      id="top"
-      style={{
-        minHeight: "100vh",
-        background: "#fff",
-        color: "#111",
-        fontFamily: FONT_STACK,
-        overflowX: "hidden",
-      }}
-    >
+    <div style={{ background: "#020812", minHeight: "100vh", overflowX: "hidden", color: "#fff" }}>
+      <Fonts />
+      <ParticleBg />
       <Navbar />
 
-      <main style={{ paddingTop: 84 }}>
+      <>
+        {/* Main Landing Content - All Visible */}
         <section
-          style={{
-            maxWidth: 1280,
-            margin: "0 auto",
-            padding: "48px 24px 88px",
-          }}
-        >
-          <div
             style={{
-              display: "grid",
-              gridTemplateColumns: "minmax(0, 1.3fr) minmax(320px, 0.85fr)",
-              gap: 24,
-              alignItems: "stretch",
+              position: "relative",
+              zIndex: 10,
+              height: "100vh",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              overflow: "hidden",
             }}
           >
-            <motion.div
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              style={{ paddingTop: 12 }}
-            >
-              <div
-                style={{
-                  fontFamily: MONO_STACK,
-                  fontSize: 11,
-                  letterSpacing: "0.34em",
-                  textTransform: "uppercase",
-                  color: "#444",
-                  marginBottom: 18,
-                }}
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                background:
+                  "radial-gradient(ellipse 80% 65% at 50% 42%,rgba(0,50,110,0.38) 0%,rgba(2,6,18,0.78) 100%)",
+                zIndex: 1,
+              }}
+            />
+            <Grid />
+            <Scan />
+            <motion.div style={{ y: heroY, opacity: heroOp, position: "relative", zIndex: 5, textAlign: "center", padding: "0 24px", maxWidth: 940 }}>
+              <motion.div
+                initial={{ opacity: 0, y: 70 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
               >
-                ThinkNode customer portal
-              </div>
-              <h1
-                style={{
-                  margin: 0,
-                  maxWidth: 760,
-                  fontSize: "clamp(3.2rem, 8vw, 7rem)",
-                  lineHeight: 0.94,
-                  letterSpacing: "-0.08em",
-                  fontWeight: 800,
-                }}
-              >
-                Hardcoded by elite engineers.
-              </h1>
-              <p
-                style={{
-                  maxWidth: 640,
-                  margin: "22px 0 0",
-                  fontSize: "clamp(1rem, 1.4vw, 1.2rem)",
-                  lineHeight: 1.7,
-                  color: "#444",
-                }}
-              >
-                A brutally clean client experience built with premium SaaS discipline, Swiss typography, and production-grade restraint.
-              </p>
-
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 34 }}>
-                <motion.button
-                  onClick={() => navigate("/login")}
-                  whileHover={{ y: -1 }}
-                  whileTap={{ scale: 0.98 }}
-                  style={{
-                    fontFamily: MONO_STACK,
-                    fontSize: 11,
-                    letterSpacing: "0.22em",
-                    textTransform: "uppercase",
-                    color: "#fff",
-                    background: "#111",
-                    border: "1px solid #111",
-                    padding: "14px 20px",
-                    cursor: "pointer",
-                  }}
-                >
-                  Start project
-                </motion.button>
-                <motion.a
-                  href="#services"
-                  whileHover={{ y: -1 }}
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontFamily: MONO_STACK,
-                    fontSize: 11,
-                    letterSpacing: "0.22em",
-                    textTransform: "uppercase",
-                    color: "#111",
-                    background: "#fff",
-                    border: "1px solid #111",
-                    padding: "14px 20px",
-                    textDecoration: "none",
-                  }}
-                >
-                  View services
-                </motion.a>
-              </div>
-
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
-                  gap: 12,
-                  marginTop: 34,
-                }}
-              >
-                {METRICS.map((metric) => (
-                  <Panel key={metric.label} style={{ padding: 16 }} whileHover={{ y: -1 }}>
-                    <div style={{ fontSize: 28, fontWeight: 800, letterSpacing: "-0.06em", lineHeight: 1 }}>{metric.value}</div>
-                    <div
-                      style={{
-                        marginTop: 12,
-                        fontFamily: MONO_STACK,
-                        fontSize: 10,
-                        letterSpacing: "0.22em",
-                        textTransform: "uppercase",
-                        color: "#444",
-                        lineHeight: 1.5,
-                      }}
-                    >
-                      {metric.label}
-                    </div>
-                  </Panel>
-                ))}
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.55, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
-              style={{ display: "grid", gap: 12 }}
-            >
-              <Panel style={{ padding: 24 }}>
-                <div
-                  style={{
-                    fontFamily: MONO_STACK,
-                    fontSize: 10,
-                    letterSpacing: "0.3em",
-                    textTransform: "uppercase",
-                    color: "#444",
-                    marginBottom: 18,
-                  }}
-                >
-                  Operating standard
-                </div>
-                <div
-                  style={{
-                    display: "grid",
-                    gap: 0,
-                    borderTop: "1px solid #111",
-                  }}
-                >
-                  {[
-                    ["Look", "Pure white, black text, sharp edges"],
-                    ["Tone", "Minimal, technical, deliberate"],
-                    ["Motion", "Fast, smooth, and subtle"],
-                    ["Structure", "Grid-driven and fully responsive"],
-                  ].map(([label, value]) => (
-                    <div
-                      key={label}
-                      style={{
-                        display: "grid",
-                        gridTemplateColumns: "120px minmax(0, 1fr)",
-                        gap: 16,
-                        padding: "16px 0",
-                        borderBottom: "1px solid #111",
-                        alignItems: "start",
-                      }}
-                    >
-                      <div style={{ fontFamily: MONO_STACK, fontSize: 10, letterSpacing: "0.22em", textTransform: "uppercase", color: "#444" }}>
-                        {label}
-                      </div>
-                      <div style={{ fontSize: 15, lineHeight: 1.6 }}>{value}</div>
-                    </div>
-                  ))}
-                </div>
-              </Panel>
-
-              <Panel style={{ padding: 24 }} whileHover={{ y: -1 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", gap: 16, marginBottom: 18 }}>
-                  <div>
-                    <div style={{ fontSize: 12, color: "#444", fontFamily: MONO_STACK, letterSpacing: "0.22em", textTransform: "uppercase" }}>
-                      Delivery model
-                    </div>
-                    <div style={{ marginTop: 10, fontSize: 22, fontWeight: 800, letterSpacing: "-0.05em" }}>
-                      One page, engineered with intent.
-                    </div>
-                  </div>
-                  <div
+                <Chip>THINKNODE CLIENT PORTAL</Chip>
+                <div style={{ ...F.display, fontSize: "clamp(3rem,8vw,6.2rem)", lineHeight: 1.06, marginBottom: 26 }}>
+                  <span style={{ color: "#ffffff" }}>Build, Design,</span>
+                  <br />
+                  <span
                     style={{
-                      alignSelf: "flex-start",
-                      border: "1px solid #111",
-                      padding: "8px 10px",
-                      fontFamily: MONO_STACK,
-                      fontSize: 10,
-                      letterSpacing: "0.22em",
-                      textTransform: "uppercase",
+                      background: "linear-gradient(90deg,#00d4ff,#a855f7)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
                     }}
                   >
-                    Live
-                  </div>
+                    & Automate
+                  </span>
                 </div>
-                <p style={{ margin: 0, color: "#444", lineHeight: 1.7 }}>
-                  The experience is structured to feel premium without decoration: no excess color, no soft glass, and no visual drift.
+                <p style={{ ...F.body, fontSize: 20, color: "#cbd5e1", maxWidth: 600, margin: "0 auto 44px", lineHeight: 1.75 }}>
+                  Professional freelance services for web, design, and automation. Precision-crafted for results.
                 </p>
-              </Panel>
+                <div style={{ display: "flex", gap: 16, justifyContent: "center" }}>
+                    <motion.button
+                        style={BTN.blue}
+                        whileHover={{ scale: 1.07, boxShadow: "0 0 44px rgba(0,212,255,0.5)" }}
+                        whileTap={{ scale: 0.97 }}
+                        onClick={() => navigate('/login')}
+                    >
+                        START PROJECT
+                    </motion.button>
+                  <motion.button
+                    style={BTN.ghost}
+                    whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(255,255,255,0.2)" }}
+                    whileTap={{ scale: 0.97 }}
+                  >
+                    VIEW SERVICES
+                  </motion.button>
+                </div>
+              </motion.div>
             </motion.div>
-          </div>
-        </section>
+          </section>
 
-        <section id="services" style={{ borderTop: "1px solid #111" }}>
-          <div style={{ maxWidth: 1280, margin: "0 auto", padding: "84px 24px" }}>
-            <SectionHeader
-              eyebrow="Services"
-              title="Focused capabilities for teams that value clarity."
-              description="Each module is designed to read like a premium product surface: direct, disciplined, and built to scale without visual clutter."
-            />
-
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 16 }}>
-              {SERVICES.map((service) => (
-                <Panel key={service.index} style={{ padding: 24, minHeight: 250 }} whileHover={{ y: -2 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", gap: 16, alignItems: "baseline" }}>
-                    <div style={{ fontFamily: MONO_STACK, fontSize: 10, letterSpacing: "0.24em", textTransform: "uppercase", color: "#444" }}>
-                      {service.index}
-                    </div>
-                    <div style={{ width: 42, height: 1, background: "#111" }} />
-                  </div>
-                  <h3 style={{ margin: "20px 0 0", fontSize: 24, lineHeight: 1.1, letterSpacing: "-0.05em" }}>{service.title}</h3>
-                  <p style={{ margin: "14px 0 0", color: "#444", fontSize: 15, lineHeight: 1.7 }}>{service.description}</p>
-                  <div style={{ marginTop: 20, borderTop: "1px solid #111", paddingTop: 16, display: "grid", gap: 10 }}>
-                    {service.points.map((point) => (
-                      <div key={point} style={{ display: "flex", gap: 12, alignItems: "center" }}>
-                        <span style={{ width: 14, height: 1, background: "#111", flexShrink: 0 }} />
-                        <span style={{ fontFamily: MONO_STACK, fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase" }}>{point}</span>
-                      </div>
-                    ))}
-                  </div>
-                </Panel>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section id="process" style={{ borderTop: "1px solid #111" }}>
-          <div style={{ maxWidth: 1280, margin: "0 auto", padding: "84px 24px" }}>
-            <SectionHeader
-              eyebrow="Process"
-              title="A direct operating rhythm."
-              description="The workflow is intentionally short. It removes friction, keeps the scope visible, and produces clean handoff points."
-            />
-
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 16 }}>
-              {PROCESS.map((step) => (
-                <Panel key={step.step} style={{ padding: 24, minHeight: 220 }} whileHover={{ y: -2 }}>
-                  <div style={{ fontFamily: MONO_STACK, fontSize: 11, letterSpacing: "0.28em", textTransform: "uppercase", color: "#444" }}>
-                    Step {step.step}
-                  </div>
-                  <div style={{ marginTop: 24, fontSize: 44, fontWeight: 800, lineHeight: 0.9, letterSpacing: "-0.08em" }}>{step.step}</div>
-                  <h3 style={{ margin: "18px 0 0", fontSize: 22, lineHeight: 1.12, letterSpacing: "-0.05em" }}>{step.title}</h3>
-                  <p style={{ margin: "12px 0 0", color: "#444", fontSize: 15, lineHeight: 1.7 }}>{step.description}</p>
-                </Panel>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section id="standards" style={{ borderTop: "1px solid #111" }}>
-          <div style={{ maxWidth: 1280, margin: "0 auto", padding: "84px 24px" }}>
-            <SectionHeader
-              eyebrow="Standards"
-              title="The system is intentionally minimal."
-              description="The interface avoids decoration and focuses on hierarchy, spacing, and typographic discipline."
-            />
-
-            <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr) minmax(320px, 420px)", gap: 16 }}>
-              <Panel style={{ padding: 24 }}>
-                <div style={{ display: "grid", gap: 0 }}>
-                  {STANDARDS.map(([label, value]) => (
+          <Sec py={36} extra={{ borderTop: "1px solid rgba(0,200,255,0.12)", borderBottom: "1px solid rgba(0,200,255,0.12)" }}>
+            <div
+              style={{
+                maxWidth: 1100,
+                margin: "0 auto",
+                display: "flex",
+                justifyContent: "space-around",
+                flexWrap: "wrap",
+                gap: 32,
+                position: "relative",
+                zIndex: 5,
+              }}
+            >
+              {[
+                ["50", "+", "Projects Delivered"],
+                ["100", "%", "Client Satisfaction"],
+                ["5", "+", "Service Areas"],
+                ["48", "h", "Avg. Delivery"],
+              ].map(([n, s, l], i) => (
+                <Reveal key={l} delay={i * 0.1}>
+                  <div style={{ textAlign: "center" }}>
                     <div
-                      key={label}
                       style={{
-                        display: "grid",
-                        gridTemplateColumns: "180px minmax(0, 1fr)",
-                        gap: 20,
-                        padding: "18px 0",
-                        borderBottom: "1px solid #111",
-                        alignItems: "start",
+                        ...F.head,
+                        fontSize: 44,
+                        color: "#00d4ff",
+                        textShadow: "0 0 26px rgba(0,212,255,0.5)",
                       }}
                     >
-                      <div style={{ fontFamily: MONO_STACK, fontSize: 10, letterSpacing: "0.22em", textTransform: "uppercase", color: "#444" }}>{label}</div>
-                      <div style={{ fontSize: 16, lineHeight: 1.6 }}>{value}</div>
+                      <Count to={parseInt(n, 10)} suffix={s} />
                     </div>
-                  ))}
-                </div>
-              </Panel>
-
-              <Panel style={{ padding: 24 }} whileHover={{ y: -2 }}>
-                <div style={{ fontFamily: MONO_STACK, fontSize: 10, letterSpacing: "0.28em", textTransform: "uppercase", color: "#444" }}>
-                  Layout logic
-                </div>
-                <div style={{ marginTop: 18, fontSize: 24, fontWeight: 800, lineHeight: 1.1, letterSpacing: "-0.06em" }}>
-                  Strong grid. Sharp borders. No soft corners.
-                </div>
-                <p style={{ margin: "14px 0 0", color: "#444", lineHeight: 1.7 }}>
-                  Every section is built to feel engineered rather than decorated, with consistent spacing and a clear visual path.
-                </p>
-                <div style={{ marginTop: 20, display: "grid", gap: 10 }}>
-                  {[
-                    "Compact rhythm",
-                    "Accessible contrast",
-                    "No visual clutter",
-                    "Systematic alignment",
-                  ].map((item) => (
-                    <div key={item} style={{ display: "flex", gap: 12, alignItems: "center" }}>
-                      <span style={{ width: 14, height: 1, background: "#111", flexShrink: 0 }} />
-                      <span style={{ fontFamily: MONO_STACK, fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase" }}>{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </Panel>
+                    <div style={{ ...F.mono, fontSize: 10, color: "#64748b", letterSpacing: "0.35em", marginTop: 5 }}>{l}</div>
+                  </div>
+                </Reveal>
+              ))}
             </div>
-          </div>
-        </section>
+          </Sec>
 
-        <section id="proof" style={{ borderTop: "1px solid #111" }}>
-          <div style={{ maxWidth: 1280, margin: "0 auto", padding: "84px 24px" }}>
-            <SectionHeader
-              eyebrow="Proof"
-              title="Client feedback without the fluff."
-              description="The testimonial block is kept deliberately plain so the signal stays high and the interface remains calm."
-            />
+          <Sec id="services">
+            <div style={{ maxWidth: 1200, margin: "0 auto", position: "relative", zIndex: 5 }}>
+              <Reveal>
+                <div style={{ textAlign: "center", marginBottom: 72 }}>
+                  <Chip>CAPABILITIES</Chip>
+                  <H2>
+                    Service <span style={{ color: "#00d4ff" }}>Modules</span>
+                  </H2>
+                </div>
+              </Reveal>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: 20 }}>
+                {SERVICES.map((s, i) => (
+                  <Reveal key={s.title} delay={i * 0.09}>
+                    <motion.div
+                      whileHover={{ y: -10, scale: 1.02 }}
+                      style={{
+                        padding: 38,
+                        cursor: "pointer",
+                        position: "relative",
+                        overflow: "hidden",
+                        background: "rgba(4,12,34,0.82)",
+                        border: `1px solid ${s.accent}45`,
+                        backdropFilter: "blur(12px)",
+                        clipPath: "polygon(0 0,calc(100% - 22px) 0,100% 22px,100% 100%,22px 100%,0 calc(100% - 22px))",
+                      }}
+                    >
+                      <motion.div
+                        style={{
+                          position: "absolute",
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          height: 2,
+                          background: `linear-gradient(90deg,transparent,${s.accent},transparent)`,
+                        }}
+                        animate={{ opacity: [0.4, 1, 0.4] }}
+                        transition={{ duration: 2.5, repeat: Infinity, delay: i * 0.4 }}
+                      />
+                      <div style={{ ...F.display, fontSize: 38, color: s.accent, marginBottom: 18 }}>{s.sym}</div>
+                      <h3 style={{ ...F.sub, fontSize: 19, color: "#f1f5f9", marginBottom: 10, letterSpacing: "0.05em" }}>{s.title}</h3>
+                      <p style={{ ...F.body, fontSize: 15, color: "#94a3b8", lineHeight: 1.75, margin: 0 }}>{s.desc}</p>
+                      <div style={{ position: "absolute", bottom: 13, right: 17, ...F.mono, fontSize: 10, color: "#1e293b" }}>{String(i + 1).padStart(2, "0")}</div>
+                    </motion.div>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+          </Sec>
 
-            <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1.2fr) minmax(300px, 0.8fr)", gap: 16, alignItems: "stretch" }}>
-              <Panel style={{ padding: 28, minHeight: 260 }}>
+          <Sec id="process">
+            <div style={{ maxWidth: 900, margin: "0 auto", position: "relative", zIndex: 5 }}>
+              <Reveal>
+                <div style={{ textAlign: "center", marginBottom: 80 }}>
+                  <Chip>PROCESS</Chip>
+                  <H2>
+                    System <span style={{ color: "#00d4ff" }}>Protocol</span>
+                  </H2>
+                </div>
+              </Reveal>
+              <div style={{ display: "flex", flexDirection: "column", gap: 60 }}>
+                {[
+                  {
+                    n: "01",
+                    title: "Submit Your Project",
+                    desc: "Share your brief, requirements, and vision. We analyse, scope, and confirm timelines within 24 hours.",
+                  },
+                  {
+                    n: "02",
+                    title: "We Build Your Solution",
+                    desc: "Our engineers and designers execute with surgical precision. Real-time updates keep you informed.",
+                  },
+                  {
+                    n: "03",
+                    title: "Receive Your Project",
+                    desc: "Final delivery with full handoff docs, source files, and post-delivery support - all included.",
+                  },
+                ].map((step, i) => (
+                  <Reveal key={step.n} delay={i * 0.18}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 44, flexDirection: i % 2 === 1 ? "row-reverse" : "row" }}>
+                      <div style={{ position: "relative", flexShrink: 0, width: 100, height: 100 }}>
+                        <motion.div
+                          style={{
+                            width: 100,
+                            height: 100,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            background: "rgba(0,212,255,0.09)",
+                            border: "1px solid rgba(0,212,255,0.38)",
+                            clipPath: "polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%)",
+                            ...F.head,
+                            fontSize: 22,
+                            color: "#00d4ff",
+                          }}
+                          animate={{ rotate: [0, 360] }}
+                          transition={{ duration: 26, repeat: Infinity, ease: "linear" }}
+                        >
+                          {step.n}
+                        </motion.div>
+                        <motion.div
+                          style={{
+                            position: "absolute",
+                            inset: -9,
+                            clipPath: "polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%)",
+                            border: "1px solid rgba(0,212,255,0.18)",
+                          }}
+                          animate={{ scale: [1, 1.35, 1], opacity: [0.6, 0, 0.6] }}
+                          transition={{ duration: 2.6, repeat: Infinity, delay: i * 0.9 }}
+                        />
+                      </div>
+                      <div style={{ textAlign: i % 2 === 1 ? "right" : "left" }}>
+                        <div style={{ ...F.mono, fontSize: 10, color: "#00d4ff", letterSpacing: "0.38em", marginBottom: 9 }}>STEP {step.n}</div>
+                        <h3 style={{ ...F.sub, fontSize: 25, color: "#f1f5f9", marginBottom: 10 }}>{step.title}</h3>
+                        <p
+                          style={{
+                            ...F.body,
+                            fontSize: 16,
+                            color: "#94a3b8",
+                            lineHeight: 1.78,
+                            maxWidth: 500,
+                            margin: i % 2 === 1 ? "0 0 0 auto" : 0,
+                          }}
+                        >
+                          {step.desc}
+                        </p>
+                      </div>
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+          </Sec>
+
+          <Sec id="portfolio">
+            <div style={{ maxWidth: 1200, margin: "0 auto", position: "relative", zIndex: 5 }}>
+              <Reveal>
+                <div style={{ textAlign: "center", marginBottom: 72 }}>
+                  <Chip>PORTFOLIO</Chip>
+                  <H2>
+                    Delivered <span style={{ color: "#00d4ff" }}>Projects</span>
+                  </H2>
+                </div>
+              </Reveal>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(340px,1fr))", gap: 16 }}>
+                {PORTFOLIO.map((p, i) => (
+                  <Reveal key={p.title} delay={i * 0.07}>
+                    <motion.div
+                      whileHover={{ scale: 1.03 }}
+                      style={{
+                        position: "relative",
+                        height: 220,
+                        overflow: "hidden",
+                        cursor: "pointer",
+                        background: `linear-gradient(135deg,${p.a},${p.b})`,
+                        border: "1px solid rgba(255,255,255,0.07)",
+                      }}
+                    >
+                      <Grid />
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        whileHover={{ opacity: 1 }}
+                        transition={{ duration: 0.3 }}
+                        style={{
+                          position: "absolute",
+                          inset: 0,
+                          background: "rgba(2,8,22,0.9)",
+                          backdropFilter: "blur(5px)",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          flexDirection: "column",
+                          gap: 8,
+                          zIndex: 5,
+                        }}
+                      >
+                        <div style={{ ...F.mono, fontSize: 10, color: "#00d4ff", letterSpacing: "0.35em" }}>{p.tag}</div>
+                        <div style={{ ...F.sub, fontSize: 20, color: "#ffffff" }}>{p.title}</div>
+                        <div
+                          style={{
+                            ...F.mono,
+                            fontSize: 10,
+                            color: "#00d4ff",
+                            border: "1px solid #00d4ff",
+                            padding: "5px 16px",
+                            letterSpacing: "0.25em",
+                            marginTop: 10,
+                          }}
+                        >
+                          VIEW PROJECT -
+                        </div>
+                      </motion.div>
+                      <div style={{ position: "absolute", bottom: 20, left: 20, zIndex: 3 }}>
+                        <div style={{ ...F.mono, fontSize: 9, color: "#64748b", letterSpacing: "0.3em" }}>{p.tag}</div>
+                        <div style={{ ...F.sub, fontSize: 18, color: "#e2e8f0" }}>{p.title}</div>
+                      </div>
+                      <div style={{ position: "absolute", top: 16, right: 18, ...F.mono, fontSize: 10, color: "#1e293b" }}>
+                        {String(i + 1).padStart(2, "0")}
+                      </div>
+                    </motion.div>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+          </Sec>
+
+          <Sec>
+            <div style={{ maxWidth: 1100, margin: "0 auto", position: "relative", zIndex: 5 }}>
+              <Reveal>
+                <div style={{ textAlign: "center", marginBottom: 72 }}>
+                  <Chip>WHY THINKNODE</Chip>
+                  <H2>
+                    Core <span style={{ color: "#00d4ff" }}>Advantages</span>
+                  </H2>
+                </div>
+              </Reveal>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(460px,1fr))", gap: 16 }}>
+                {[
+                  {
+                    sym: "01",
+                    title: "Fast Delivery",
+                    desc: "48-hour turnaround on standard projects. We operate with urgency without sacrificing quality.",
+                    accent: "#00d4ff",
+                  },
+                  {
+                    sym: "02",
+                    title: "Professional Quality",
+                    desc: "Production-grade output on every engagement. No shortcuts, no compromise, no exceptions.",
+                    accent: "#a855f7",
+                  },
+                  {
+                    sym: "03",
+                    title: "Custom Solutions",
+                    desc: "Every project is built from scratch, tailored to your exact requirements and brand identity.",
+                    accent: "#10b981",
+                  },
+                  {
+                    sym: "04",
+                    title: "Affordable Pricing",
+                    desc: "Transparent, competitive rates with zero hidden fees. Maximum value, honest invoicing.",
+                    accent: "#f59e0b",
+                  },
+                ].map((f, i) => (
+                  <Reveal key={f.title} delay={i * 0.1}>
+                    <motion.div
+                      whileHover={{ x: 8 }}
+                      style={{
+                        display: "flex",
+                        gap: 24,
+                        padding: 36,
+                        background: "rgba(4,12,34,0.76)",
+                        border: "1px solid rgba(255,255,255,0.07)",
+                        backdropFilter: "blur(10px)",
+                      }}
+                    >
+                      <div style={{ ...F.display, fontSize: 40, color: f.accent, flexShrink: 0, lineHeight: 1 }}>{f.sym}</div>
+                      <div>
+                        <h3 style={{ ...F.sub, fontSize: 18, color: "#f1f5f9", marginBottom: 9, letterSpacing: "0.04em" }}>{f.title}</h3>
+                        <p style={{ ...F.body, fontSize: 15, color: "#94a3b8", lineHeight: 1.78, margin: 0 }}>{f.desc}</p>
+                      </div>
+                    </motion.div>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+          </Sec>
+
+          <Sec id="testimonials">
+            <div style={{ maxWidth: 860, margin: "0 auto", position: "relative", zIndex: 5 }}>
+              <Reveal>
+                <div style={{ textAlign: "center", marginBottom: 72 }}>
+                  <Chip>TESTIMONIALS</Chip>
+                  <H2>
+                    Client <span style={{ color: "#00d4ff" }}>Signals</span>
+                  </H2>
+                </div>
+              </Reveal>
+              <div style={{ minHeight: 280 }}>
                 <AnimatePresence mode="wait">
                   <motion.div
-                    key={activeProof}
-                    initial={{ opacity: 0, x: 16 }}
+                    key={tIdx}
+                    initial={{ opacity: 0, x: 80 }}
                     animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -16 }}
-                    transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+                    exit={{ opacity: 0, x: -80 }}
+                    transition={{ duration: 0.68, ease: [0.16, 1, 0.3, 1] }}
+                    style={{
+                      padding: 52,
+                      background: "rgba(4,12,34,0.88)",
+                      backdropFilter: "blur(14px)",
+                      border: "1px solid rgba(0,212,255,0.2)",
+                      clipPath: "polygon(0 0,calc(100% - 34px) 0,100% 34px,100% 100%,34px 100%,0 calc(100% - 34px))",
+                    }}
                   >
-                    <div style={{ fontSize: 56, lineHeight: 1, fontWeight: 800, marginBottom: 10 }}>“</div>
-                    <p style={{ margin: 0, fontSize: 22, lineHeight: 1.6, letterSpacing: "-0.03em" }}>{PROOF[activeProof].quote}</p>
-                    <div style={{ marginTop: 26, borderTop: "1px solid #111", paddingTop: 18, display: "flex", justifyContent: "space-between", gap: 16, alignItems: "center" }}>
-                      <div>
-                        <div style={{ fontSize: 16, fontWeight: 700 }}>{PROOF[activeProof].name}</div>
-                        <div style={{ marginTop: 6, fontFamily: MONO_STACK, fontSize: 10, letterSpacing: "0.22em", textTransform: "uppercase", color: "#444" }}>{PROOF[activeProof].role}</div>
+                    <div style={{ ...F.display, fontSize: 60, color: "#00d4ff", lineHeight: 0.8, marginBottom: 26 }}>
+                      "
+                    </div>
+                    <p style={{ ...F.body, fontSize: 20, color: "#e2e8f0", lineHeight: 1.8, marginBottom: 40 }}>{TESTIMONIALS[tIdx].quote}</p>
+                    <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
+                      <div
+                        style={{
+                          width: 54,
+                          height: 54,
+                          background: "linear-gradient(135deg,#00aaff,#6050ff)",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          ...F.sub,
+                          fontSize: 13,
+                          color: "#fff",
+                          flexShrink: 0,
+                        }}
+                      >
+                        {TESTIMONIALS[tIdx].av}
                       </div>
-                      <div style={{ fontFamily: MONO_STACK, fontSize: 10, letterSpacing: "0.22em", textTransform: "uppercase", color: "#444" }}>
-                        {String(activeProof + 1).padStart(2, "0")}/{String(PROOF.length).padStart(2, "0")}
+                      <div>
+                        <div style={{ ...F.sub, fontSize: 16, color: "#f1f5f9" }}>{TESTIMONIALS[tIdx].name}</div>
+                        <div style={{ ...F.mono, fontSize: 10, color: "#64748b", letterSpacing: "0.3em", marginTop: 4 }}>
+                          {TESTIMONIALS[tIdx].role}
+                        </div>
                       </div>
                     </div>
                   </motion.div>
                 </AnimatePresence>
-
-                <div style={{ display: "flex", gap: 8, marginTop: 20 }}>
-                  {PROOF.map((item, index) => (
+                <div style={{ display: "flex", justifyContent: "center", gap: 8, marginTop: 28 }}>
+                  {TESTIMONIALS.map((_, i) => (
                     <button
-                      key={item.name}
-                      type="button"
-                      onClick={() => setActiveProof(index)}
+                      key={i}
+                      onClick={() => setTIdx(i)}
                       style={{
-                        width: 44,
-                        height: 4,
-                        padding: 0,
+                        width: 38,
+                        height: 3,
                         border: "none",
-                        background: index === activeProof ? "#111" : "#c9c9c9",
                         cursor: "pointer",
+                        background: i === tIdx ? "#00d4ff" : "rgba(255,255,255,0.12)",
+                        transition: "background 0.3s",
                       }}
-                      aria-label={`Show testimonial ${index + 1}`}
                     />
                   ))}
                 </div>
-              </Panel>
-
-              <Panel style={{ padding: 24 }} whileHover={{ y: -2 }}>
-                <div style={{ fontFamily: MONO_STACK, fontSize: 10, letterSpacing: "0.28em", textTransform: "uppercase", color: "#444" }}>
-                  Why it works
-                </div>
-                <div style={{ marginTop: 18, fontSize: 24, fontWeight: 800, lineHeight: 1.1, letterSpacing: "-0.06em" }}>
-                  Premium without performance theater.
-                </div>
-                <p style={{ margin: "14px 0 0", color: "#444", lineHeight: 1.7 }}>
-                  The visual system keeps attention on content, structure, and delivery quality instead of ornamental effects.
-                </p>
-                <div style={{ marginTop: 20, display: "grid", gap: 12 }}>
-                  {[
-                    "Consistent black-and-white language",
-                    "Flat surfaces with thin borders",
-                    "No rounded corners or soft shadows",
-                    "Fast, restrained hover states",
-                  ].map((item) => (
-                    <div key={item} style={{ display: "flex", gap: 12, alignItems: "center" }}>
-                      <span style={{ width: 14, height: 1, background: "#111", flexShrink: 0 }} />
-                      <span style={{ fontFamily: MONO_STACK, fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase" }}>{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </Panel>
-            </div>
-          </div>
-        </section>
-
-        <section style={{ borderTop: "1px solid #111" }}>
-          <div
-            style={{
-              maxWidth: 1280,
-              margin: "0 auto",
-              padding: "84px 24px 92px",
-              display: "grid",
-              gridTemplateColumns: "minmax(0, 1.2fr) auto",
-              gap: 24,
-              alignItems: "end",
-            }}
-          >
-            <div>
-              <div style={{ fontFamily: MONO_STACK, fontSize: 11, letterSpacing: "0.34em", textTransform: "uppercase", color: "#444", marginBottom: 14 }}>
-                Start
               </div>
-              <h2 style={{ margin: 0, fontSize: "clamp(2.4rem, 5vw, 4.8rem)", lineHeight: 0.98, letterSpacing: "-0.08em", fontWeight: 800, maxWidth: 820 }}>
-                If the brief is serious, the interface should be too.
-              </h2>
-              <p style={{ margin: "16px 0 0", maxWidth: 680, color: "#444", lineHeight: 1.7, fontSize: 16 }}>
-                Start the project and we will respond with a clean scope, a clear plan, and an execution model that stays disciplined from first draft to final handoff.
-              </p>
             </div>
+          </Sec>
 
-            <motion.button
-              onClick={() => navigate("/login")}
-              whileHover={{ y: -1 }}
-              whileTap={{ scale: 0.98 }}
+          <Sec py={160}>
+            <div
               style={{
-                fontFamily: MONO_STACK,
-                fontSize: 11,
-                letterSpacing: "0.22em",
-                textTransform: "uppercase",
-                color: "#fff",
-                background: "#111",
-                border: "1px solid #111",
-                padding: "18px 24px",
-                cursor: "pointer",
-                alignSelf: "end",
+                position: "absolute",
+                inset: 0,
+                background: "radial-gradient(ellipse 72% 72% at 50% 50%,rgba(0,80,160,0.2) 0%,rgba(80,0,160,0.1) 60%,transparent 100%)",
+                zIndex: 2,
+              }}
+            />
+            <div style={{ maxWidth: 820, margin: "0 auto", textAlign: "center", position: "relative", zIndex: 5 }}>
+              <Reveal>
+                <Chip>INITIATE</Chip>
+                <div style={{ ...F.display, fontSize: "clamp(2.4rem,6vw,4.6rem)", lineHeight: 1.1, marginBottom: 28 }}>
+                  <span
+                    style={{
+                      background: "linear-gradient(135deg,#ffffff 0%,#00d4ff 55%,#a855f7 100%)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                    }}
+                  >
+                    Ready to Start Your Project?
+                  </span>
+                </div>
+                <p style={{ ...F.body, fontSize: 19, color: "#94a3b8", lineHeight: 1.78, marginBottom: 56 }}>
+                  Submit your brief today. We will respond within 24 hours with a fully custom proposal.
+                </p>
+                <motion.button
+                  style={{ ...BTN.blue, fontSize: 14, padding: "18px 60px", position: "relative", overflow: "hidden" }}
+                  whileHover={{ scale: 1.07, boxShadow: "0 0 64px rgba(0,212,255,0.5)" }}
+                  whileTap={{ scale: 0.97 }}
+                  onClick={() => navigate('/login')}
+                >
+                  START YOUR PROJECT -
+                  <motion.div
+                    style={{ position: "absolute", inset: 0, background: "rgba(255,255,255,0.18)" }}
+                    animate={{ x: ["-100%", "200%"] }}
+                    transition={{ duration: 2.2, repeat: Infinity, ease: "linear", repeatDelay: 0.8 }}
+                  />
+                </motion.button>
+              </Reveal>
+            </div>
+          </Sec>
+
+          <Sec py={40} extra={{ borderTop: "1px solid rgba(0,200,255,0.1)" }}>
+            <div
+              style={{
+                maxWidth: 1200,
+                margin: "0 auto",
+                display: "flex",
+                flexWrap: "wrap",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: 24,
+                position: "relative",
+                zIndex: 5,
               }}
             >
-              Start project
-            </motion.button>
-          </div>
-        </section>
-      </main>
-
-      <Footer />
-    </div>
-  );
-}
+              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                <img 
+                  src="/logo.svg" 
+                  alt="ThinkNode" 
+                  style={{ width: 28, height: 28 }}
+                />
+                <span style={{ ...F.head, fontSize: 15, letterSpacing: "0.28em", color: "#fff" }}>
+                  THINK<span style={{ color: "#00d4ff" }}>NODE</span>
+                </span>
+              </div>
+              <div style={{ ...F.mono, fontSize: 10, color: "#334155", letterSpacing: "0.3em" }}>
+                (c) 2025 THINKNODE - ALL SYSTEMS OPERATIONAL.
+              </div>
+              <div style={{ display: "flex", gap: 32 }}>
+                {["Services", "Portfolio", "Contact"].map((item) => (
+                  <a
+                    key={item}
+                    href="#"
+                    style={{
+                      ...F.mono,
+                      fontSize: 10,
+                      color: "#475569",
+                      textDecoration: "none",
+                      letterSpacing: "0.3em",
+                      textTransform: "uppercase",
+                      transition: "color 0.2s",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.color = "#00d4ff";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.color = "#475569";
+                    }}
+                  >
+                    {item}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </Sec>
+        </>
+      </div>
+    );
+  }
